@@ -1,50 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
+using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 
 namespace Backend.Data
 {
-    public class AppDbContext
+    public class AppDbContext : DbContext
     {
-        private readonly string _connectionString;
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public AppDbContext(string connectionString)
+        public DbSet<User> Users { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<DoctorSchedule> DoctorSchedules { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            _connectionString = connectionString;
-        }
+            base.OnModelCreating(modelBuilder);
 
-        // Example: Get all users
-        public List<User> GetAllUsers()
-        {
-            var users = new List<User>();
-            using (var conn = new MySqlConnection(_connectionString))
-            {
-                conn.Open();
-                using (var cmd = new MySqlCommand("SELECT user_id, full_name, email, password_hash, role, contact_number, created_at, updated_at FROM Users", conn))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        users.Add(new User
-                        {
-                            UserId = reader.GetInt32("user_id"),
-                            FullName = reader.GetString("full_name"),
-                            Email = reader.GetString("email"),
-                            PasswordHash = reader.GetString("password_hash"),
-                            Role = Enum.Parse<UserRole>(reader.GetString("role")),
-                            ContactNumber = reader.IsDBNull(reader.GetOrdinal("contact_number")) ? null : reader.GetString("contact_number"),
-                            CreatedAt = reader.GetDateTime("created_at"),
-                            UpdatedAt = reader.GetDateTime("updated_at")
-                        });
-                    }
-                }
-            }
-            return users;
+            // Optional: configure table names, relationships, etc.
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Doctor>().ToTable("Doctors");
+            modelBuilder.Entity<Appointment>().ToTable("Appointments");
         }
-
-        // Add similar methods for Doctors, Appointments, etc.
     }
 }

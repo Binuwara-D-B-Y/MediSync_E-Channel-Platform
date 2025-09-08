@@ -12,13 +12,13 @@ namespace Backend.Models
         public int UserId { get; set; }
 
         [Required, MaxLength(100)]
-        public string FullName { get; set; }
+        public required string FullName { get; set; }
 
         [Required, MaxLength(100)]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [Required, MaxLength(255)]
-        public string PasswordHash { get; set; }
+        public required string PasswordHash { get; set; }
 
         [Required]
         public UserRole Role { get; set; }
