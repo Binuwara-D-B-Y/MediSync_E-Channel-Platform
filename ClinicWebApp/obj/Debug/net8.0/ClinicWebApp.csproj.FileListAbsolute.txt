@@ -1,0 +1,9 @@
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.csproj.AssemblyReference.cache
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.AssemblyInfoInputs.cache
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.AssemblyInfo.cs
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.csproj.CoreCompileInputs.cache
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.MvcApplicationPartsAssemblyInfo.cs
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\ClinicLogin\ClinicWebApp\obj\Debug\net8.0\ClinicWebApp.sourcelink.json
