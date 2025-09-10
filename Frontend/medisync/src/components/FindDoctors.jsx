@@ -71,6 +71,11 @@ export default function FindDoctors({
                   onMouseDown={() => {
                     setLocalSearchTerm(doctor.fullName || doctor.name);
                     setShowDropdown(false);
+                    // Auto-select specialization if available
+                    // if (doctor.specialization) {
+                    //   setLocalSpecialization(doctor.specialization);
+                    //   setSelectedSpecialization(doctor.specialization);
+                    // }
                   }}
                 >
                   {doctor.fullName || doctor.name}
