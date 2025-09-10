@@ -2,10 +2,8 @@ import React, { useState, useMemo } from 'react';
 import DashboardWrapper from '../components/DashboardWrapper';
 import WelcomeCard from '../components/WelcomeCard';
 import QuickStats from '../components/QuickStats';
-import AppointmentsList from '../components/AppointmentList';
 import FindDoctors from '../components/FindDoctors';
 import BookingModal from '../components/BookingModal';
-import { mockDoctors, mockAppointments, specializations } from '../data/mockData';
 import Header from '../components/Header';
 
 export default function PatientDashboard() {
@@ -14,94 +12,53 @@ export default function PatientDashboard() {
   const [selectedSpecialization, setSelectedSpecialization] = useState('All Specializations');
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const [bookingDate, setBookingDate] = useState('');
-  const [bookingTime, setBookingTime] = useState('');
-  const [bookingNotes, setBookingNotes] = useState('');
-  const [isBooking, setIsBooking] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [doctors, setDoctors] = useState([]);
+  const [loadingDoctors, setLoadingDoctors] = useState(false);
 
-  // Filter doctors
-  const filteredDoctors = useMemo(() => {
-    return mockDoctors.filter((doctor) => {
-      const matchesSearch =
-        doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const matchesSpecialization =
-        selectedSpecialization === 'All Specializations' ||
-        doctor.specialization === selectedSpecialization;
-
-      return matchesSearch && matchesSpecialization;
-    });
+  // Fetch doctors from backend
+  React.useEffect(() => {
+    async function fetchDoctors() {
+      setLoadingDoctors(true);
+      let url = `/api/doctors?`;
+      if (searchTerm) url += `name=${encodeURIComponent(searchTerm)}&`;
+      if (selectedSpecialization && selectedSpecialization !== 'All Specializations') url += `specialization=${encodeURIComponent(selectedSpecialization)}&`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        setDoctors(data);
+      } catch (err) {
+        setDoctors([]);
+      }
+      setLoadingDoctors(false);
+    }
+    fetchDoctors();
   }, [searchTerm, selectedSpecialization]);
 
   // Patient appointments
-  const patientAppointments = useMemo(() => {
-    return mockAppointments
-      .map((apt) => ({
-        ...apt,
-        doctor: mockDoctors.find((doc) => doc.id === apt.doctorId),
-      }))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, []);
-
-  const upcomingAppointments = patientAppointments.filter((apt) => apt.status === 'scheduled');
-
   // Booking
   const handleBookAppointment = (doctor) => {
     setSelectedDoctor(doctor);
     setShowBookingModal(true);
-    setBookingDate('');
-    setBookingTime('');
-    setBookingNotes('');
-    setBookingSuccess(false);
   };
-
-  const confirmBooking = async () => {
-    if (!bookingDate || !bookingTime) return;
-
-    setIsBooking(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsBooking(false);
-    setBookingSuccess(true);
-
-    setTimeout(() => {
-      setShowBookingModal(false);
-      setBookingSuccess(false);
-    }, 2000);
-  };
-
-  const cancelAppointment = async (appointmentId) => {
-    // simulate API cancel
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  };
-
-
 
   return (
-    // {/* <Header title="MediSync - Your final destination" /> */}
     <DashboardWrapper>
       {/* Welcome */}
       <WelcomeCard name={'User'} />
 
-      {/* Quick Stats */}
-      <QuickStats
-        upcomingAppointmentsCount={upcomingAppointments.length}
-        totalAppointmentsCount={patientAppointments.length}
-        doctors={mockDoctors}
-      />
+  {/* Quick Stats Section */}
+  <QuickStats />
 
-      {/* Upcoming Appointments */}
-      {upcomingAppointments.length > 0 ? (
-        <AppointmentsList
-          appointments={upcomingAppointments}
-          cancelAppointment={cancelAppointment}
-        />
-      ) : (
-        <div style={{ textAlign: 'center', margin: '2rem 0', color: '#888' }}>
-          No upcoming appointments.
+      {/* Upcoming Appointments Section */}
+      <div className="quick-stats-grid" style={{margin:'2rem 0'}}>
+        <div className="quick-stat-card">
+          <div className="quick-stat-icon blue"><span role="img" aria-label="calendar">📅</span></div>
+          <div>
+            <p className="quick-stat-label">Next Appointment</p>
+            <p className="quick-stat-value">No upcoming appointments</p>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Find Doctors */}
       <FindDoctors
@@ -109,9 +66,9 @@ export default function PatientDashboard() {
         setSearchTerm={setSearchTerm}
         selectedSpecialization={selectedSpecialization}
         setSelectedSpecialization={setSelectedSpecialization}
-        specializations={specializations}
-        doctors={filteredDoctors}
+        doctors={doctors}
         handleBookAppointment={handleBookAppointment}
+        loading={loadingDoctors}
       />
 
       {/* Booking Modal */}

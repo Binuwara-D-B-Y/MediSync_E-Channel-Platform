@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import '../styles/FindDoctors.css';
 
@@ -7,51 +7,73 @@ export default function FindDoctors({
   setSearchTerm,
   selectedSpecialization,
   setSelectedSpecialization,
-  specializations,
   doctors,
-  handleBookAppointment
+  handleBookAppointment,
+  loading
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+  const [localSpecialization, setLocalSpecialization] = useState(selectedSpecialization);
+  const [specializations, setSpecializations] = useState([]);
 
-  // Filter doctors for dropdown
-  const filteredDropdown = searchTerm
+  // Fetch specializations from backend
+  useEffect(() => {
+    async function fetchSpecs() {
+      try {
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
+        setSpecializations(['All Specializations', ...data]);
+      } catch {
+        setSpecializations(['All Specializations']);
+      }
+    }
+    fetchSpecs();
+  }, []);
+
+  // Handler to trigger backend fetch with all filters
+  const handleSearch = () => {
+    setSearchTerm(localSearchTerm);
+    setSelectedSpecialization(localSpecialization);
+    // Optionally: pass appointmentDate to parent and use in backend fetch
+  };
+
+  // Filter doctors for dropdown (from backend data)
+  const filteredDropdown = localSearchTerm
     ? doctors.filter((doctor) =>
-        doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+        (doctor.fullName || doctor.name)?.toLowerCase().includes(localSearchTerm.toLowerCase())
       )
     : [];
 
   return (
     <div className="find-doctors">
       <h2 className="find-doctors-title">Find Doctors</h2>
-
-      {/* Search + Filter */}
       <div className="find-doctors-filters">
         <div className="search-box" style={{ position: 'relative' }}>
           <Search size={18} />
           <input
             type="text"
             placeholder="Search doctors..."
-            value={searchTerm}
+            value={localSearchTerm}
             onChange={(e) => {
-              setSearchTerm(e.target.value);
+              setLocalSearchTerm(e.target.value);
               setShowDropdown(!!e.target.value);
             }}
             onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-            onFocus={() => setShowDropdown(!!searchTerm)}
+            onFocus={() => setShowDropdown(!!localSearchTerm)}
             autoComplete="off"
           />
           {showDropdown && filteredDropdown.length > 0 && (
             <ul className="doctor-dropdown">
               {filteredDropdown.map((doctor) => (
                 <li
-                  key={doctor.id}
+                  key={doctor.userId || doctor.id}
                   onMouseDown={() => {
-                    setSearchTerm(doctor.name);
+                    setLocalSearchTerm(doctor.fullName || doctor.name);
                     setShowDropdown(false);
                   }}
                 >
-                  {doctor.name}
+                  {doctor.fullName || doctor.name}
                 </li>
               ))}
             </ul>
@@ -60,8 +82,8 @@ export default function FindDoctors({
         <div className="filter-box">
           <Filter size={18} />
           <select
-            value={selectedSpecialization}
-            onChange={(e) => setSelectedSpecialization(e.target.value)}
+            value={localSpecialization}
+            onChange={(e) => setLocalSpecialization(e.target.value)}
           >
             {specializations.map((spec) => (
               <option key={spec} value={spec}>{spec}</option>
@@ -69,8 +91,6 @@ export default function FindDoctors({
           </select>
         </div>
       </div>
-
-      {/* Appointment Date + Search Button */}
       <div className="find-doctors-extra">
         <input
           type="date"
@@ -78,8 +98,9 @@ export default function FindDoctors({
           onChange={(e) => setAppointmentDate(e.target.value)}
           className="appointment-date-input"
         />
-        <button className="doctor-search-btn">Search</button>
+        <button className="doctor-search-btn" onClick={handleSearch}>Search</button>
       </div>
+      {loading && <div style={{padding:'1rem 1.5rem', color:'#888'}}>Loading doctors...</div>}
     </div>
   );
 }
