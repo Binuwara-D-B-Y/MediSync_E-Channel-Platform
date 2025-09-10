@@ -24,7 +24,7 @@ export default function QuickStats({ upcomingAppointmentsCount, totalAppointment
       <div className="quick-stat-card">
         <div className="quick-stat-icon purple"><Star size={24} /></div>
         <div>
-          <p className="quick-stat-label">Available Doctors</p>
+          <p className="quick-stat-label">Saved Doctors</p>
           <p className="quick-stat-value">{doctors.filter(d => d.isAvailable).length}</p>
         </div>
       </div>

@@ -6,6 +6,7 @@ import AppointmentsList from '../components/AppointmentList';
 import FindDoctors from '../components/FindDoctors';
 import BookingModal from '../components/BookingModal';
 import { mockDoctors, mockAppointments, specializations } from '../data/mockData';
+import Header from '../components/Header';
 
 export default function PatientDashboard() {
   // 🔹 State
@@ -75,7 +76,11 @@ export default function PatientDashboard() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
+
+
   return (
+    <>
+    <Header title="MediSync - Your final destination" />
     <DashboardWrapper>
       {/* Welcome */}
       <WelcomeCard name={'User'} />
@@ -127,5 +132,6 @@ export default function PatientDashboard() {
         />
       )}
     </DashboardWrapper>
+    </>
   );
 }

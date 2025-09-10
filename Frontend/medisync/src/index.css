@@ -66,3 +66,25 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
+
+
+body {
+  /* margin-left:100px;
+  margin-right: 100px; */
+  /* padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5px; */
+  background-color: white;
+  /* display: flex; */
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  color: #888;
+  font-size: 0.9rem;
+}
