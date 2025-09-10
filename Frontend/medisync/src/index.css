@@ -69,15 +69,8 @@ button:focus-visible {
 
 
 
-body {
-  /* margin-left:100px;
-  margin-right: 100px; */
-  /* padding-left: 10%;
-  padding-right: 10%;
-  padding-bottom: 5px; */
+/* body {
   background-color: white;
-  /* display: flex; */
-  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -87,4 +80,4 @@ footer {
   padding: 1rem 0;
   color: #888;
   font-size: 0.9rem;
-}
+} */

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, Filter, Clock, DollarSign, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Filter } from 'lucide-react';
 import '../styles/FindDoctors.css';
 
 export default function FindDoctors({
@@ -11,20 +11,51 @@ export default function FindDoctors({
   doctors,
   handleBookAppointment
 }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [appointmentDate, setAppointmentDate] = useState('');
+
+  // Filter doctors for dropdown
+  const filteredDropdown = searchTerm
+    ? doctors.filter((doctor) =>
+        doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+
   return (
     <div className="find-doctors">
       <h2 className="find-doctors-title">Find Doctors</h2>
 
       {/* Search + Filter */}
       <div className="find-doctors-filters">
-        <div className="search-box">
+        <div className="search-box" style={{ position: 'relative' }}>
           <Search size={18} />
           <input
             type="text"
             placeholder="Search doctors..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setShowDropdown(!!e.target.value);
+            }}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+            onFocus={() => setShowDropdown(!!searchTerm)}
+            autoComplete="off"
           />
+          {showDropdown && filteredDropdown.length > 0 && (
+            <ul className="doctor-dropdown">
+              {filteredDropdown.map((doctor) => (
+                <li
+                  key={doctor.id}
+                  onMouseDown={() => {
+                    setSearchTerm(doctor.name);
+                    setShowDropdown(false);
+                  }}
+                >
+                  {doctor.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="filter-box">
           <Filter size={18} />
@@ -39,40 +70,15 @@ export default function FindDoctors({
         </div>
       </div>
 
-      {/* Doctors list */}
-      <div className="doctors-grid">
-        {doctors.length === 0 ? (
-          <p className="no-doctors">No doctors found.</p>
-        ) : (
-          doctors.map((doctor) => (
-            <div key={doctor.id} className="doctor-card">
-              <div className="doctor-avatar">
-                {doctor.name.split(' ').map(n => n[0]).join('')}
-              </div>
-              <h3 className="doctor-name">{doctor.name}</h3>
-              <p className="doctor-spec">{doctor.specialization}</p>
-              <p className="doctor-qual">{doctor.qualification}</p>
-
-              <div className="doctor-info">
-                <span><Clock size={14} /> {doctor.experience} yrs</span>
-                <span><DollarSign size={14} /> ${doctor.consultationFee}</span>
-                <span><MapPin size={14} /> Ward {doctor.wardRoom}</span>
-              </div>
-
-              <div className={`doctor-status ${doctor.isAvailable ? 'available' : 'unavailable'}`}>
-                {doctor.isAvailable ? 'Available' : 'Unavailable'}
-              </div>
-
-              <button
-                className="doctor-book-btn"
-                onClick={() => handleBookAppointment(doctor)}
-                disabled={!doctor.isAvailable}
-              >
-                Book Appointment
-              </button>
-            </div>
-          ))
-        )}
+      {/* Appointment Date + Search Button */}
+      <div className="find-doctors-extra">
+        <input
+          type="date"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+          className="appointment-date-input"
+        />
+        <button className="doctor-search-btn">Search</button>
       </div>
     </div>
   );

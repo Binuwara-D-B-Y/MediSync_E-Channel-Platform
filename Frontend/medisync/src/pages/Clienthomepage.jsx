@@ -79,8 +79,7 @@ export default function PatientDashboard() {
 
 
   return (
-    <>
-    <Header title="MediSync - Your final destination" />
+    // {/* <Header title="MediSync - Your final destination" /> */}
     <DashboardWrapper>
       {/* Welcome */}
       <WelcomeCard name={'User'} />
@@ -132,6 +131,5 @@ export default function PatientDashboard() {
         />
       )}
     </DashboardWrapper>
-    </>
   );
 }
