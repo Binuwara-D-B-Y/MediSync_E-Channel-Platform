@@ -20,8 +20,10 @@ export default function PatientDashboard() {
     async function fetchDoctors() {
       setLoadingDoctors(true);
       let url = `/api/doctors?`;
-      if (searchTerm) url += `name=${encodeURIComponent(searchTerm)}&`;
-      if (selectedSpecialization && selectedSpecialization !== 'All Specializations') url += `specialization=${encodeURIComponent(selectedSpecialization)}&`;
+      if (searchTerm)
+        url += `name=${encodeURIComponent(searchTerm)}&`;
+      if (selectedSpecialization && selectedSpecialization !== 'All Specializations')
+        url += `specialization=${encodeURIComponent(selectedSpecialization)}&`;
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -44,7 +46,7 @@ export default function PatientDashboard() {
   return (
     <DashboardWrapper>
       {/* Welcome */}
-      <WelcomeCard name={'User'} />
+  <WelcomeCard name={'User'} />
 
   {/* Quick Stats Section */}
   <QuickStats />

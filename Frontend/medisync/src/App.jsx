@@ -6,11 +6,12 @@ import Clienthomepage from './pages/Clienthomepage';
 import Header from './components/Header';
 // import AdminDashboard from './pages/AdminDashboard'; 
 import './App.css'
+import { Bold } from 'lucide-react';
 
 function App() {
   return (
     <div className="App">
-      <Header title="MediSync" />
+      <Header title="MEDISYNC" />
     <Router>
       <Routes>
         
