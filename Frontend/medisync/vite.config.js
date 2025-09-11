@@ -11,7 +11,4 @@ export default defineConfig({
       '/api': 'http://localhost:5090'
     }
   }
-  ,test: {
-    environment: 'jsdom',
-  },
 })
