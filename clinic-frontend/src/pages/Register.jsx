@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { apiRequest } from "../api"
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -34,9 +35,19 @@ export default function Register() {
     setLoading(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      setMessage("Registration successful! Please check your email to verify your account.")
+      const res = await apiRequest("/api/Auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          nic: formData.nic,
+          password: formData.password,
+        }),
+      })
+
+      setMessage(res.message || "Registration successful! Please check your email to verify your account.")
       setFormData({
         name: "",
         email: "",
@@ -55,12 +66,12 @@ export default function Register() {
   return (
     <>
       <style jsx>{`
+        /* ✅ Your CSS kept exactly as provided */
         .auth-container {
           min-height: 100vh;
           display: flex;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
         .auth-left {
           flex: 1;
           display: flex;
@@ -68,7 +79,6 @@ export default function Register() {
           justify-content: center;
           padding: 2rem;
         }
-
         .auth-right {
           flex: 1;
           background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
@@ -78,7 +88,6 @@ export default function Register() {
           padding: 2rem;
           backdrop-filter: blur(10px);
         }
-
         .card {
           background: white;
           border-radius: 16px;
@@ -87,48 +96,40 @@ export default function Register() {
           width: 100%;
           max-width: 500px;
         }
-
         .auth-header {
           text-align: center;
           margin-bottom: 2rem;
         }
-
         .auth-header h2 {
           font-size: 2rem;
           font-weight: 700;
           color: #1f2937;
           margin-bottom: 0.5rem;
         }
-
         .auth-header p {
           color: #6b7280;
           font-size: 1rem;
         }
-
         .form {
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
         }
-
         .form-group {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
         }
-
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 1rem;
         }
-
         .form-group label {
           font-weight: 600;
           color: #374151;
           font-size: 0.875rem;
         }
-
         .form-group input {
           padding: 0.75rem 1rem;
           border: 2px solid #e5e7eb;
@@ -137,17 +138,14 @@ export default function Register() {
           transition: all 0.2s ease;
           background: white;
         }
-
         .form-group input:focus {
           outline: none;
           border-color: #667eea;
           box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-
         .form-group input::placeholder {
           color: #9ca3af;
         }
-
         .success {
           padding: 1rem;
           background: #dcfce7;
@@ -156,7 +154,6 @@ export default function Register() {
           border: 1px solid #bbf7d0;
           font-size: 0.875rem;
         }
-
         .error {
           padding: 1rem;
           background: #fee2e2;
@@ -165,7 +162,6 @@ export default function Register() {
           border: 1px solid #fecaca;
           font-size: 0.875rem;
         }
-
         .btn {
           padding: 0.875rem 1.5rem;
           border-radius: 8px;
@@ -176,50 +172,41 @@ export default function Register() {
           transition: all 0.2s ease;
           text-align: center;
         }
-
         .btn.primary {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
         }
-
         .btn.primary:hover:not(:disabled) {
           transform: translateY(-1px);
           box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
-
         .btn:disabled {
           opacity: 0.6;
           cursor: not-allowed;
           transform: none;
         }
-
         .auth-footer {
           text-align: center;
           margin-top: 1.5rem;
           padding-top: 1.5rem;
           border-top: 1px solid #e5e7eb;
         }
-
         .auth-footer p {
           color: #6b7280;
           font-size: 0.875rem;
         }
-
         .auth-footer a {
           color: #667eea;
           text-decoration: none;
           font-weight: 600;
         }
-
         .auth-footer a:hover {
           text-decoration: underline;
         }
-
         .auth-right-content {
           text-align: center;
           color: white;
         }
-
         .medical-icon {
           width: 200px;
           height: 200px;
@@ -233,40 +220,33 @@ export default function Register() {
           background: rgba(255,255,255,0.1);
           backdrop-filter: blur(20px);
         }
-
         .medical-icon:hover {
           transform: translateY(-8px) scale(1.05);
           filter: drop-shadow(0 20px 60px rgba(0,0,0,0.5));
           opacity: 1;
         }
-
         .auth-right-content h3 {
           font-size: 2.5rem;
           font-weight: 700;
           margin-bottom: 1rem;
           text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-
         .auth-right-content p {
           font-size: 1.2rem;
           opacity: 0.9;
           line-height: 1.6;
           max-width: 400px;
         }
-
         @media (max-width: 768px) {
           .auth-container {
             flex-direction: column;
           }
-
           .auth-right {
             display: none;
           }
-
           .form-row {
             grid-template-columns: 1fr;
           }
-
           .card {
             padding: 2rem;
           }

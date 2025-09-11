@@ -1,5 +1,8 @@
+"use client"
+
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { apiRequest } from "../api"
 
 export default function Login({ onAuthed }) {
   const [email, setEmail] = useState("")
@@ -13,13 +16,19 @@ export default function Login({ onAuthed }) {
     setLoading(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      // Simulate successful login
-      const token = "fake-jwt-token"
-      localStorage.setItem("token", token)
-      onAuthed?.()
+      const res = await apiRequest("/api/Auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const token = res.data?.token || res.data?.Token || res.Token || res.token
+      if (token) {
+        localStorage.setItem("token", token)
+        onAuthed?.()
+      } else {
+        setError("Login failed: No token returned.")
+      }
     } catch (err) {
       setError(err.message || "Invalid login attempt")
     } finally {
@@ -46,7 +55,11 @@ export default function Login({ onAuthed }) {
 
         .auth-right {
           flex: 1;
-          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+          );
           display: flex;
           align-items: center;
           justify-content: center;
@@ -58,7 +71,7 @@ export default function Login({ onAuthed }) {
           background: white;
           border-radius: 16px;
           padding: 2.5rem;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
           width: 100%;
           max-width: 500px;
         }
@@ -197,18 +210,18 @@ export default function Login({ onAuthed }) {
           height: 200px;
           margin: 0 auto 2.5rem auto;
           display: block;
-          filter: drop-shadow(0 12px 40px rgba(0,0,0,0.4));
+          filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.4));
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           opacity: 0.95;
           border-radius: 20px;
           padding: 1rem;
-          background: rgba(255,255,255,0.1);
+          background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
         }
 
         .medical-icon:hover {
           transform: translateY(-8px) scale(1.05);
-          filter: drop-shadow(0 20px 60px rgba(0,0,0,0.5));
+          filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.5));
           opacity: 1;
         }
 
@@ -216,7 +229,7 @@ export default function Login({ onAuthed }) {
           font-size: 2.5rem;
           font-weight: 700;
           margin-bottom: 1rem;
-          text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .auth-right-content p {
@@ -284,7 +297,7 @@ export default function Login({ onAuthed }) {
                 Forgot your password?
               </Link>
               <p>
-                Don't have an account? <Link to="/register">Create one here</Link>
+                Don’t have an account? <Link to="/register">Create one here</Link>
               </p>
             </div>
           </div>
@@ -292,9 +305,16 @@ export default function Login({ onAuthed }) {
 
         <div className="auth-right">
           <div className="auth-right-content">
-            <img src="\src\assets\oop.jpg" alt="Healthcare Medical Icon" className="medical-icon" />
+            <img
+              src="\src\assets\oop.jpg"
+              alt="Healthcare Medical Icon"
+              className="medical-icon"
+            />
             <h3>Your Health, Our Priority</h3>
-            <p>Access your medical records, appointments, and healthcare information securely.</p>
+            <p>
+              Access your medical records, appointments, and healthcare
+              information securely.
+            </p>
           </div>
         </div>
       </div>

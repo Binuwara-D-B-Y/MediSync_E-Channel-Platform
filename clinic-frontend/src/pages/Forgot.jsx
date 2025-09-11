@@ -1,37 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { apiRequest } from "../api"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { apiRequest } from "../api";
 
 export default function Forgot() {
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function submit(e) {
-    e.preventDefault()
-    setMessage("")
-    setError("")
-    setLoading(true)
+    e.preventDefault();
+    setMessage("");
+    setError("");
+    setLoading(true);
 
     try {
       const res = await apiRequest("/api/Auth/forgot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
-      })
+      });
 
+      // Backend should return something like { message: "..."} on success
       if (res.message) {
-        setMessage(res.message)
+        setMessage(res.message);
       } else {
-        setMessage("If the email exists, a reset link has been sent to your inbox.")
+        setMessage("If the email exists, a reset link has been sent to your inbox.");
       }
     } catch (err) {
-      setError(err.message || "Something went wrong")
+      setError(err.message || "Something went wrong");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -79,5 +80,6 @@ export default function Forgot() {
         </div>
       </div>
     </div>
-  )
+  );
 }
+
