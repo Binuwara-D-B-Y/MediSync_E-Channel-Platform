@@ -61,3 +61,10 @@ export const specializations = [
   "Orthopedics",
   "Pediatrics",
 ];
+
+// Mock data for user profile
+export const mockUserProfile = {
+  name: 'yesen binuwara',
+  email: 'yesen.binuwara@example.com',
+  phone: '123-456-7890',
+};
