@@ -16,12 +16,20 @@
     </PackageReference>
     <PackageReference Include="MySql.Data" Version="9.4.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <!-- Exclude test sources placed under Backend/Testing from being compiled into the main Backend project -->
   <ItemGroup>
     <Compile Remove="Testing\**\*.cs" />
+  </ItemGroup>
+
+  <!-- Also exclude any other item types under Testing (content/none/resources) so build doesn't copy test outputs -->
+  <ItemGroup>
+    <None Remove="Testing\**\*.*" />
+    <Content Remove="Testing\**\*.*" />
+    <EmbeddedResource Remove="Testing\**\*.*" />
   </ItemGroup>
 
 </Project>

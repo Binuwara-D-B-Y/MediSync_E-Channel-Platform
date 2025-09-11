@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using Xunit;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
@@ -12,41 +13,26 @@ namespace Backend.Tests
 {
     public class UITests : IDisposable
     {
-    private readonly IWebDriver? _driver;
-    private readonly bool _skipUi;
-        private readonly string _baseUrl = "http://localhost:5173"; // change if your dev server uses another port
+        private IWebDriver? _driver;
+        private bool _skipUi;
+        private readonly string _baseUrl = "http://localhost:5173";
 
-        // UI tests will attempt to acquire a matching ChromeDriver at runtime using WebDriverManager.
-        // They will still fail if Chrome is not installed on the host.
         public UITests()
         {
             try
             {
-                // download and setup the matching driver
                 new DriverManager().SetUpDriver(new ChromeConfig());
 
                 var options = new ChromeOptions();
                 options.AddArgument("--headless=new");
                 options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--window-size=1920,1080");
                 _driver = new ChromeDriver(options);
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 
-                // quick probe to ensure the frontend dev server is running
-                try
+                if (!IsServerReachable())
                 {
-                    using var http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(2) };
-                    var r = http.GetAsync(_baseUrl).GetAwaiter().GetResult();
-                    if (!r.IsSuccessStatusCode)
-                    {
-                        _skipUi = true;
-                        _driver?.Quit();
-                        _driver = null;
-                        return;
-                    }
-                }
-                catch
-                {
-                    // frontend not reachable
                     _skipUi = true;
                     _driver?.Quit();
                     _driver = null;
@@ -57,147 +43,224 @@ namespace Backend.Tests
             }
             catch (Exception)
             {
-                // mark UI tests as skipped (driver couldn't be created)
                 _skipUi = true;
                 _driver = null;
             }
         }
 
-    [Fact]
+        private bool IsServerReachable()
+        {
+            try
+            {
+                using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(2) };
+                var response = http.GetAsync(_baseUrl).GetAwaiter().GetResult();
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private WebDriverWait CreateWait() => new WebDriverWait(_driver!, TimeSpan.FromSeconds(10))
+        {
+            PollingInterval = TimeSpan.FromMilliseconds(500)
+        };
+
+        private IWebElement WaitAndFindClickable(By locator)
+        {
+            var wait = CreateWait();
+            var element = wait.Until(d => d.FindElement(locator));
+            wait.Until(d => element.Displayed && element.Enabled);
+            return element;
+        }
+
+        [Fact]
         public void UserAccount_Edit_Save_And_Delete_Buttons_Work()
         {
-            if (_skipUi) return; // driver not available; skip this test locally
+            if (_skipUi) return;
+
             _driver.Navigate().GoToUrl(_baseUrl + "/account");
 
-            // Wait for Edit Profile button then click
-            var editBtn = _driver.FindElement(By.XPath("//button[text()='Edit Profile']"));
-            Assert.NotNull(editBtn);
+            var wait = CreateWait();
+            wait.Until(d => d.FindElement(By.TagName("h3")).Displayed);
+
+            var editBtn = WaitAndFindClickable(By.XPath("//button[text()='Edit Profile']"));
             editBtn.Click();
 
-            // Modify Name input
-            var nameInput = _driver.FindElement(By.CssSelector("input[name='name']"));
-            Assert.NotNull(nameInput);
+            var nameInput = wait.Until(d => d.FindElement(By.CssSelector("input[name='name']")));
             nameInput.Clear();
             nameInput.SendKeys("Test User");
 
-            // Upload a small test image and verify preview appears
             var fileInput = _driver.FindElements(By.CssSelector("input[type='file']")).FirstOrDefault();
-            string tempFile = null;
+            string? tempFile = null;
             if (fileInput != null)
             {
-                // create a minimal 1x1 PNG
-                tempFile = Path.Combine(Path.GetTempPath(), $"test-image-{Guid.NewGuid()}.png");
-                var png = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
-                File.WriteAllBytes(tempFile, png);
-                // send path to the file input
+                tempFile = CreateTempPng();
                 fileInput.SendKeys(tempFile);
-                System.Threading.Thread.Sleep(400);
 
-                // check that image preview appeared inside .image-circle
+                wait.Until(driver => driver.FindElements(By.CssSelector(".image-circle img")).Count > 0);
                 var imgs = _driver.FindElements(By.CssSelector(".image-circle img"));
-                Assert.True(imgs.Count > 0, "Expected an <img> preview to appear after file upload.");
-                var src = imgs[0].GetAttribute("src") ?? string.Empty;
-                Assert.True(src.StartsWith("data:") || src.StartsWith("blob:") , "Expected preview src to be a data/blob URI.");
+                var src = imgs[0].GetDomAttribute("src") ?? string.Empty;
+                Assert.True(src.StartsWith("data:") || src.StartsWith("blob:"), "Expected preview src to be a data/blob URI.");
 
-                // click Remove Image and ensure preview is removed
-                var removeBtn = _driver.FindElements(By.XPath("//button[text()='Remove Image']")).FirstOrDefault();
-                if (removeBtn != null)
-                {
-                    removeBtn.Click();
-                    System.Threading.Thread.Sleep(200);
-                    var imgsAfter = _driver.FindElements(By.CssSelector(".image-circle img"));
-                    Assert.True(imgsAfter.Count == 0, "Expected image preview to be removed after clicking Remove Image.");
-                }
+                var removeBtn = WaitAndFindClickable(By.XPath("//button[text()='Remove Image']"));
+                removeBtn.Click();
+                wait.Until(d => d.FindElements(By.CssSelector(".image-circle img")).Count == 0);
             }
 
-            // Save - override alert/confirm to capture messages instead of blocking
-            ((IJavaScriptExecutor)_driver).ExecuteScript(@"window.__lastAlert = null; window.alert = function(msg){ window.__lastAlert = msg; }; window.confirm = function(){ return true; };" );
-            var saveBtn = _driver.FindElement(By.XPath("//button[@type='submit' and text()='Save']"));
+            OverrideAlerts();
+            var saveBtn = WaitAndFindClickable(By.XPath("//button[@type='submit' and text()='Save']"));
             saveBtn.Click();
 
-            // After save, profile view should show updated name
+            wait.Until(d => d.FindElement(By.XPath("//label[text()='Name']/following-sibling::p")).Displayed);
             var nameP = _driver.FindElement(By.XPath("//label[text()='Name']/following-sibling::p"));
             Assert.Contains("Test User", nameP.Text);
 
-            // Check alert message was set
-            var lastAlert = ((IJavaScriptExecutor)_driver).ExecuteScript("return window.__lastAlert;") as string;
+            var lastAlertObj = ((IJavaScriptExecutor)_driver).ExecuteScript("return window.__lastAlert;");
+            var lastAlert = lastAlertObj == null ? string.Empty : lastAlertObj.ToString();
             Assert.Contains("Profile updated successfully", lastAlert ?? "");
 
-            // Delete button exists and works (confirm returns true because we overrode it)
-            var deleteBtn = _driver.FindElement(By.XPath("//button[contains(@class,'delete-btn') and (text()='Delete Profile' or .='Delete Profile')]") );
-            Assert.NotNull(deleteBtn);
-            ((IJavaScriptExecutor)_driver).ExecuteScript("window.__lastAlert = null;");
+            ResetAlerts();
+            var deleteBtn = WaitAndFindClickable(By.XPath("//button[contains(@class,'delete-btn') and text()='Delete Profile']"));
             deleteBtn.Click();
-            var deleteAlert = ((IJavaScriptExecutor)_driver).ExecuteScript("return window.__lastAlert;") as string;
-            Assert.Contains("Account deleted successfully", deleteAlert ?? "");
+            var deletedAlertObj = ((IJavaScriptExecutor)_driver).ExecuteScript("return window.__lastAlert;");
+            var deletedAlert = deletedAlertObj == null ? string.Empty : deletedAlertObj.ToString();
+            Assert.Contains("Account deleted successfully", deletedAlert ?? "");
         }
 
-    [Fact]
+        [Fact]
         public void FindDoctors_Fetches_Specializations_And_Search_Input_Works()
         {
-            if (_skipUi) return; // driver not available; skip this test locally
+            if (_skipUi) return;
+
             _driver.Navigate().GoToUrl(_baseUrl + "/patient");
 
-            // Find the search input in FindDoctors component
-            var searchInput = _driver.FindElement(By.CssSelector(".find-doctors .search-box input"));
+            var wait = CreateWait();
+            wait.Until(d => d.FindElement(By.CssSelector(".find-doctors-title")).Displayed);
+
+            var searchInput = wait.Until(d => d.FindElement(By.CssSelector(".find-doctors .search-box input")));
             Assert.NotNull(searchInput);
 
-            // Check specialization select has options (wait briefly for fetch)
-            var select = _driver.FindElement(By.CssSelector(".find-doctors select"));
-            Assert.NotNull(select);
+            var select = wait.Until(d => d.FindElement(By.CssSelector(".find-doctors select")));
             var options = select.FindElements(By.TagName("option"));
             Assert.True(options.Count >= 1);
 
-            // Type a query and expect dropdown to appear (if there are matching mock doctors)
             searchInput.SendKeys("Alice");
-            System.Threading.Thread.Sleep(500);
+            wait.Until(d => d.FindElements(By.CssSelector(".doctor-dropdown li")).Count > 0);
+
             var dropdowns = _driver.FindElements(By.CssSelector(".doctor-dropdown li"));
             if (dropdowns.Count > 0)
             {
-                // click the first dropdown item and assert the search input value updated
                 var first = dropdowns[0];
-                var firstText = first.Text ?? string.Empty;
-                first.Click();
-                System.Threading.Thread.Sleep(200);
-                var newVal = searchInput.GetAttribute("value") ?? string.Empty;
-                Assert.Equal(firstText, newVal);
-            }
-            else
-            {
-                Assert.NotNull(dropdowns);
+                var firstText = first.Text;
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", first);
+
+                wait.Until(d => searchInput.GetDomProperty("value")?.ToString() == firstText);
+                Assert.Equal(firstText, searchInput.GetDomProperty("value")?.ToString());
             }
 
-            // If there are specialization options beyond the default, select one and assert selection
             var optionsElements = select.FindElements(By.TagName("option"));
             if (optionsElements.Count > 1)
             {
                 var second = optionsElements[1];
                 second.Click();
-                System.Threading.Thread.Sleep(200);
-                // get the select value via JS
-                var selectedValue = ((IJavaScriptExecutor)_driver).ExecuteScript("return document.querySelector('.find-doctors select').value;") as string;
-                Assert.Equal(second.GetAttribute("value"), selectedValue);
+                wait.Until(d => select.GetDomProperty("value")?.ToString() == second.GetDomAttribute("value"));
             }
+        }
+
+        [Fact]
+        public void PatientDashboard_SearchAndBookDoctor_Works()
+        {
+            if (_skipUi) return;
+
+            _driver.Navigate().GoToUrl(_baseUrl + "/patient");
+
+            var wait = CreateWait();
+            wait.Until(d => d.FindElement(By.CssSelector(".welcome-title")).Displayed);
+
+            var searchInput = wait.Until(d => d.FindElement(By.CssSelector(".search-box input")));
+            searchInput.SendKeys("Alice");
+
+            wait.Until(d => d.FindElements(By.CssSelector(".doctor-card")).Count > 0);
+
+            var bookBtn = WaitAndFindClickable(By.CssSelector(".doctor-book-btn"));
+            bookBtn.Click();
+
+            wait.Until(d => d.FindElement(By.CssSelector(".modal-overlay")).Displayed);
+
+            var dateInput = wait.Until(d => d.FindElement(By.CssSelector("input[type='date']")));
+            dateInput.SendKeys("2025-09-15");
+
+            var timeSelect = wait.Until(d => d.FindElement(By.CssSelector("select")));
+            timeSelect.Click();
+            _driver.FindElement(By.XPath(".//option[@value='10:00']")).Click();
+
+            OverrideAlerts();
+            var confirmBtn = WaitAndFindClickable(By.CssSelector(".btn-confirm"));
+            confirmBtn.Click();
+
+            wait.Until(d => d.FindElement(By.CssSelector(".modal-success")).Displayed);
+        }
+
+        [Fact]
+        public void UserAccount_TabsSwitchAndTransactionsLoad()
+        {
+            if (_skipUi) return;
+
+            _driver.Navigate().GoToUrl(_baseUrl + "/account");
+
+            var wait = CreateWait();
+
+            var transTab = WaitAndFindClickable(By.XPath("//button[text()='Transaction History']"));
+            transTab.Click();
+
+            wait.Until(d => d.FindElements(By.CssSelector(".transaction-card")).Count > 0 || 
+                           d.FindElement(By.XPath("//div[text()='No transactions found.']")).Displayed);
+
+            var cards = _driver.FindElements(By.CssSelector(".transaction-card"));
+            if (cards.Count > 0)
+            {
+                Assert.True(cards[0].Displayed);
+            }
+            else
+            {
+                Assert.Contains("No transactions found", _driver.PageSource);
+            }
+        }
+
+        private void OverrideAlerts()
+        {
+            ((IJavaScriptExecutor)_driver).ExecuteScript(@"
+                window.__lastAlert = null; 
+                window.alert = function(msg){ window.__lastAlert = msg; }; 
+                window.confirm = function(){ return true; };
+            ");
+        }
+
+        private void ResetAlerts()
+        {
+            ((IJavaScriptExecutor)_driver).ExecuteScript("window.__lastAlert = null;");
+        }
+
+        private string CreateTempPng()
+        {
+            var tempFile = Path.Combine(Path.GetTempPath(), $"test-image-{Guid.NewGuid()}.png");
+            var pngBytes = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
+            File.WriteAllBytes(tempFile, pngBytes);
+            return tempFile;
         }
 
         public void Dispose()
         {
-            if (_driver != null)
-            {
-                try
-                {
-                    _driver.Quit();
-                    _driver.Dispose();
-                }
-                catch { }
-            }
-            // cleanup temporary files in test run dir
+            _driver?.Quit();
+            _driver?.Dispose();
+
             try
             {
-                // best-effort: delete any leftover test images in temp folder matching prefix
-                foreach (var f in Directory.GetFiles(Path.GetTempPath(), "test-image-*.png"))
+                foreach (var file in Directory.GetFiles(Path.GetTempPath(), "test-image-*.png"))
                 {
-                    try { File.Delete(f); } catch { }
+                    File.Delete(file);
                 }
             }
             catch { }
