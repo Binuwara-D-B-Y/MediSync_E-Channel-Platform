@@ -22,7 +22,7 @@ namespace ClinicWebApp.Services.Implementations
 		{
 			_issuer = config["Jwt:Issuer"] ?? "ClinicWebApp";
 			_audience = config["Jwt:Audience"] ?? "ClinicWebAppAudience";
-			_secret = config["Jwt:Secret"] ?? throw new InvalidOperationException("JWT Secret not configured");
+			_secret = config["Jwt:Secret"] ?? config["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT Secret not configured");
 			_expMinutes = int.TryParse(config["Jwt:ExpMinutes"], out var minutes) ? minutes : 60;
 		}
 

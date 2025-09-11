@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicWebApp.Data.Migrations
 {
     [DbContext(typeof(ClinicDbContext))]
-    [Migration("20250909103111_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250911015201_AddPasswordResetColumns")]
+    partial class AddPasswordResetColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,13 @@ namespace ClinicWebApp.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordResetToken")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("PasswordResetTokenExpiresUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
                         .IsRequired()
