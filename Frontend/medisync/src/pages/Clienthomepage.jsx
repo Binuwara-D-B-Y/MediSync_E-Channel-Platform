@@ -3,28 +3,18 @@ import DashboardWrapper from '../components/DashboardWrapper';
 import WelcomeCard from '../components/WelcomeCard';
 import QuickStats from '../components/QuickStats';
 import FindDoctors from '../components/FindDoctors';
-import BookingModal from '../components/BookingModal';
 import Header from '../components/Header';
 
 export default function PatientDashboard() {
   // 🔹 State
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialization, setSelectedSpecialization] = useState('All Specializations');
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [showBookingModal, setShowBookingModal] = useState(false);
   const [doctors, setDoctors] = useState([]);
   const [doctorsByName, setDoctorsByName] = useState([]);
   const [doctorsBySpec, setDoctorsBySpec] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [searchMessage, setSearchMessage] = useState('');
   const [displayMode, setDisplayMode] = useState('default'); // kept for clarity, but we render one grid
-
-  // Booking state
-  const [bookingDate, setBookingDate] = useState('');
-  const [bookingTime, setBookingTime] = useState('');
-  const [bookingNotes, setBookingNotes] = useState('');
-  const [isBooking, setIsBooking] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   // Fetch doctors with custom rules
   React.useEffect(() => {
@@ -105,30 +95,6 @@ export default function PatientDashboard() {
     fetchWithRules();
   }, [searchTerm, selectedSpecialization]);
 
-  // Patient appointments
-  // Booking
-  const handleBookAppointment = (doctor) => {
-    setSelectedDoctor(doctor);
-    setShowBookingModal(true);
-  };
-
-  const confirmBooking = async () => {
-    try {
-      setIsBooking(true);
-      // TODO: call backend to create appointment
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      setBookingSuccess(true);
-      setTimeout(() => {
-        setShowBookingModal(false);
-        setBookingSuccess(false);
-        setBookingDate('');
-        setBookingTime('');
-        setBookingNotes('');
-      }, 900);
-    } finally {
-      setIsBooking(false);
-    }
-  };
 
   return (
     <DashboardWrapper>
@@ -156,30 +122,12 @@ export default function PatientDashboard() {
         selectedSpecialization={selectedSpecialization}
         setSelectedSpecialization={setSelectedSpecialization}
         doctors={doctors}
-        handleBookAppointment={handleBookAppointment}
         loading={loadingDoctors}
         displayMode={displayMode}
         doctorsByName={doctorsByName}
         doctorsBySpec={doctorsBySpec}
         searchMessage={searchMessage}
       />
-
-      {/* Booking Modal */}
-      {showBookingModal && selectedDoctor && (
-        <BookingModal
-          doctor={selectedDoctor}
-          bookingDate={bookingDate}
-          setBookingDate={setBookingDate}
-          bookingTime={bookingTime}
-          setBookingTime={setBookingTime}
-          bookingNotes={bookingNotes}
-          setBookingNotes={setBookingNotes}
-          isBooking={isBooking}
-          bookingSuccess={bookingSuccess}
-          confirmBooking={confirmBooking}
-          closeModal={() => setShowBookingModal(false)}
-        />
-      )}
     </DashboardWrapper>
   );
 }

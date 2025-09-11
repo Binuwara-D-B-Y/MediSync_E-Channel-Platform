@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/FindDoctors.css';
 
 export default function FindDoctors({
@@ -8,13 +9,13 @@ export default function FindDoctors({
   selectedSpecialization,
   setSelectedSpecialization,
   doctors,
-  handleBookAppointment,
   loading,
   displayMode,
   doctorsByName = [],
   doctorsBySpec = [],
   searchMessage = ''
 }) {
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
@@ -131,7 +132,7 @@ export default function FindDoctors({
                   <div className="doctor-name" style={{margin:0, textAlign:'center'}}>{name}</div>
                   <div className="doctor-spec" style={{textAlign:'center'}}>{specialization}</div>
                 </div>
-                <button className="doctor-book-btn" style={{marginTop:'0.75rem'}} onClick={() => handleBookAppointment(doctor)}>Book Now</button>
+                  <button className="doctor-book-btn" style={{marginTop:'0.75rem'}} onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}>Book Now</button>
               </div>
             );
           })}
