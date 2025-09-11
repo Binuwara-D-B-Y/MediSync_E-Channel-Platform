@@ -13,7 +13,11 @@ export default function PatientDashboard() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [doctors, setDoctors] = useState([]);
+  const [doctorsByName, setDoctorsByName] = useState([]);
+  const [doctorsBySpec, setDoctorsBySpec] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
+  const [searchMessage, setSearchMessage] = useState('');
+  const [displayMode, setDisplayMode] = useState('default'); // kept for clarity, but we render one grid
 
   // Booking state
   const [bookingDate, setBookingDate] = useState('');
@@ -22,23 +26,83 @@ export default function PatientDashboard() {
   const [isBooking, setIsBooking] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
-  // Fetch doctors from backend
+  // Fetch doctors with custom rules
   React.useEffect(() => {
-    async function fetchDoctors() {
+    async function fetchWithRules() {
       setLoadingDoctors(true);
-      let url = `/api/doctors?`;
-      if (searchTerm) url += `name=${encodeURIComponent(searchTerm)}&`;
-      if (selectedSpecialization && selectedSpecialization !== 'All Specializations') url += `specialization=${encodeURIComponent(selectedSpecialization)}&`;
+      setSearchMessage('');
+      setDisplayMode('default');
+      setDoctorsByName([]);
+      setDoctorsBySpec([]);
+
+      const hasName = !!searchTerm.trim();
+      const hasSpec = !!selectedSpecialization && selectedSpecialization !== 'All Specializations';
+
       try {
-        const res = await fetch(url);
-        const data = await res.json();
-        setDoctors(data);
+        if (hasName && hasSpec) {
+          const [nameRes, specRes] = await Promise.all([
+            fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`),
+            fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
+          ]);
+          const [nameData, specData] = await Promise.all([nameRes.json(), specRes.json()]);
+          setDoctorsByName(nameData);
+          setDoctorsBySpec(specData);
+
+          // Rule 1: wrong name + correct specialization → show message + specialization doctors
+          if ((!nameData || nameData.length === 0) && (specData && specData.length > 0)) {
+            setSearchMessage('Sorry! We could not find results for your search query. You can try one of the below suggestions!');
+            setDoctors(specData);
+            setDisplayMode('specOnly');
+          } else {
+            // Rule 3: correct name + unmatched specialization → message + combine name + specialization (no split grids)
+            const nameMatchesSelectedSpec = (nameData || []).some(d => (d.specialization || '').toLowerCase() === selectedSpecialization.toLowerCase());
+            if (!nameMatchesSelectedSpec && nameData && nameData.length > 0) {
+              setSearchMessage('Sorry! We could not find results for your search query. You can try one of the below suggestions!');
+              const map = new Map();
+              [...(nameData || []), ...(specData || [])].forEach(d => map.set(d.doctorId || d.id, d));
+              setDoctors([...map.values()]);
+              setDisplayMode('both');
+            } else {
+              // overlap or same spec → merge and show
+              const map = new Map();
+              [...(nameData || []), ...(specData || [])].forEach(d => map.set(d.doctorId || d.id, d));
+              setDoctors([...map.values()]);
+              setDisplayMode('default');
+            }
+          }
+        } else if (hasName) {
+          const res = await fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`);
+          let data = await res.json();
+          if (!data || data.length === 0) {
+            const allRes = await fetch('/api/doctors');
+            const all = await allRes.json();
+            const q = searchTerm.toLowerCase();
+            data = (all || []).filter(d => (d.fullName || d.name || '').toLowerCase().includes(q));
+          }
+          // Rule 4: name only
+          setDoctors(data || []);
+          setDisplayMode('nameOnly');
+        } else if (hasSpec) {
+          const res = await fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
+          const data = await res.json();
+          // Rule 2: just specialization
+          setDoctorsBySpec(data || []);
+          setDoctors(data || []);
+          setDisplayMode('specOnly');
+        } else {
+          const res = await fetch('/api/doctors');
+          const data = await res.json();
+          setDoctors(data || []);
+          setDisplayMode('default');
+        }
       } catch (err) {
+        console.log('Search failed', err);
         setDoctors([]);
+      } finally {
+        setLoadingDoctors(false);
       }
-      setLoadingDoctors(false);
     }
-    fetchDoctors();
+    fetchWithRules();
   }, [searchTerm, selectedSpecialization]);
 
   // Patient appointments
@@ -94,6 +158,10 @@ export default function PatientDashboard() {
         doctors={doctors}
         handleBookAppointment={handleBookAppointment}
         loading={loadingDoctors}
+        displayMode={displayMode}
+        doctorsByName={doctorsByName}
+        doctorsBySpec={doctorsBySpec}
+        searchMessage={searchMessage}
       />
 
       {/* Booking Modal */}

@@ -9,7 +9,11 @@ export default function FindDoctors({
   setSelectedSpecialization,
   doctors,
   handleBookAppointment,
-  loading
+  loading,
+  displayMode,
+  doctorsByName = [],
+  doctorsBySpec = [],
+  searchMessage = ''
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
@@ -106,8 +110,14 @@ export default function FindDoctors({
         <button className="doctor-search-btn" onClick={handleSearch}>Search</button>
       </div>
       {loading && <div style={{padding:'1rem 1.5rem', color:'#888'}}>Loading doctors...</div>}
-      {!loading && doctors.length > 0 && (
+      {/* Single unified grid per rules */}
+      {!loading && (
         <div className="doctors-grid">
+          {searchMessage && (
+            <div className="no-results-content" style={{gridColumn:'1/-1', marginBottom:'0.5rem'}}>
+              <p style={{color:'#b91c1c', fontWeight:600, textAlign:'center'}}>{searchMessage}</p>
+            </div>
+          )}
           {doctors.map((doctor) => {
             const name = doctor.fullName || doctor.name || 'Unknown Doctor';
             const specialization = doctor.specialization || 'General Practitioner';
