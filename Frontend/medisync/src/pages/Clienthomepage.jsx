@@ -15,6 +15,13 @@ export default function PatientDashboard() {
   const [doctors, setDoctors] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
 
+  // Booking state
+  const [bookingDate, setBookingDate] = useState('');
+  const [bookingTime, setBookingTime] = useState('');
+  const [bookingNotes, setBookingNotes] = useState('');
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
   // Fetch doctors from backend
   React.useEffect(() => {
     async function fetchDoctors() {
@@ -39,6 +46,24 @@ export default function PatientDashboard() {
   const handleBookAppointment = (doctor) => {
     setSelectedDoctor(doctor);
     setShowBookingModal(true);
+  };
+
+  const confirmBooking = async () => {
+    try {
+      setIsBooking(true);
+      // TODO: call backend to create appointment
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      setBookingSuccess(true);
+      setTimeout(() => {
+        setShowBookingModal(false);
+        setBookingSuccess(false);
+        setBookingDate('');
+        setBookingTime('');
+        setBookingNotes('');
+      }, 900);
+    } finally {
+      setIsBooking(false);
+    }
   };
 
   return (
