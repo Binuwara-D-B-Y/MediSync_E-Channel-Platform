@@ -1,9 +1,34 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { mockUserProfile } from '../data/mockData.js';
-import 'materialize-css/dist/css/materialize.min.css';
 import '../styles/UserAccount.css';
 
 export default function UserAccount() {
+  // Dynamically load/unload Materialize CSS only for this page
+  function loadMaterializeCSS() {
+    const id = 'materialize-css-dynamic';
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = '/node_modules/materialize-css/dist/css/materialize.min.css';
+      document.head.appendChild(link);
+    }
+  }
+
+  function unloadMaterializeCSS() {
+    const link = document.getElementById('materialize-css-dynamic');
+    if (link) {
+      document.head.removeChild(link);
+    }
+  }
+
+  useEffect(() => {
+    loadMaterializeCSS();
+    return () => unloadMaterializeCSS();
+  }, []);
+
   const [profile, setProfile] = useState({
     ...mockUserProfile,
     password: 'password123',
@@ -12,13 +37,7 @@ export default function UserAccount() {
   const [editMode, setEditMode] = useState(false);
   const [editedProfile, setEditedProfile] = useState({ ...profile });
   const [imagePreview, setImagePreview] = useState(null);
-
-  useEffect(() => {
-    const tabs = document.querySelectorAll('.tabs');
-    if (tabs.length) {
-      window.M.Tabs.init(tabs, {});
-    }
-  }, []);
+  const [activeTab, setActiveTab] = useState('profile');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,25 +80,25 @@ export default function UserAccount() {
     { id: 2, date: '2025-08-20', amount: 60, description: 'Neurology Checkup with Dr. Brian Smith' },
   ];
 
+
   return (
+    <div className='wrpbox'>
     <div className="account-wrapper">
-      <div className="card-tabs">
-        <div className="row mb-0">
-          <div className="col s12 m8 offset-m2">
-            <h3>Account Management</h3>
-          </div>
-        </div>
-        <div className="row mb-0">
-          <div className="col s12 m6 offset-m3">
-            <ul className="tabs blue">
-              <li className="tab col s6"><a href="#profile">Profile</a></li>
-              <li className="tab col s6"><a href="#transactions">Transaction History</a></li>
-            </ul>
-          </div>
-        </div>
+      <div className="card-tabs" style={{marginBottom: '2rem'}}>
+        <h3>Account Management</h3>
+      </div>
+      <div className="tab-nav" style={{display: 'flex', gap: '2rem', justifyContent: 'center', marginBottom: '1.5rem'}}>
+        <button
+          className={activeTab === 'profile' ? 'tab-btn active' : 'tab-btn'}
+          onClick={() => setActiveTab('profile')}
+        >Profile</button>
+        <button
+          className={activeTab === 'transactions' ? 'tab-btn active' : 'tab-btn'}
+          onClick={() => setActiveTab('transactions')}
+        >Transaction History</button>
       </div>
       <div className="card-content">
-        <div id="profile" className="col s12">
+        {activeTab === 'profile' && (
           <div className="profile-section">
             <div className="profile-image">
               <div className="image-circle">
@@ -190,19 +209,24 @@ export default function UserAccount() {
               </form>
             )}
           </div>
-        </div>
-        <div id="transactions" className="col s12">
+        )}
+        {activeTab === 'transactions' && (
           <div className="transactions-section">
-            {transactions.map((transaction) => (
-              <div key={transaction.id} className="transaction-card">
-                <p><strong>Date:</strong> {transaction.date}</p>
-                <p><strong>Amount:</strong> ${transaction.amount}</p>
-                <p><strong>Description:</strong> {transaction.description}</p>
-              </div>
-            ))}
+            {transactions.length === 0 ? (
+              <div style={{textAlign:'center', color:'#888', fontSize:'1.1rem', padding:'2rem'}}>No transactions found.</div>
+            ) : (
+              transactions.map((transaction) => (
+                <div key={transaction.id} className="transaction-card">
+                  <p><strong>Date:</strong> {transaction.date}</p>
+                  <p><strong>Amount:</strong> ${transaction.amount}</p>
+                  <p><strong>Description:</strong> {transaction.description}</p>
+                </div>
+              ))
+            )}
           </div>
-        </div>
+        )}
       </div>
+    </div>
     </div>
   );
 }
