@@ -20,10 +20,13 @@ namespace Backend.Models
         [Required, MaxLength(255)]
         public required string PasswordHash { get; set; }
 
+        [MaxLength(12)]
+        public required string NIC { get; set; }
+
         [Required]
         public UserRole Role { get; set; }
 
-        [MaxLength(15)]
+        [MaxLength(13)]
         public string? ContactNumber { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

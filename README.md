@@ -35,3 +35,9 @@ A web application that allows patients to register, search and filter doctors, b
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/hospital-echanneling.git
+
+## Team Members
+D B Y Binuwara
+A M N D Bandara
+Mahima Linash
+Chamika Pathirana

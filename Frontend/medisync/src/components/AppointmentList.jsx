@@ -18,12 +18,12 @@ export default function AppointmentsList({ appointments, cancelAppointment }) {
       {appointments.map((apt) => (
         <div key={apt.id} className="appointment-card">
           <div>
-            <h3 className="appointment-doctor">{apt.doctor.name}</h3>
-            <p className="appointment-specialization">{apt.doctor.specialization}</p>
+            <h3 className="appointment-doctor">{apt.doctor ? (apt.doctor.name || apt.doctor.fullName) : 'Unknown Doctor'}</h3>
+            <p className="appointment-specialization">{apt.doctor ? apt.doctor.specialization : ''}</p>
             <div className="appointment-details">
               <span><Calendar size={16} /> {new Date(apt.date).toLocaleDateString()}</span>
               <span><Clock size={16} /> {apt.time}</span>
-              <span><MapPin size={16} /> Ward {apt.doctor.wardRoom}</span>
+              <span><MapPin size={16} /> Ward {apt.doctor ? apt.doctor.wardRoom : ''}</span>
             </div>
           </div>
           <div className="appointment-actions">

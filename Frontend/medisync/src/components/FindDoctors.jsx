@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, Filter, Clock, DollarSign, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Filter } from 'lucide-react';
 import '../styles/FindDoctors.css';
 
 export default function FindDoctors({
@@ -7,30 +7,88 @@ export default function FindDoctors({
   setSearchTerm,
   selectedSpecialization,
   setSelectedSpecialization,
-  specializations,
   doctors,
-  handleBookAppointment
+  handleBookAppointment,
+  loading
 }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [appointmentDate, setAppointmentDate] = useState('');
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+  const [localSpecialization, setLocalSpecialization] = useState(selectedSpecialization);
+  const [specializations, setSpecializations] = useState([]);
+
+  // Fetch specializations from backend
+  useEffect(() => {
+    async function fetchSpecs() {
+      try {
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
+        setSpecializations(['All Specializations', ...data]);
+      } catch {
+        setSpecializations(['All Specializations']);
+      }
+    }
+    fetchSpecs();
+  }, []);
+
+  // Handler to trigger backend fetch with all filters
+  const handleSearch = () => {
+    setSearchTerm(localSearchTerm);
+    setSelectedSpecialization(localSpecialization);
+    // Optionally: pass appointmentDate to parent and use in backend fetch
+  };
+
+  // Filter doctors for dropdown (from backend data)
+  const filteredDropdown = localSearchTerm
+    ? doctors.filter((doctor) =>
+        (doctor.fullName || doctor.name)?.toLowerCase().includes(localSearchTerm.toLowerCase())
+      )
+    : [];
+
   return (
     <div className="find-doctors">
       <h2 className="find-doctors-title">Find Doctors</h2>
-
-      {/* Search + Filter */}
       <div className="find-doctors-filters">
-        <div className="search-box">
+        <div className="search-box" style={{ position: 'relative' }}>
           <Search size={18} />
           <input
             type="text"
             placeholder="Search doctors..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={localSearchTerm}
+            onChange={(e) => {
+              setLocalSearchTerm(e.target.value);
+              setShowDropdown(!!e.target.value);
+            }}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+            onFocus={() => setShowDropdown(!!localSearchTerm)}
+            autoComplete="off"
           />
+          {showDropdown && filteredDropdown.length > 0 && (
+            <ul className="doctor-dropdown">
+              {filteredDropdown.map((doctor) => (
+                <li
+                  key={doctor.userId || doctor.id}
+                  onMouseDown={() => {
+                    setLocalSearchTerm(doctor.fullName || doctor.name);
+                    setShowDropdown(false);
+                    // Auto-select specialization if available
+                    // if (doctor.specialization) {
+                    //   setLocalSpecialization(doctor.specialization);
+                    //   setSelectedSpecialization(doctor.specialization);
+                    // }
+                  }}
+                >
+                  {doctor.fullName || doctor.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="filter-box">
           <Filter size={18} />
           <select
-            value={selectedSpecialization}
-            onChange={(e) => setSelectedSpecialization(e.target.value)}
+            value={localSpecialization}
+            onChange={(e) => setLocalSpecialization(e.target.value)}
           >
             {specializations.map((spec) => (
               <option key={spec} value={spec}>{spec}</option>
@@ -38,42 +96,16 @@ export default function FindDoctors({
           </select>
         </div>
       </div>
-
-      {/* Doctors list */}
-      <div className="doctors-grid">
-        {doctors.length === 0 ? (
-          <p className="no-doctors">No doctors found.</p>
-        ) : (
-          doctors.map((doctor) => (
-            <div key={doctor.id} className="doctor-card">
-              <div className="doctor-avatar">
-                {doctor.name.split(' ').map(n => n[0]).join('')}
-              </div>
-              <h3 className="doctor-name">{doctor.name}</h3>
-              <p className="doctor-spec">{doctor.specialization}</p>
-              <p className="doctor-qual">{doctor.qualification}</p>
-
-              <div className="doctor-info">
-                <span><Clock size={14} /> {doctor.experience} yrs</span>
-                <span><DollarSign size={14} /> ${doctor.consultationFee}</span>
-                <span><MapPin size={14} /> Ward {doctor.wardRoom}</span>
-              </div>
-
-              <div className={`doctor-status ${doctor.isAvailable ? 'available' : 'unavailable'}`}>
-                {doctor.isAvailable ? 'Available' : 'Unavailable'}
-              </div>
-
-              <button
-                className="doctor-book-btn"
-                onClick={() => handleBookAppointment(doctor)}
-                disabled={!doctor.isAvailable}
-              >
-                Book Appointment
-              </button>
-            </div>
-          ))
-        )}
+      <div className="find-doctors-extra">
+        <input
+          type="date"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+          className="appointment-date-input"
+        />
+        <button className="doctor-search-btn" onClick={handleSearch}>Search</button>
       </div>
+      {loading && <div style={{padding:'1rem 1.5rem', color:'#888'}}>Loading doctors...</div>}
     </div>
   );
 }
