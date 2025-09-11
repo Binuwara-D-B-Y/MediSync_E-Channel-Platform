@@ -19,4 +19,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <!-- Exclude test sources placed under Backend/Testing from being compiled into the main Backend project -->
+  <ItemGroup>
+    <Compile Remove="Testing\**\*.cs" />
+  </ItemGroup>
+
 </Project>

@@ -49,3 +49,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+// Expose the Program class for integration tests (WebApplicationFactory requires a public type)
+public partial class Program { }
