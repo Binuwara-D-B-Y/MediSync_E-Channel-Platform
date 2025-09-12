@@ -1,284 +1,312 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="3e321a83-7aec-4621-ae13-05304c5cbd58" name="Admin@DESKTOP-RVQH3EI 2025-09-11 22:02:58" runUser="DESKTOP-RVQH3EI\Admin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-09-11T22:02:58.1685696+05:30" queuing="2025-09-11T22:02:58.1685699+05:30" start="2025-09-11T22:02:55.5288790+05:30" finish="2025-09-11T22:03:05.9698948+05:30" />
-  <TestSettings name="default" id="5a019e50-8a66-4242-9677-2cf482547a5e">
-    <Deployment runDeploymentRoot="Admin_DESKTOP-RVQH3EI_2025-09-11_22_02_58" />
+<TestRun id="626ba677-cece-425c-b4d7-caa0129ffab4" name="Admin@DESKTOP-RVQH3EI 2025-09-12 13:49:26" runUser="DESKTOP-RVQH3EI\Admin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-09-12T13:49:26.3684910+05:30" queuing="2025-09-12T13:49:26.3684915+05:30" start="2025-09-12T13:49:22.8277650+05:30" finish="2025-09-12T13:49:58.5099954+05:30" />
+  <TestSettings name="default" id="e3e6b265-aac1-405f-8001-f70b0f652f78">
+    <Deployment runDeploymentRoot="Admin_DESKTOP-RVQH3EI_2025-09-12_13_49_26" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="e0860237-bde4-45b8-85c5-40784a65eb04" testId="641d3842-a6ab-6db2-cdb6-47444296fcb4" testName="Backend.Tests.ModelsTests.Doctor_Model_Requires_Fields" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0011354" startTime="2025-09-11T22:02:56.8595636+05:30" endTime="2025-09-11T22:02:56.8595638+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e0860237-bde4-45b8-85c5-40784a65eb04" />
-    <UnitTestResult executionId="bfa49833-005b-4eb5-ac16-74154b54c2c7" testId="b1ae0cbd-f98d-04c5-bbc7-dd12d7416c4d" testName="Backend.Tests.ModelsTests.User_Model_Requires_Fields" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0131324" startTime="2025-09-11T22:02:56.8559271+05:30" endTime="2025-09-11T22:02:56.8559477+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfa49833-005b-4eb5-ac16-74154b54c2c7" />
-    <UnitTestResult executionId="7ace050b-04fa-474e-9c4c-8b95d4a93d5f" testId="ad33ff46-154b-5366-e45b-609d022e7f6c" testName="Backend.Tests.UITests.FindDoctors_Fetches_Specializations_And_Search_Input_Works" computerName="DESKTOP-RVQH3EI" duration="00:00:04.4488361" startTime="2025-09-11T22:03:01.2842406+05:30" endTime="2025-09-11T22:03:01.2842415+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ace050b-04fa-474e-9c4c-8b95d4a93d5f" />
-    <UnitTestResult executionId="54562bfe-7bc8-40af-beea-189898c901eb" testId="d0588380-399b-e527-0778-d5cb0c6c08d5" testName="Backend.Tests.ControllersTests.DoctorsController_GetAll_Returns_Doctors" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0425879" startTime="2025-09-11T22:02:58.2406046+05:30" endTime="2025-09-11T22:02:58.2406049+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="54562bfe-7bc8-40af-beea-189898c901eb" />
-    <UnitTestResult executionId="bf00dc89-7b9f-4f9b-ba11-f8c6c32cf94a" testId="539a850b-993f-b0fa-6c7b-2a2333977695" testName="Backend.Tests.ControllersTests.SpecializationsController_GetAll_Returns_Distinct" computerName="DESKTOP-RVQH3EI" duration="00:00:01.3595429" startTime="2025-09-11T22:02:58.1979040+05:30" endTime="2025-09-11T22:02:58.1979043+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bf00dc89-7b9f-4f9b-ba11-f8c6c32cf94a" />
-    <UnitTestResult executionId="a6d7ba6d-1be2-4125-9459-6ea1b244c417" testId="7c1cfd02-7ca4-7846-f514-bbd587fe470f" testName="Backend.Tests.UITests.UserAccount_Edit_Save_And_Delete_Buttons_Work" computerName="DESKTOP-RVQH3EI" duration="00:00:04.6108358" startTime="2025-09-11T22:03:05.8953928+05:30" endTime="2025-09-11T22:03:05.8953932+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6d7ba6d-1be2-4125-9459-6ea1b244c417" />
-    <UnitTestResult executionId="f95bd6e4-9d0d-4906-b908-cc9a68be48c8" testId="7a9bcdd0-720c-a24a-46c5-ecf69447899f" testName="Backend.Tests.IntegrationTests.GetDoctors_Returns_Seeded_Doctors" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1711813" startTime="2025-09-11T22:02:58.8849337+05:30" endTime="2025-09-11T22:02:58.8849339+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f95bd6e4-9d0d-4906-b908-cc9a68be48c8">
-      <Output>
-        <ErrorInfo>
-          <Message>MySqlConnector.MySqlException : Access denied for user 'root'@'localhost' (using password: YES)</Message>
-          <StackTrace>   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1081&#xD;
-   at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 931&#xD;
-   at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 900&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 539&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 697&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 702&#xD;
-   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 1099&#xD;
-   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 567&#xD;
-   at MySqlConnector.MySqlConnection.Open() in /_/src/MySqlConnector/MySqlConnection.cs:line 522&#xD;
-   at Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(String connectionString)&#xD;
-   at Program.&lt;&gt;c__DisplayClass0_0.&lt;&lt;Main&gt;$&gt;b__0(DbContextOptionsBuilder options) in E:\MediSync_E-Channel-Platform\Backend\Program.cs:line 26&#xD;
-   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.&lt;&gt;c__DisplayClass1_0`2.&lt;AddDbContext&gt;b__0(IServiceProvider _, DbContextOptionsBuilder b)&#xD;
-   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.DbContextOptionsConfiguration`1.Configure(IServiceProvider serviceProvider, DbContextOptionsBuilder optionsBuilder)&#xD;
-   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CreateDbContextOptions[TContext](IServiceProvider applicationServiceProvider)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.&lt;&gt;c__DisplayClass2_0.&lt;RealizeService&gt;b__0(ServiceProviderEngineScope scope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)&#xD;
-   at Program.&lt;Main&gt;$(String[] args) in E:\MediSync_E-Channel-Platform\Backend\Program.cs:line 47&#xD;
-   at InvokeStub_Program.&lt;Main&gt;$(Object, Span`1)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
---- End of stack trace from previous location ---&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
-   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.get_Services()&#xD;
-   at Backend.Tests.IntegrationTests.GetDoctors_Returns_Seeded_Doctors() in E:\MediSync_E-Channel-Platform\Backend\Testing\IntegrationTests.cs:line 43&#xD;
---- End of stack trace from previous location ---</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="8eaa84ef-5a28-485e-ae65-0e68489ba9a7" testId="b61931e0-69b1-cae6-9d84-41730d420f37" testName="Backend.Tests.IntegrationTests.GetSpecializations_Returns_Distinct_List" computerName="DESKTOP-RVQH3EI" duration="00:00:01.8466258" startTime="2025-09-11T22:02:58.7272339+05:30" endTime="2025-09-11T22:02:58.7272343+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8eaa84ef-5a28-485e-ae65-0e68489ba9a7">
-      <Output>
-        <ErrorInfo>
-          <Message>MySqlConnector.MySqlException : Access denied for user 'root'@'localhost' (using password: YES)</Message>
-          <StackTrace>   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1081&#xD;
-   at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 931&#xD;
-   at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 900&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 539&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 697&#xD;
-   at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 702&#xD;
-   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 1099&#xD;
-   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 567&#xD;
-   at MySqlConnector.MySqlConnection.Open() in /_/src/MySqlConnector/MySqlConnection.cs:line 522&#xD;
-   at Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(String connectionString)&#xD;
-   at Program.&lt;&gt;c__DisplayClass0_0.&lt;&lt;Main&gt;$&gt;b__0(DbContextOptionsBuilder options) in E:\MediSync_E-Channel-Platform\Backend\Program.cs:line 26&#xD;
-   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.&lt;&gt;c__DisplayClass1_0`2.&lt;AddDbContext&gt;b__0(IServiceProvider _, DbContextOptionsBuilder b)&#xD;
-   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.DbContextOptionsConfiguration`1.Configure(IServiceProvider serviceProvider, DbContextOptionsBuilder optionsBuilder)&#xD;
-   at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CreateDbContextOptions[TContext](IServiceProvider applicationServiceProvider)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.&lt;&gt;c__DisplayClass2_0.&lt;RealizeService&gt;b__0(ServiceProviderEngineScope scope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)&#xD;
-   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)&#xD;
-   at Program.&lt;Main&gt;$(String[] args) in E:\MediSync_E-Channel-Platform\Backend\Program.cs:line 47&#xD;
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
---- End of stack trace from previous location ---&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
-   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
-   at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.get_Services()&#xD;
-   at Backend.Tests.IntegrationTests.GetSpecializations_Returns_Distinct_List() in E:\MediSync_E-Channel-Platform\Backend\Testing\IntegrationTests.cs:line 69&#xD;
---- End of stack trace from previous location ---</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
+    <UnitTestResult executionId="9439d62c-618b-4a09-8bd0-06524489f9b1" testId="518e933f-d5a6-29e5-29d7-19b74623c6f5" testName="Backend.Tests.ModelsTests.Favorite_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0019377" startTime="2025-09-12T13:49:26.2487578+05:30" endTime="2025-09-12T13:49:26.2487581+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9439d62c-618b-4a09-8bd0-06524489f9b1" />
+    <UnitTestResult executionId="91d1fab8-9c96-40ee-a228-a211790187e5" testId="724a64a5-8041-1d8c-e977-32ad8bdc2b6e" testName="Backend.Tests.ModelsTests.Appointment_InvalidStatus_ValidationFails" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0154691" startTime="2025-09-12T13:49:26.2404047+05:30" endTime="2025-09-12T13:49:26.2404049+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="91d1fab8-9c96-40ee-a228-a211790187e5" />
+    <UnitTestResult executionId="41dbe39c-ffc0-4684-8ab0-4ebd82388e05" testId="05cbfa91-3834-fdb0-8f81-db1e2999d4e6" testName="Backend.Tests.ControllersTests.GetAllDoctors_WithInvalidDate_ReturnsAllDoctors" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1035941" startTime="2025-09-12T13:49:34.1942769+05:30" endTime="2025-09-12T13:49:34.1942775+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41dbe39c-ffc0-4684-8ab0-4ebd82388e05" />
+    <UnitTestResult executionId="5b227ad9-0bc1-4fdd-98bb-e1fa1b2980f3" testId="7c1cfd02-7ca4-7846-f514-bbd587fe470f" testName="Backend.Tests.UITests.UserAccount_Edit_Save_And_Delete_Buttons_Work" computerName="DESKTOP-RVQH3EI" duration="00:00:06.8464027" startTime="2025-09-12T13:49:58.1211728+05:30" endTime="2025-09-12T13:49:58.1211735+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5b227ad9-0bc1-4fdd-98bb-e1fa1b2980f3" />
+    <UnitTestResult executionId="18897707-f140-48ac-a2a6-ac3303fc662a" testId="874089da-ba58-0edf-6d79-7730e0023191" testName="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: &quot;invalid-email&quot;, property: &quot;Email&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0002855" startTime="2025-09-12T13:49:26.2415960+05:30" endTime="2025-09-12T13:49:26.2415961+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18897707-f140-48ac-a2a6-ac3303fc662a" />
+    <UnitTestResult executionId="2ff2a735-b39e-4ac2-bd7c-546178ef81fd" testId="d3b9bbfa-9758-a126-9acd-7af8e2fafab0" testName="Backend.Tests.ModelsTests.Appointment_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0006317" startTime="2025-09-12T13:49:26.2411120+05:30" endTime="2025-09-12T13:49:26.2411122+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ff2a735-b39e-4ac2-bd7c-546178ef81fd" />
+    <UnitTestResult executionId="5bebd4f8-c485-4ffd-a180-8cdca5cbd6d3" testId="ad33ff46-154b-5366-e45b-609d022e7f6c" testName="Backend.Tests.UITests.FindDoctors_Fetches_Specializations_And_Search_Input_Works" computerName="DESKTOP-RVQH3EI" duration="00:00:06.4746323" startTime="2025-09-12T13:49:45.3703422+05:30" endTime="2025-09-12T13:49:45.3703435+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5bebd4f8-c485-4ffd-a180-8cdca5cbd6d3" />
+    <UnitTestResult executionId="a1aa6f9d-26f3-481e-b41a-2daf76752f7a" testId="bacc404b-e576-8d60-12da-4917cfbd3cd4" testName="Backend.Tests.ModelsTests.Doctor_RequiredFields_ValidationFails_WhenEmpty" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0031468" startTime="2025-09-12T13:49:26.2495383+05:30" endTime="2025-09-12T13:49:26.2495387+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1aa6f9d-26f3-481e-b41a-2daf76752f7a" />
+    <UnitTestResult executionId="bc21bc63-2550-49e1-bb5e-34bc5ff3ff37" testId="a5643291-9650-fbd2-e8f6-721a3aaa586a" testName="Backend.Tests.ControllersTests.GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors(spec: &quot;Neurology&quot;, expectedCount: 1)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1789896" startTime="2025-09-12T13:49:33.7147819+05:30" endTime="2025-09-12T13:49:33.7147830+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bc21bc63-2550-49e1-bb5e-34bc5ff3ff37" />
+    <UnitTestResult executionId="468f41ee-fefe-401d-ad12-36e7c2a2b487" testId="df8fdf23-e03c-302d-6815-7ab5b77ada84" testName="Backend.Tests.ModelsTests.Transaction_InvalidAmount_ValidationBehavior(amount: -1)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0031122" startTime="2025-09-12T13:49:26.1054693+05:30" endTime="2025-09-12T13:49:26.1054697+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="468f41ee-fefe-401d-ad12-36e7c2a2b487" />
+    <UnitTestResult executionId="1d9905e7-4575-4cf7-899c-c76b5363ab30" testId="1cfb35a4-dcd4-f204-31f7-b1c1e6462f87" testName="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 13, property: &quot;NIC&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0011015" startTime="2025-09-12T13:49:26.2414578+05:30" endTime="2025-09-12T13:49:26.2414579+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1d9905e7-4575-4cf7-899c-c76b5363ab30" />
+    <UnitTestResult executionId="d943c633-75a1-4b55-9aeb-74c8e823243c" testId="c14f9f4f-54bf-ad66-35fd-b1d8281d1ba9" testName="Backend.Tests.ControllersTests.GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors(spec: &quot;Cardiology&quot;, expectedCount: 2)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1278193" startTime="2025-09-12T13:49:33.8441620+05:30" endTime="2025-09-12T13:49:33.8441628+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d943c633-75a1-4b55-9aeb-74c8e823243c" />
+    <UnitTestResult executionId="8f63de2a-2d55-4b55-ba17-05ff84cc5ba8" testId="fa5f0b4d-7bbf-2512-f213-cbec88e5ff52" testName="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: &quot;user@.com&quot;, property: &quot;Email&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0004221" startTime="2025-09-12T13:49:26.2483675+05:30" endTime="2025-09-12T13:49:26.2483678+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8f63de2a-2d55-4b55-ba17-05ff84cc5ba8" />
+    <UnitTestResult executionId="92d31cac-31fc-4b24-bb4b-bb0922f89952" testId="1d30116b-f471-876a-0c69-6cca2527d911" testName="Backend.Tests.ControllersTests.GetAllSpecializations_ReturnsDistinctOrderedList" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1421864" startTime="2025-09-12T13:49:33.9877542+05:30" endTime="2025-09-12T13:49:33.9877558+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92d31cac-31fc-4b24-bb4b-bb0922f89952" />
+    <UnitTestResult executionId="7c403ae8-58ce-4595-b267-199fdac930fa" testId="3bc1b325-8adf-9e18-982b-264ff9423b12" testName="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 101, property: &quot;FullName&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0038287" startTime="2025-09-12T13:49:26.2413336+05:30" endTime="2025-09-12T13:49:26.2413339+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c403ae8-58ce-4595-b267-199fdac930fa" />
+    <UnitTestResult executionId="1080a5b3-db65-4e0d-8b5d-c917ff51a743" testId="e3c5ba0e-be9b-887f-4a5e-a8db90ab5628" testName="Backend.Tests.ModelsTests.User_RequiredFields_ValidationFails_WhenEmpty" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0031782" startTime="2025-09-12T13:49:26.2498942+05:30" endTime="2025-09-12T13:49:26.2498944+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1080a5b3-db65-4e0d-8b5d-c917ff51a743" />
+    <UnitTestResult executionId="6afdb8ad-9e03-4866-9cdc-ab1ba028c0af" testId="c0ab9179-05d4-42cc-e35c-9bb1d374cecb" testName="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 101, property: &quot;FullName&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0001539" startTime="2025-09-12T13:49:26.1031163+05:30" endTime="2025-09-12T13:49:26.1031165+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6afdb8ad-9e03-4866-9cdc-ab1ba028c0af" />
+    <UnitTestResult executionId="053f86fc-b547-4899-ac88-d6741ef85540" testId="04a3d33f-a8eb-892c-5105-f09fb5029c75" testName="Backend.Tests.ModelsTests.Appointment_RequiredFields_ValidationFails_WhenEmpty" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0012108" startTime="2025-09-12T13:49:26.2511459+05:30" endTime="2025-09-12T13:49:26.2511467+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="053f86fc-b547-4899-ac88-d6741ef85540" />
+    <UnitTestResult executionId="b403f0de-63bb-43e6-b3c1-8aafd499cdbf" testId="8ccc5b3b-9e4f-1530-05bf-17840f2d7532" testName="Backend.Tests.ModelsTests.Favorite_RequiredFields_ValidationBehavior_WhenEmpty" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0035089" startTime="2025-09-12T13:49:26.1093910+05:30" endTime="2025-09-12T13:49:26.1093917+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b403f0de-63bb-43e6-b3c1-8aafd499cdbf" />
+    <UnitTestResult executionId="d95ea5ed-e9fa-41af-ba8b-685bada130a2" testId="916361d3-e60e-058f-d9b9-aa2a8d1f1263" testName="Backend.Tests.ControllersTests.GetAllDoctors_InvalidRoute_ReturnsNotFound" computerName="DESKTOP-RVQH3EI" duration="00:00:00.4175248" startTime="2025-09-12T13:49:32.2429830+05:30" endTime="2025-09-12T13:49:32.2429841+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d95ea5ed-e9fa-41af-ba8b-685bada130a2" />
+    <UnitTestResult executionId="3a8c0d32-cbc0-43c5-9c14-9423413e55d2" testId="e285022f-8f23-47d0-1b9e-eb530f73243f" testName="Backend.Tests.ModelsTests.Transaction_InvalidAmount_ValidationBehavior(amount: 0)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0072152" startTime="2025-09-12T13:49:26.1036620+05:30" endTime="2025-09-12T13:49:26.1036621+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a8c0d32-cbc0-43c5-9c14-9423413e55d2" />
+    <UnitTestResult executionId="c8ba5740-c26f-4b3d-82de-c390fef9eb9f" testId="3d329e54-d837-4179-d543-4e6506b776bc" testName="Backend.Tests.ControllersTests.GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors(name: &quot;Alice&quot;, expectedCount: 1)" computerName="DESKTOP-RVQH3EI" duration="00:00:01.1623469" startTime="2025-09-12T13:49:33.4079073+05:30" endTime="2025-09-12T13:49:33.4079081+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8ba5740-c26f-4b3d-82de-c390fef9eb9f" />
+    <UnitTestResult executionId="74848097-f9fb-4fe4-9236-a03268a77249" testId="8954d252-b0da-9fa8-7df5-e726ff63925d" testName="Backend.Tests.ModelsTests.DoctorSchedule_RequiredFields_ValidationBehavior_WhenEmpty" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0040234" startTime="2025-09-12T13:49:26.2502300+05:30" endTime="2025-09-12T13:49:26.2502301+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74848097-f9fb-4fe4-9236-a03268a77249" />
+    <UnitTestResult executionId="6ee3384d-36cd-4455-895e-41238ad03804" testId="3c429832-6498-af44-723f-daf3ff0da8cf" testName="Backend.Tests.ControllersTests.GetAllSpecializations_NoDoctors_ReturnsEmptyList" computerName="DESKTOP-RVQH3EI" duration="00:00:05.8277711" startTime="2025-09-12T13:49:31.8176568+05:30" endTime="2025-09-12T13:49:31.8176577+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6ee3384d-36cd-4455-895e-41238ad03804" />
+    <UnitTestResult executionId="d119b2f4-1d1b-47e1-b6b5-84971fff9666" testId="d51fd494-441d-4f61-90a1-f1d754ee2180" testName="Backend.Tests.ModelsTests.Doctor_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0060025" startTime="2025-09-12T13:49:26.1034707+05:30" endTime="2025-09-12T13:49:26.1034710+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d119b2f4-1d1b-47e1-b6b5-84971fff9666" />
+    <UnitTestResult executionId="723fe423-67a5-40f8-b257-123636ee1d0c" testId="a79d1a9d-d525-01fc-385c-d38404e1f762" testName="Backend.Tests.ModelsTests.Appointment_MaxLength_ValidationFails(property: &quot;PatientName&quot;, length: 101)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0041571" startTime="2025-09-12T13:49:26.2406001+05:30" endTime="2025-09-12T13:49:26.2406003+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="723fe423-67a5-40f8-b257-123636ee1d0c" />
+    <UnitTestResult executionId="cf177f49-a369-4c2c-bd44-fa725aab6e09" testId="912edc4f-d99c-9dd3-b322-a3f9d5465818" testName="Backend.Tests.ControllersTests.GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors(name: &quot;Bob&quot;, expectedCount: 1)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1232334" startTime="2025-09-12T13:49:33.5334077+05:30" endTime="2025-09-12T13:49:33.5334086+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf177f49-a369-4c2c-bd44-fa725aab6e09" />
+    <UnitTestResult executionId="e15337cc-cd91-4b31-9550-a6463c6b008a" testId="76081ea8-7283-4186-3ff4-d7f4803a43f7" testName="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 51, property: &quot;Specialization&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0022265" startTime="2025-09-12T13:49:26.1015548+05:30" endTime="2025-09-12T13:49:26.1015551+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e15337cc-cd91-4b31-9550-a6463c6b008a" />
+    <UnitTestResult executionId="7f5081e9-ea31-4bec-8a8e-48089898b0c5" testId="47d80855-cc07-f38c-5f81-5a120157a7b8" testName="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 301, property: &quot;Details&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0912692" startTime="2025-09-12T13:49:26.0871728+05:30" endTime="2025-09-12T13:49:26.0872619+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f5081e9-ea31-4bec-8a8e-48089898b0c5" />
+    <UnitTestResult executionId="12d05128-ffe4-4be7-9e87-2fe8c44a5753" testId="50ae80d2-b983-1fa0-8c4f-1a15f090a7fd" testName="Backend.Tests.UITests.PatientDashboard_SearchAndBookDoctor_Works" computerName="DESKTOP-RVQH3EI" duration="00:00:05.9034851" startTime="2025-09-12T13:49:51.2742835+05:30" endTime="2025-09-12T13:49:51.2742841+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12d05128-ffe4-4be7-9e87-2fe8c44a5753" />
+    <UnitTestResult executionId="5903cd73-7cc3-4d07-b94b-fdb17a935f3c" testId="c94ac60d-f3b5-4f5c-22f6-7c228fd9c3c1" testName="Backend.Tests.ControllersTests.GetAllDoctors_NoFilters_ReturnsAllDoctors" computerName="DESKTOP-RVQH3EI" duration="00:00:00.1000036" startTime="2025-09-12T13:49:34.0890605+05:30" endTime="2025-09-12T13:49:34.0890609+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5903cd73-7cc3-4d07-b94b-fdb17a935f3c" />
+    <UnitTestResult executionId="b0e972bc-3ad9-4362-a06e-23757e866cd6" testId="9ca48db0-3651-52e8-3795-6394690617b7" testName="Backend.Tests.ModelsTests.Appointment_MaxLength_ValidationFails(property: &quot;PatientContact&quot;, length: 16)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0057589" startTime="2025-09-12T13:49:26.2407219+05:30" endTime="2025-09-12T13:49:26.2407221+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b0e972bc-3ad9-4362-a06e-23757e866cd6" />
+    <UnitTestResult executionId="ae7aae74-a45e-4ff9-bb86-ab13377fcc10" testId="8449e075-7e97-d681-c9ce-69e9996b988e" testName="Backend.Tests.ModelsTests.DoctorSchedule_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0059081" startTime="2025-09-12T13:49:26.2491344+05:30" endTime="2025-09-12T13:49:26.2491347+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae7aae74-a45e-4ff9-bb86-ab13377fcc10" />
+    <UnitTestResult executionId="387cb569-7a39-4b07-8db3-212e97c3da11" testId="539b6bbf-4bd6-4167-4b6c-ee2c9046a81d" testName="Backend.Tests.UITests.UserAccount_TabsSwitchAndTransactionsLoad" computerName="DESKTOP-RVQH3EI" duration="00:00:12.9170387" startTime="2025-09-12T13:49:38.8946277+05:30" endTime="2025-09-12T13:49:38.8946288+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="387cb569-7a39-4b07-8db3-212e97c3da11" />
+    <UnitTestResult executionId="623229d7-d6f8-4357-8e8f-5effb7fe1c39" testId="8922e3d5-fe45-7bf4-d7e2-2b59d377e13e" testName="Backend.Tests.ModelsTests.User_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0054349" startTime="2025-09-12T13:49:26.2409327+05:30" endTime="2025-09-12T13:49:26.2409329+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="623229d7-d6f8-4357-8e8f-5effb7fe1c39" />
+    <UnitTestResult executionId="543c6f0c-a2b0-41d1-b2e2-5ab220cdf54b" testId="a5da7a81-e76a-7b2c-71d6-06800440b40d" testName="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 256, property: &quot;PasswordHash&quot;)" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0003406" startTime="2025-09-12T13:49:26.2477649+05:30" endTime="2025-09-12T13:49:26.2477660+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="543c6f0c-a2b0-41d1-b2e2-5ab220cdf54b" />
+    <UnitTestResult executionId="087c3667-9606-4433-b629-92e0055ef500" testId="26b1c9c7-1092-9d3b-400b-1c0bd56dd56d" testName="Backend.Tests.ModelsTests.Transaction_ValidModel_ValidationSucceeds" computerName="DESKTOP-RVQH3EI" duration="00:00:00.0009150" startTime="2025-09-12T13:49:26.2395451+05:30" endTime="2025-09-12T13:49:26.2395455+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="087c3667-9606-4433-b629-92e0055ef500" />
   </Results>
   <TestDefinitions>
-    <UnitTest name="Backend.Tests.ControllersTests.SpecializationsController_GetAll_Returns_Distinct" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="539a850b-993f-b0fa-6c7b-2a2333977695">
-      <Execution id="bf00dc89-7b9f-4f9b-ba11-f8c6c32cf94a" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="SpecializationsController_GetAll_Returns_Distinct" />
+    <UnitTest name="Backend.Tests.ModelsTests.DoctorSchedule_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="8449e075-7e97-d681-c9ce-69e9996b988e">
+      <Execution id="ae7aae74-a45e-4ff9-bb86-ab13377fcc10" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="DoctorSchedule_ValidModel_ValidationSucceeds" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.IntegrationTests.GetDoctors_Returns_Seeded_Doctors" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="7a9bcdd0-720c-a24a-46c5-ecf69447899f">
-      <Execution id="f95bd6e4-9d0d-4906-b908-cc9a68be48c8" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.IntegrationTests" name="GetDoctors_Returns_Seeded_Doctors" />
+    <UnitTest name="Backend.Tests.ModelsTests.DoctorSchedule_RequiredFields_ValidationBehavior_WhenEmpty" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="8954d252-b0da-9fa8-7df5-e726ff63925d">
+      <Execution id="74848097-f9fb-4fe4-9236-a03268a77249" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="DoctorSchedule_RequiredFields_ValidationBehavior_WhenEmpty" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.ControllersTests.DoctorsController_GetAll_Returns_Doctors" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="d0588380-399b-e527-0778-d5cb0c6c08d5">
-      <Execution id="54562bfe-7bc8-40af-beea-189898c901eb" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="DoctorsController_GetAll_Returns_Doctors" />
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_WithInvalidDate_ReturnsAllDoctors" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="05cbfa91-3834-fdb0-8f81-db1e2999d4e6">
+      <Execution id="41dbe39c-ffc0-4684-8ab0-4ebd82388e05" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_WithInvalidDate_ReturnsAllDoctors" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.UITests.UserAccount_Edit_Save_And_Delete_Buttons_Work" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="7c1cfd02-7ca4-7846-f514-bbd587fe470f">
-      <Execution id="a6d7ba6d-1be2-4125-9459-6ea1b244c417" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.UITests" name="UserAccount_Edit_Save_And_Delete_Buttons_Work" />
+    <UnitTest name="Backend.Tests.ModelsTests.Doctor_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="d51fd494-441d-4f61-90a1-f1d754ee2180">
+      <Execution id="d119b2f4-1d1b-47e1-b6b5-84971fff9666" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_ValidModel_ValidationSucceeds" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.ModelsTests.User_Model_Requires_Fields" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="b1ae0cbd-f98d-04c5-bbc7-dd12d7416c4d">
-      <Execution id="bfa49833-005b-4eb5-ac16-74154b54c2c7" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_Model_Requires_Fields" />
+    <UnitTest name="Backend.Tests.UITests.PatientDashboard_SearchAndBookDoctor_Works" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="50ae80d2-b983-1fa0-8c4f-1a15f090a7fd">
+      <Execution id="12d05128-ffe4-4be7-9e87-2fe8c44a5753" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.UITests" name="PatientDashboard_SearchAndBookDoctor_Works" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Favorite_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="518e933f-d5a6-29e5-29d7-19b74623c6f5">
+      <Execution id="9439d62c-618b-4a09-8bd0-06524489f9b1" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Favorite_ValidModel_ValidationSucceeds" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_RequiredFields_ValidationFails_WhenEmpty" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="e3c5ba0e-be9b-887f-4a5e-a8db90ab5628">
+      <Execution id="1080a5b3-db65-4e0d-8b5d-c917ff51a743" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_RequiredFields_ValidationFails_WhenEmpty" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Appointment_MaxLength_ValidationFails(property: &quot;PatientName&quot;, length: 101)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="a79d1a9d-d525-01fc-385c-d38404e1f762">
+      <Execution id="723fe423-67a5-40f8-b257-123636ee1d0c" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Appointment_MaxLength_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.UITests.UserAccount_TabsSwitchAndTransactionsLoad" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="539b6bbf-4bd6-4167-4b6c-ee2c9046a81d">
+      <Execution id="387cb569-7a39-4b07-8db3-212e97c3da11" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.UITests" name="UserAccount_TabsSwitchAndTransactionsLoad" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Transaction_InvalidAmount_ValidationBehavior(amount: 0)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="e285022f-8f23-47d0-1b9e-eb530f73243f">
+      <Execution id="3a8c0d32-cbc0-43c5-9c14-9423413e55d2" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Transaction_InvalidAmount_ValidationBehavior" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors(name: &quot;Alice&quot;, expectedCount: 1)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="3d329e54-d837-4179-d543-4e6506b776bc">
+      <Execution id="c8ba5740-c26f-4b3d-82de-c390fef9eb9f" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 101, property: &quot;FullName&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="3bc1b325-8adf-9e18-982b-264ff9423b12">
+      <Execution id="7c403ae8-58ce-4595-b267-199fdac930fa" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_InvalidFormats_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllSpecializations_ReturnsDistinctOrderedList" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="1d30116b-f471-876a-0c69-6cca2527d911">
+      <Execution id="92d31cac-31fc-4b24-bb4b-bb0922f89952" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllSpecializations_ReturnsDistinctOrderedList" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors(name: &quot;Bob&quot;, expectedCount: 1)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="912edc4f-d99c-9dd3-b322-a3f9d5465818">
+      <Execution id="cf177f49-a369-4c2c-bd44-fa725aab6e09" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_WithNameFilter_ReturnsFilteredDoctors" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors(spec: &quot;Cardiology&quot;, expectedCount: 2)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="c14f9f4f-54bf-ad66-35fd-b1d8281d1ba9">
+      <Execution id="d943c633-75a1-4b55-9aeb-74c8e823243c" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: &quot;invalid-email&quot;, property: &quot;Email&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="874089da-ba58-0edf-6d79-7730e0023191">
+      <Execution id="18897707-f140-48ac-a2a6-ac3303fc662a" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_InvalidFormats_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Appointment_RequiredFields_ValidationFails_WhenEmpty" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="04a3d33f-a8eb-892c-5105-f09fb5029c75">
+      <Execution id="053f86fc-b547-4899-ac88-d6741ef85540" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Appointment_RequiredFields_ValidationFails_WhenEmpty" />
     </UnitTest>
     <UnitTest name="Backend.Tests.UITests.FindDoctors_Fetches_Specializations_And_Search_Input_Works" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="ad33ff46-154b-5366-e45b-609d022e7f6c">
-      <Execution id="7ace050b-04fa-474e-9c4c-8b95d4a93d5f" />
+      <Execution id="5bebd4f8-c485-4ffd-a180-8cdca5cbd6d3" />
       <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.UITests" name="FindDoctors_Fetches_Specializations_And_Search_Input_Works" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.ModelsTests.Doctor_Model_Requires_Fields" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="641d3842-a6ab-6db2-cdb6-47444296fcb4">
-      <Execution id="e0860237-bde4-45b8-85c5-40784a65eb04" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_Model_Requires_Fields" />
+    <UnitTest name="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 51, property: &quot;Specialization&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="76081ea8-7283-4186-3ff4-d7f4803a43f7">
+      <Execution id="e15337cc-cd91-4b31-9550-a6463c6b008a" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_MaxLength_ValidationFails" />
     </UnitTest>
-    <UnitTest name="Backend.Tests.IntegrationTests.GetSpecializations_Returns_Distinct_List" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="b61931e0-69b1-cae6-9d84-41730d420f37">
-      <Execution id="8eaa84ef-5a28-485e-ae65-0e68489ba9a7" />
-      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.IntegrationTests" name="GetSpecializations_Returns_Distinct_List" />
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors(spec: &quot;Neurology&quot;, expectedCount: 1)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="a5643291-9650-fbd2-e8f6-721a3aaa586a">
+      <Execution id="bc21bc63-2550-49e1-bb5e-34bc5ff3ff37" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_WithSpecializationFilter_ReturnsFilteredDoctors" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Appointment_InvalidStatus_ValidationFails" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="724a64a5-8041-1d8c-e977-32ad8bdc2b6e">
+      <Execution id="91d1fab8-9c96-40ee-a228-a211790187e5" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Appointment_InvalidStatus_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Transaction_InvalidAmount_ValidationBehavior(amount: -1)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="df8fdf23-e03c-302d-6815-7ab5b77ada84">
+      <Execution id="468f41ee-fefe-401d-ad12-36e7c2a2b487" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Transaction_InvalidAmount_ValidationBehavior" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: &quot;user@.com&quot;, property: &quot;Email&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="fa5f0b4d-7bbf-2512-f213-cbec88e5ff52">
+      <Execution id="8f63de2a-2d55-4b55-ba17-05ff84cc5ba8" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_InvalidFormats_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Favorite_RequiredFields_ValidationBehavior_WhenEmpty" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="8ccc5b3b-9e4f-1530-05bf-17840f2d7532">
+      <Execution id="b403f0de-63bb-43e6-b3c1-8aafd499cdbf" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Favorite_RequiredFields_ValidationBehavior_WhenEmpty" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_InvalidRoute_ReturnsNotFound" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="916361d3-e60e-058f-d9b9-aa2a8d1f1263">
+      <Execution id="d95ea5ed-e9fa-41af-ba8b-685bada130a2" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_InvalidRoute_ReturnsNotFound" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="8922e3d5-fe45-7bf4-d7e2-2b59d377e13e">
+      <Execution id="623229d7-d6f8-4357-8e8f-5effb7fe1c39" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_ValidModel_ValidationSucceeds" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.UITests.UserAccount_Edit_Save_And_Delete_Buttons_Work" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="7c1cfd02-7ca4-7846-f514-bbd587fe470f">
+      <Execution id="5b227ad9-0bc1-4fdd-98bb-e1fa1b2980f3" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.UITests" name="UserAccount_Edit_Save_And_Delete_Buttons_Work" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 301, property: &quot;Details&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="47d80855-cc07-f38c-5f81-5a120157a7b8">
+      <Execution id="7f5081e9-ea31-4bec-8a8e-48089898b0c5" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_MaxLength_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Doctor_RequiredFields_ValidationFails_WhenEmpty" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="bacc404b-e576-8d60-12da-4917cfbd3cd4">
+      <Execution id="a1aa6f9d-26f3-481e-b41a-2daf76752f7a" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_RequiredFields_ValidationFails_WhenEmpty" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 13, property: &quot;NIC&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="1cfb35a4-dcd4-f204-31f7-b1c1e6462f87">
+      <Execution id="1d9905e7-4575-4cf7-899c-c76b5363ab30" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_InvalidFormats_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Doctor_MaxLength_ValidationFails(length: 101, property: &quot;FullName&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="c0ab9179-05d4-42cc-e35c-9bb1d374cecb">
+      <Execution id="6afdb8ad-9e03-4866-9cdc-ab1ba028c0af" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Doctor_MaxLength_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Appointment_MaxLength_ValidationFails(property: &quot;PatientContact&quot;, length: 16)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="9ca48db0-3651-52e8-3795-6394690617b7">
+      <Execution id="b0e972bc-3ad9-4362-a06e-23757e866cd6" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Appointment_MaxLength_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Transaction_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="26b1c9c7-1092-9d3b-400b-1c0bd56dd56d">
+      <Execution id="087c3667-9606-4433-b629-92e0055ef500" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Transaction_ValidModel_ValidationSucceeds" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.Appointment_ValidModel_ValidationSucceeds" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="d3b9bbfa-9758-a126-9acd-7af8e2fafab0">
+      <Execution id="2ff2a735-b39e-4ac2-bd7c-546178ef81fd" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="Appointment_ValidModel_ValidationSucceeds" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllSpecializations_NoDoctors_ReturnsEmptyList" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="3c429832-6498-af44-723f-daf3ff0da8cf">
+      <Execution id="6ee3384d-36cd-4455-895e-41238ad03804" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllSpecializations_NoDoctors_ReturnsEmptyList" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ModelsTests.User_InvalidFormats_ValidationFails(invalidParam: 256, property: &quot;PasswordHash&quot;)" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="a5da7a81-e76a-7b2c-71d6-06800440b40d">
+      <Execution id="543c6f0c-a2b0-41d1-b2e2-5ab220cdf54b" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ModelsTests" name="User_InvalidFormats_ValidationFails" />
+    </UnitTest>
+    <UnitTest name="Backend.Tests.ControllersTests.GetAllDoctors_NoFilters_ReturnsAllDoctors" storage="e:\medisync_e-channel-platform\backend\testing\bin\debug\net8.0\backend.tests.dll" id="c94ac60d-f3b5-4f5c-22f6-7c228fd9c3c1">
+      <Execution id="5903cd73-7cc3-4d07-b94b-fdb17a935f3c" />
+      <TestMethod codeBase="E:\MediSync_E-Channel-Platform\Backend\Testing\bin\Debug\net8.0\Backend.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="Backend.Tests.ControllersTests" name="GetAllDoctors_NoFilters_ReturnsAllDoctors" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="641d3842-a6ab-6db2-cdb6-47444296fcb4" executionId="e0860237-bde4-45b8-85c5-40784a65eb04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b1ae0cbd-f98d-04c5-bbc7-dd12d7416c4d" executionId="bfa49833-005b-4eb5-ac16-74154b54c2c7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ad33ff46-154b-5366-e45b-609d022e7f6c" executionId="7ace050b-04fa-474e-9c4c-8b95d4a93d5f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="d0588380-399b-e527-0778-d5cb0c6c08d5" executionId="54562bfe-7bc8-40af-beea-189898c901eb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="539a850b-993f-b0fa-6c7b-2a2333977695" executionId="bf00dc89-7b9f-4f9b-ba11-f8c6c32cf94a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7c1cfd02-7ca4-7846-f514-bbd587fe470f" executionId="a6d7ba6d-1be2-4125-9459-6ea1b244c417" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7a9bcdd0-720c-a24a-46c5-ecf69447899f" executionId="f95bd6e4-9d0d-4906-b908-cc9a68be48c8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b61931e0-69b1-cae6-9d84-41730d420f37" executionId="8eaa84ef-5a28-485e-ae65-0e68489ba9a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="518e933f-d5a6-29e5-29d7-19b74623c6f5" executionId="9439d62c-618b-4a09-8bd0-06524489f9b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="724a64a5-8041-1d8c-e977-32ad8bdc2b6e" executionId="91d1fab8-9c96-40ee-a228-a211790187e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="05cbfa91-3834-fdb0-8f81-db1e2999d4e6" executionId="41dbe39c-ffc0-4684-8ab0-4ebd82388e05" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7c1cfd02-7ca4-7846-f514-bbd587fe470f" executionId="5b227ad9-0bc1-4fdd-98bb-e1fa1b2980f3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="874089da-ba58-0edf-6d79-7730e0023191" executionId="18897707-f140-48ac-a2a6-ac3303fc662a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3b9bbfa-9758-a126-9acd-7af8e2fafab0" executionId="2ff2a735-b39e-4ac2-bd7c-546178ef81fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad33ff46-154b-5366-e45b-609d022e7f6c" executionId="5bebd4f8-c485-4ffd-a180-8cdca5cbd6d3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bacc404b-e576-8d60-12da-4917cfbd3cd4" executionId="a1aa6f9d-26f3-481e-b41a-2daf76752f7a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a5643291-9650-fbd2-e8f6-721a3aaa586a" executionId="bc21bc63-2550-49e1-bb5e-34bc5ff3ff37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="df8fdf23-e03c-302d-6815-7ab5b77ada84" executionId="468f41ee-fefe-401d-ad12-36e7c2a2b487" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1cfb35a4-dcd4-f204-31f7-b1c1e6462f87" executionId="1d9905e7-4575-4cf7-899c-c76b5363ab30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c14f9f4f-54bf-ad66-35fd-b1d8281d1ba9" executionId="d943c633-75a1-4b55-9aeb-74c8e823243c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa5f0b4d-7bbf-2512-f213-cbec88e5ff52" executionId="8f63de2a-2d55-4b55-ba17-05ff84cc5ba8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d30116b-f471-876a-0c69-6cca2527d911" executionId="92d31cac-31fc-4b24-bb4b-bb0922f89952" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3bc1b325-8adf-9e18-982b-264ff9423b12" executionId="7c403ae8-58ce-4595-b267-199fdac930fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e3c5ba0e-be9b-887f-4a5e-a8db90ab5628" executionId="1080a5b3-db65-4e0d-8b5d-c917ff51a743" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c0ab9179-05d4-42cc-e35c-9bb1d374cecb" executionId="6afdb8ad-9e03-4866-9cdc-ab1ba028c0af" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="04a3d33f-a8eb-892c-5105-f09fb5029c75" executionId="053f86fc-b547-4899-ac88-d6741ef85540" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ccc5b3b-9e4f-1530-05bf-17840f2d7532" executionId="b403f0de-63bb-43e6-b3c1-8aafd499cdbf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="916361d3-e60e-058f-d9b9-aa2a8d1f1263" executionId="d95ea5ed-e9fa-41af-ba8b-685bada130a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e285022f-8f23-47d0-1b9e-eb530f73243f" executionId="3a8c0d32-cbc0-43c5-9c14-9423413e55d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d329e54-d837-4179-d543-4e6506b776bc" executionId="c8ba5740-c26f-4b3d-82de-c390fef9eb9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8954d252-b0da-9fa8-7df5-e726ff63925d" executionId="74848097-f9fb-4fe4-9236-a03268a77249" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c429832-6498-af44-723f-daf3ff0da8cf" executionId="6ee3384d-36cd-4455-895e-41238ad03804" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d51fd494-441d-4f61-90a1-f1d754ee2180" executionId="d119b2f4-1d1b-47e1-b6b5-84971fff9666" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a79d1a9d-d525-01fc-385c-d38404e1f762" executionId="723fe423-67a5-40f8-b257-123636ee1d0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="912edc4f-d99c-9dd3-b322-a3f9d5465818" executionId="cf177f49-a369-4c2c-bd44-fa725aab6e09" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76081ea8-7283-4186-3ff4-d7f4803a43f7" executionId="e15337cc-cd91-4b31-9550-a6463c6b008a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47d80855-cc07-f38c-5f81-5a120157a7b8" executionId="7f5081e9-ea31-4bec-8a8e-48089898b0c5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="50ae80d2-b983-1fa0-8c4f-1a15f090a7fd" executionId="12d05128-ffe4-4be7-9e87-2fe8c44a5753" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c94ac60d-f3b5-4f5c-22f6-7c228fd9c3c1" executionId="5903cd73-7cc3-4d07-b94b-fdb17a935f3c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9ca48db0-3651-52e8-3795-6394690617b7" executionId="b0e972bc-3ad9-4362-a06e-23757e866cd6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8449e075-7e97-d681-c9ce-69e9996b988e" executionId="ae7aae74-a45e-4ff9-bb86-ab13377fcc10" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="539b6bbf-4bd6-4167-4b6c-ee2c9046a81d" executionId="387cb569-7a39-4b07-8db3-212e97c3da11" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8922e3d5-fe45-7bf4-d7e2-2b59d377e13e" executionId="623229d7-d6f8-4357-8e8f-5effb7fe1c39" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a5da7a81-e76a-7b2c-71d6-06800440b40d" executionId="543c6f0c-a2b0-41d1-b2e2-5ab220cdf54b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="26b1c9c7-1092-9d3b-400b-1c0bd56dd56d" executionId="087c3667-9606-4433-b629-92e0055ef500" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
-  <ResultSummary outcome="Failed">
-    <Counters total="8" executed="8" passed="6" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  <ResultSummary outcome="Completed">
+    <Counters total="37" executed="37" passed="37" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.0+6438bb880a (64-bit .NET 8.0.20)&#xD;
-[xUnit.net 00:00:00.11]   Discovering: Backend.Tests&#xD;
-[xUnit.net 00:00:00.14]   Discovered:  Backend.Tests&#xD;
-[xUnit.net 00:00:00.14]   Starting:    Backend.Tests&#xD;
-DB_PASSWORD: __test__&#xD;
-ConnectionString: Server=localhost;Database=Medisync_Echannel01;User=root;Password=__test__;&#xD;
-Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 60657&#xD;
+[xUnit.net 00:00:00.66]   Discovering: Backend.Tests&#xD;
+[xUnit.net 00:00:00.81]   Discovered:  Backend.Tests&#xD;
+[xUnit.net 00:00:00.81]   Starting:    Backend.Tests&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 49911&#xD;
 Only local connections are allowed.&#xD;
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.&#xD;
-ChromeDriver was started successfully on port 60657.&#xD;
-[xUnit.net 00:00:02.06]       MySqlConnector.MySqlException : Access denied for user 'root'@'localhost' (using password: YES)&#xD;
-[xUnit.net 00:00:02.06]       Stack Trace:&#xD;
-[xUnit.net 00:00:02.07]         /_/src/MySqlConnector/Core/ServerSession.cs(1081,0): at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.07]         /_/src/MySqlConnector/Core/ServerSession.cs(931,0): at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.07]         /_/src/MySqlConnector/Core/ServerSession.cs(900,0): at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.07]         /_/src/MySqlConnector/Core/ServerSession.cs(539,0): at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]         /_/src/MySqlConnector/Core/ServerSession.cs(697,0): at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]         /_/src/MySqlConnector/Core/ServerSession.cs(702,0): at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]         /_/src/MySqlConnector/MySqlConnection.cs(1099,0): at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]         /_/src/MySqlConnector/MySqlConnection.cs(567,0): at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]         /_/src/MySqlConnector/MySqlConnection.cs(522,0): at MySqlConnector.MySqlConnection.Open()&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(String connectionString)&#xD;
-[xUnit.net 00:00:02.08]         E:\MediSync_E-Channel-Platform\Backend\Program.cs(26,0): at Program.&lt;&gt;c__DisplayClass0_0.&lt;&lt;Main&gt;$&gt;b__0(DbContextOptionsBuilder options)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.&lt;&gt;c__DisplayClass1_0`2.&lt;AddDbContext&gt;b__0(IServiceProvider _, DbContextOptionsBuilder b)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.DbContextOptionsConfiguration`1.Configure(IServiceProvider serviceProvider, DbContextOptionsBuilder optionsBuilder)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CreateDbContextOptions[TContext](IServiceProvider applicationServiceProvider)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.&lt;&gt;c__DisplayClass2_0.&lt;RealizeService&gt;b__0(ServiceProviderEngineScope scope)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)&#xD;
-[xUnit.net 00:00:02.08]         E:\MediSync_E-Channel-Platform\Backend\Program.cs(47,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
-[xUnit.net 00:00:02.08]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-[xUnit.net 00:00:02.08]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:02.08]         --- End of stack trace from previous location ---&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
-[xUnit.net 00:00:02.08]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.get_Services()&#xD;
-[xUnit.net 00:00:02.08]         E:\MediSync_E-Channel-Platform\Backend\Testing\IntegrationTests.cs(69,0): at Backend.Tests.IntegrationTests.GetSpecializations_Returns_Distinct_List()&#xD;
-[xUnit.net 00:00:02.08]         --- End of stack trace from previous location ---&#xD;
-DB_PASSWORD: __test__&#xD;
-ConnectionString: Server=localhost;Database=Medisync_Echannel01;User=root;Password=__test__;&#xD;
-[xUnit.net 00:00:02.23]       MySqlConnector.MySqlException : Access denied for user 'root'@'localhost' (using password: YES)&#xD;
-[xUnit.net 00:00:02.23]       Stack Trace:&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(1081,0): at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(931,0): at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(900,0): at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(539,0): at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(697,0): at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/Core/ServerSession.cs(702,0): at MySqlConnector.Core.ServerSession.ConnectAndRedirectAsync(ILogger connectionLogger, ILogger poolLogger, IConnectionPoolMetadata pool, ConnectionSettings cs, ILoadBalancer loadBalancer, MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/MySqlConnection.cs(1099,0): at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/MySqlConnection.cs(567,0): at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.23]         /_/src/MySqlConnector/MySqlConnection.cs(522,0): at MySqlConnector.MySqlConnection.Open()&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(String connectionString)&#xD;
-[xUnit.net 00:00:02.23]         E:\MediSync_E-Channel-Platform\Backend\Program.cs(26,0): at Program.&lt;&gt;c__DisplayClass0_0.&lt;&lt;Main&gt;$&gt;b__0(DbContextOptionsBuilder options)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.&lt;&gt;c__DisplayClass1_0`2.&lt;AddDbContext&gt;b__0(IServiceProvider _, DbContextOptionsBuilder b)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.EntityFrameworkCore.Infrastructure.Internal.DbContextOptionsConfiguration`1.Configure(IServiceProvider serviceProvider, DbContextOptionsBuilder optionsBuilder)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.Extensions.DependencyInjection.EntityFrameworkServiceCollectionExtensions.CreateDbContextOptions[TContext](IServiceProvider applicationServiceProvider)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.23]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.&lt;&gt;c__DisplayClass2_0.&lt;RealizeService&gt;b__0(ServiceProviderEngineScope scope)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)&#xD;
-[xUnit.net 00:00:02.24]         E:\MediSync_E-Channel-Platform\Backend\Program.cs(47,0): at Program.&lt;Main&gt;$(String[] args)&#xD;
-[xUnit.net 00:00:02.24]            at InvokeStub_Program.&lt;Main&gt;$(Object, Span`1)&#xD;
-[xUnit.net 00:00:02.24]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
-[xUnit.net 00:00:02.24]         --- End of stack trace from previous location ---&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.DeferredHostBuilder.DeferredHost.StartAsync(CancellationToken cancellationToken)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Start(IHost host)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.CreateHost(IHostBuilder builder)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.DelegatedWebApplicationFactory.CreateHost(IHostBuilder builder)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.ConfigureHostBuilder(IHostBuilder hostBuilder)&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.EnsureServer()&#xD;
-[xUnit.net 00:00:02.24]            at Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory`1.get_Services()&#xD;
-[xUnit.net 00:00:02.24]         E:\MediSync_E-Channel-Platform\Backend\Testing\IntegrationTests.cs(43,0): at Backend.Tests.IntegrationTests.GetDoctors_Returns_Seeded_Doctors()&#xD;
-[xUnit.net 00:00:02.24]         --- End of stack trace from previous location ---&#xD;
-Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 60678&#xD;
+ChromeDriver was started successfully on port 49911.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 0 entities to in-memory store.&#xD;
+info: Microsoft.EntityFrameworkCore.Update[30100]&#xD;
+      Saved 3 entities to in-memory store.&#xD;
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
+      Failed to determine the https port for redirect.&#xD;
+Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 49934&#xD;
 Only local connections are allowed.&#xD;
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.&#xD;
-ChromeDriver was started successfully on port 60678.&#xD;
-[xUnit.net 00:00:09.25]   Finished:    Backend.Tests&#xD;
+ChromeDriver was started successfully on port 49934.&#xD;
+Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 49950&#xD;
+Only local connections are allowed.&#xD;
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.&#xD;
+ChromeDriver was started successfully on port 49950.&#xD;
+Starting ChromeDriver 140.0.7339.82 (bc93617e21c39ed4afa6ce1c08554e5aa76d132d-refs/branch-heads/7339_41@{#5}) on port 49966&#xD;
+Only local connections are allowed.&#xD;
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.&#xD;
+ChromeDriver was started successfully on port 49966.&#xD;
+[xUnit.net 00:00:33.08]   Finished:    Backend.Tests&#xD;
 </StdOut>
     </Output>
-    <RunInfos>
-      <RunInfo computerName="DESKTOP-RVQH3EI" outcome="Error" timestamp="2025-09-11T22:02:58.7111033+05:30">
-        <Text>[xUnit.net 00:00:02.06]     Backend.Tests.IntegrationTests.GetSpecializations_Returns_Distinct_List [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="DESKTOP-RVQH3EI" outcome="Error" timestamp="2025-09-11T22:02:58.8814021+05:30">
-        <Text>[xUnit.net 00:00:02.23]     Backend.Tests.IntegrationTests.GetDoctors_Returns_Seeded_Doctors [FAIL]</Text>
-      </RunInfo>
-    </RunInfos>
   </ResultSummary>
 </TestRun>
