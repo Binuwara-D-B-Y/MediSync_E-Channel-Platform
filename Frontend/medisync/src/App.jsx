@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Clienthomepage from './pages/Clienthomepage';
 import BookAppointment from './pages/BookAppointment';
-import UserAccount from './pages/UserAccount';
 
 import Header from './components/Header';
 import UserAccount from './pages/UserAccount';
