@@ -112,6 +112,13 @@ export const mockDoctors = [
   }
 ];
 
+// Mock data for user profile
+export const mockUserProfile = {
+  name: 'yesen binuwara',
+  email: 'yesen.binuwara@example.com',
+  phone: '123-456-7890',
+};
+
 // Mock data for time slots (e.g., available appointment times for a doctor)
 export const mockTimeSlots = [
   {
