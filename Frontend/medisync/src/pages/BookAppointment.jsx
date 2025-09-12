@@ -26,13 +26,26 @@ export default function BookAppointment() {
     const loadData = async () => {
       setLoading(true);
       
-      // Find doctor by ID
-      const foundDoctor = mockDoctors.find(d => d.doctorId == doctorId);
-      if (foundDoctor) {
-        setDoctor(foundDoctor);
+      try {
+        // Fetch doctor from API
+        const response = await fetch('/api/doctors');
+        const doctors = await response.json();
+        const foundDoctor = doctors.find(d => d.doctorId == doctorId);
+        
+        if (foundDoctor) {
+          // Add missing fields for compatibility
+          foundDoctor.consultationFee = foundDoctor.consultationFee || 2000;
+          foundDoctor.profileImage = foundDoctor.profileImage || '/images/unnamed.png';
+          foundDoctor.wardRoom = foundDoctor.wardRoom || 'A-101';
+          foundDoctor.rating = foundDoctor.rating || 4.5;
+          foundDoctor.reviews = foundDoctor.reviews || 25;
+          setDoctor(foundDoctor);
+        }
+      } catch (error) {
+        console.error('Failed to fetch doctor:', error);
       }
       
-      // Load available time slots
+      // Load available time slots (still using mock for now)
       setAvailableSlots(mockTimeSlots);
       
       setLoading(false);
