@@ -112,3 +112,42 @@ export const mockDoctors = [
   }
 ];
 
+// Mock data for time slots (e.g., available appointment times for a doctor)
+export const mockTimeSlots = [
+  {
+    id: 1,
+    time: "09:00 AM",
+    isBooked: false,
+    doctorId: 1  // Optional: Link to a doctor from mockDoctors
+  },
+  {
+    id: 2,
+    time: "10:00 AM",
+    isBooked: false,
+    doctorId: 1
+  },
+  {
+    id: 3,
+    time: "11:00 AM",
+    isBooked: true,  // Example of a booked slot
+    doctorId: 1
+  },
+  {
+    id: 4,
+    time: "02:00 PM",
+    isBooked: false,
+    doctorId: 1
+  },
+  {
+    id: 5,
+    time: "03:00 PM",
+    isBooked: false,
+    doctorId: 1
+  },
+  {
+    id: 6,
+    time: "04:00 PM",
+    isBooked: true,
+    doctorId: 1
+  }
+];
