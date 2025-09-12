@@ -88,6 +88,9 @@ export default function Register() {
           padding: 2rem;
           backdrop-filter: blur(10px);
         }
+          body {
+              overflow: hidden; /* disables scrolling */
+        }
         .card {
           background: white;
           border-radius: 16px;
@@ -364,3 +367,5 @@ export default function Register() {
     </>
   )
 }
+
+
