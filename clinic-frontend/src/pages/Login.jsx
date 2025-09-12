@@ -231,6 +231,9 @@ export default function Login({ onAuthed }) {
           margin-bottom: 1rem;
           text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
+          body {
+           overflow: hidden; /* disables scrolling */
+        }
 
         .auth-right-content p {
           font-size: 1.2rem;
@@ -321,3 +324,4 @@ export default function Login({ onAuthed }) {
     </>
   )
 }
+
