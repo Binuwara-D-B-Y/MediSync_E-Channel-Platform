@@ -1,0 +1,87 @@
+name: Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, CI-CD-pipeline ]
+    paths: [ 'Frontend/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'Frontend/**' ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: Frontend/medisync/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd Frontend/medisync
+        npm ci
+    
+    - name: Run tests
+      run: |
+        cd Frontend/medisync
+        npm run test -- --watchAll=false
+    
+    - name: Build application
+      run: |
+        cd Frontend/medisync
+        npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: Frontend/medisync/package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        cd Frontend/medisync
+        npm ci
+    
+    - name: Build for production
+      run: |
+        cd Frontend/medisync
+        npm run build
+    
+    # Netlify deployment
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v3.0
+      with:
+        publish-dir: './Frontend/medisync/dist'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Deploy from GitHub Actions"
+        enable-pull-request-comment: false
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    
+    # Alternative: Vercel deployment
+    # - name: Deploy to Vercel
+    #   uses: amondnet/vercel-action@v25
+    #   with:
+    #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+    #     vercel-org-id: ${{ secrets.ORG_ID }}
+    #     vercel-project-id: ${{ secrets.PROJECT_ID }}
+    #     working-directory: ./Frontend/medisync

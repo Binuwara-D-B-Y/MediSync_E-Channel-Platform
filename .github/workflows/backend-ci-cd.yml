@@ -1,0 +1,69 @@
+name: Backend CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, CI-CD-pipeline ]
+    paths: [ 'Backend/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'Backend/**' ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore Backend/Backend.csproj
+    
+    - name: Build
+      run: dotnet build Backend/Backend.csproj --no-restore
+    
+    - name: Test
+      run: dotnet test Backend/Backend.csproj --no-build --verbosity normal
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore Backend/Backend.csproj
+    
+    - name: Build
+      run: dotnet build Backend/Backend.csproj --configuration Release --no-restore
+    
+    - name: Publish
+      run: dotnet publish Backend/Backend.csproj --configuration Release --no-build --output ./publish
+    
+    # Azure App Service Deployment (uncomment and configure)
+    # - name: Deploy to Azure App Service
+    #   uses: azure/webapps-deploy@v2
+    #   with:
+    #     app-name: 'your-app-name'
+    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+    #     package: ./publish
+    
+    # Docker deployment (alternative)
+    # - name: Build Docker image
+    #   run: docker build -t medisync-backend ./Backend
+    # 
+    # - name: Deploy to container registry
+    #   run: |
+    #     echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+    #     docker push medisync-backend

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "5094:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=Medisync_Echannel01;User=root;Password=Chamix123;
+    depends_on:
+      - mysql
+    networks:
+      - medisync-network
+
+  frontend:
+    build:
+      context: ./Frontend/medisync
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - medisync-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: Chamix123
+      MYSQL_DATABASE: Medisync_Echannel01
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - medisync-network
+
+volumes:
+  mysql_data:
+
+networks:
+  medisync-network:
+    driver: bridge
