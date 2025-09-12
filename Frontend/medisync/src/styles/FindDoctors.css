@@ -76,16 +76,20 @@
 .doctors-grid {
   padding: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
 }
 
 .doctor-card {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.0rem;
   text-align: center;
   transition: box-shadow 0.2s;
+  min-width: 260px;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
 .doctor-card:hover {

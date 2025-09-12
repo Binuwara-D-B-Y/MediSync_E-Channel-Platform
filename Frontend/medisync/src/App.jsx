@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Clienthomepage from './pages/Clienthomepage';
+import BookAppointment from './pages/BookAppointment';
+import UserAccount from './pages/UserAccount';
+
 import Header from './components/Header';
 import UserAccount from './pages/UserAccount';
 
@@ -12,14 +15,21 @@ import { Bold } from 'lucide-react';
 function App() {
   return (
     <div className="App">
-      <Header title="MEDISYNC" />
+      
     <Router>
+    <Header title="MediSync" />
       <Routes>
         
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/patient" replace />} />
+        <Route path="/account" element={<UserAccount />} />
         {/* Dashboards */}
         <Route path="/patient" element={<Clienthomepage />} />
         <Route path="/account" element={<UserAccount />} />
         {/* <Route path="/admin" element={<AdminDashboard />} /> */}
+
+        {/* Booking */}
+        <Route path="/book/:doctorId" element={<BookAppointment />} />
 
       </Routes>
     </Router>
