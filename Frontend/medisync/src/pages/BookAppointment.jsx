@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, MapPin, Star, Check } from 'lucide-react';
+import { mockDoctors, mockTimeSlots } from '../data/mockData';
 import '../styles/BookAppointment.css';
 
 export default function BookAppointment() {
@@ -19,45 +20,6 @@ export default function BookAppointment() {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Mock doctor data (replace with API call)
-  const mockDoctors = [
-    {
-      doctorId: 1,
-      fullName: "Dr. Alice Johnson",
-      specialization: "Cardiology",
-      details: "Experienced cardiologist with expertise in interventional cardiology and heart disease management.",
-      consultationFee: 2500,
-      wardRoom: "A-101",
-      rating: 4.8,
-      reviews: 120,
-      profileImage: "/images/unnamed.png"
-    },
-    {
-      doctorId: 2,
-      fullName: "Dr. Brian Smith",
-      specialization: "Neurology",
-      details: "Renowned neurologist specializing in stroke treatment and epilepsy management.",
-      consultationFee: 3000,
-      wardRoom: "B-205",
-      rating: 4.9,
-      reviews: 95,
-      profileImage: "/images/unnamed.png"
-    }
-  ];
-
-  // Mock time slots data
-  const mockTimeSlots = [
-    { id: 1, date: '2025-09-15', time: '09:00', available: true },
-    { id: 2, date: '2025-09-15', time: '10:00', available: true },
-    { id: 3, date: '2025-09-15', time: '11:00', available: false },
-    { id: 4, date: '2025-09-15', time: '14:00', available: true },
-    { id: 5, date: '2025-09-15', time: '15:00', available: true },
-    { id: 6, date: '2025-09-16', time: '09:00', available: true },
-    { id: 7, date: '2025-09-16', time: '10:00', available: true },
-    { id: 8, date: '2025-09-16', time: '11:00', available: true },
-    { id: 9, date: '2025-09-16', time: '14:00', available: false },
-    { id: 10, date: '2025-09-16', time: '15:00', available: true }
-  ];
 
   // Load doctor data and time slots
   useEffect(() => {
