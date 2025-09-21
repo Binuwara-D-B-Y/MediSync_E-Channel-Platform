@@ -34,9 +34,9 @@ export default function BookingModal({
           ) : (
             <>
               <div className="modal-doctor-info">
-                <h4>{doctor.name}</h4>
+                <h4>{doctor.fullName || doctor.name}</h4>
                 <p>{doctor.specialization}</p>
-                <p>Ward {doctor.wardRoom}</p>
+                {doctor.wardRoom && <p>Ward {doctor.wardRoom}</p>}
               </div>
 
               <label>Date</label>
@@ -65,9 +65,11 @@ export default function BookingModal({
                 onChange={(e) => setBookingNotes(e.target.value)}
               />
 
-              <div className="modal-fee">
-                Consultation Fee: ${doctor.consultationFee}
-              </div>
+              {doctor.consultationFee && (
+                <div className="modal-fee">
+                  Consultation Fee: Rs. {doctor.consultationFee}
+                </div>
+              )}
 
               <div className="modal-actions">
                 <button className="btn-cancel" onClick={closeModal}>Cancel</button>

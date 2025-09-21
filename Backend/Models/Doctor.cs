@@ -15,8 +15,12 @@ namespace Backend.Models
         [Required, MaxLength(50)]
         public required string Specialization { get; set; }
 
+        [Required, MaxLength(100)]
+        public string? qualification { get; set; }
+
         [Required, MaxLength(300)]
         public required string Details { get; set; }
+        
         // [Required, MaxLength(100)]
         // public string HospitalName { get; set; }
 
