@@ -23,7 +23,7 @@ Console.WriteLine($"DB_PASSWORD: {dbPassword}");
 Console.WriteLine($"ConnectionString: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseSqlServer(connectionString));  // Replace with your connection string
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

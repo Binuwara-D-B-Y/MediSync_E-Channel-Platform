@@ -2,7 +2,7 @@
 export const mockDoctors = [
   {
     doctorId: 1,
-    fullName: "Dr. Chamika Lakshan",
+    fullName: "Dr. Chamiklllllllllla Lakshan",
     specialization: "Cardiology",
     details: "Expert in heart diseases and preventive cardiology.",
     consultationFee: 2500,
@@ -13,7 +13,7 @@ export const mockDoctors = [
   },
   {
     doctorId: 2,
-    fullName: "Dr. Nadeesha Perera",
+    fullName: "Dr. Nadeeshafffffffffffffffff Perera",
     specialization: "Dermatology",
     details: "Specialist in skin and hair treatments.",
     consultationFee: 2000,

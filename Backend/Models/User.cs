@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic; // Needed for ICollection
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models
 {
-    public enum UserRole { patient, admin }
+    public enum UserRole { Patient, Admin } // Capitalized for convention
 
     public class User
     {
@@ -15,12 +15,14 @@ namespace Backend.Models
         public required string FullName { get; set; }
 
         [Required, MaxLength(100)]
+        [EmailAddress]
         public required string Email { get; set; }
 
         [Required, MaxLength(255)]
         public required string PasswordHash { get; set; }
 
-        [MaxLength(12)]
+        // NIC is required but limited to 12 chars -> good
+        [Required, MaxLength(12)]
         public required string NIC { get; set; }
 
         [Required]
@@ -29,11 +31,9 @@ namespace Backend.Models
         [MaxLength(13)]
         public string? ContactNumber { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        // Password reset support
+        public string? PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiresUtc { get; set; }
 
         public ICollection<Appointment>? Appointments { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }

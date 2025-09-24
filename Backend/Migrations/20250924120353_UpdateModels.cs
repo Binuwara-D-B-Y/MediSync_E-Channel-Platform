@@ -5,26 +5,37 @@
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewColumnToDoctor : Migration
+    public partial class UpdateModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "qualification",
+                name: "ContactNo",
                 table: "Doctors",
-                type: "varchar(100)",
+                type: "nvarchar(25)",
+                maxLength: 25,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Email",
+                table: "Doctors",
+                type: "nvarchar(100)",
                 maxLength: 100,
                 nullable: false,
-                defaultValue: "")
-                .Annotation("MySql:CharSet", "utf8mb4");
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "qualification",
+                name: "ContactNo",
+                table: "Doctors");
+
+            migrationBuilder.DropColumn(
+                name: "Email",
                 table: "Doctors");
         }
     }
