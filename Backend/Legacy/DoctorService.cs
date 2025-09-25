@@ -3,10 +3,10 @@ using Backend.Repositories;
 
 namespace Backend.Services
 {
-    public class DoctorService
+    public class DoctorService_Legacy
     {
-        private readonly DoctorRepository _repo;
-        public DoctorService(DoctorRepository repo)
+        private readonly DoctorRepository_Legacy _repo;
+        public DoctorService_Legacy(DoctorRepository_Legacy repo)
         {
             _repo = repo;
         }

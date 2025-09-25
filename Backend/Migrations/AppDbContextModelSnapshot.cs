@@ -34,8 +34,6 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime>("CreatedAt"));
-
                     b.Property<string>("PatientContact")
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
@@ -77,6 +75,15 @@ namespace Backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("DoctorId"));
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
@@ -84,17 +91,38 @@ namespace Backend.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime>("CreatedAt"));
 
                     b.Property<string>("Details")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("ExperienceYears")
+                        .HasColumnType("int");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Specialization")
+                    b.Property<string>("HospitalName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Qualifications")
                         .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int>("SpecializationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpecializationName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
@@ -106,6 +134,8 @@ namespace Backend.Migrations
 
                     b.HasKey("DoctorId");
 
+                    b.HasIndex("SpecializationId");
+
                     b.ToTable("Doctors", (string)null);
                 });
 
@@ -116,6 +146,9 @@ namespace Backend.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ScheduleId"));
+
+                    b.Property<int>("BookedSlots")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -129,8 +162,21 @@ namespace Backend.Migrations
                     b.Property<TimeSpan>("EndTime")
                         .HasColumnType("time(6)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("MaxPatientsPerSlot")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<DateTime>("ScheduleDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("SlotDurationMinutes")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("time(6)");
@@ -178,6 +224,43 @@ namespace Backend.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Favorites");
+                });
+
+            modelBuilder.Entity("Backend.Models.Specialization", b =>
+                {
+                    b.Property<int>("SpecializationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SpecializationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime>("CreatedAt"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime>("UpdatedAt"));
+
+                    b.HasKey("SpecializationId");
+
+                    b.ToTable("Specializations");
                 });
 
             modelBuilder.Entity("Backend.Models.Transaction", b =>
@@ -292,6 +375,15 @@ namespace Backend.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Backend.Models.Doctor", b =>
+                {
+                    b.HasOne("Backend.Models.Specialization", null)
+                        .WithMany("Doctors")
+                        .HasForeignKey("SpecializationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Backend.Models.DoctorSchedule", b =>
                 {
                     b.HasOne("Backend.Models.Doctor", "Doctor")
@@ -356,6 +448,11 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Models.DoctorSchedule", b =>
                 {
                     b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("Backend.Models.Specialization", b =>
+                {
+                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Backend.Models.User", b =>

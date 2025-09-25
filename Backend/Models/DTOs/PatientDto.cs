@@ -1,7 +1,7 @@
 using System;
 using ClinicWebApp.Models;
 
-namespace ClinicWebApp.Models.DTOs
+namespace Backend.Models.DTOs
 {
 	public sealed class PatientDto
 	{

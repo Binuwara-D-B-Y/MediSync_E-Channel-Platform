@@ -1,4 +1,4 @@
-using ClinicWebApp.Models.DTOs;
+using Backend.Models.DTOs;
 using ClinicWebApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
