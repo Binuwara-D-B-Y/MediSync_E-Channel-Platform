@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,10 +26,10 @@ namespace Backend.Models
         public TimeSpan EndTime { get; set; }
 
         [Required]
-        public int SlotDurationMinutes { get; set; } = 30; // Default 30 minutes per slot
+        public int SlotDurationMinutes { get; set; } = 30; // Default 30 minutes
 
         [Required]
-        public int MaxPatientsPerSlot { get; set; } = 1; // Default 1 patient per slot
+        public int MaxPatientsPerSlot { get; set; } = 1; // Default 1 per slot
 
         [Required]
         public int TotalSlots { get; set; }

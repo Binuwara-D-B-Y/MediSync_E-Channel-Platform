@@ -1,3 +1,4 @@
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models.DTOs
@@ -20,4 +21,3 @@ namespace Backend.Models.DTOs
 		public string Password { get; init; } = string.Empty;
 	}
 }
-

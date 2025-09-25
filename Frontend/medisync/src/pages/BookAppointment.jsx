@@ -20,7 +20,6 @@ export default function BookAppointment() {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
   // Load doctor data and time slots
   useEffect(() => {
     const loadData = async () => {
@@ -72,7 +71,6 @@ export default function BookAppointment() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // TODO: Call actual booking API
       console.log('Booking details:', {
         doctorId,
         patientName,

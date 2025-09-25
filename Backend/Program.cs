@@ -28,7 +28,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseSqlServer(connectionString));  // Replace with your connection string
 
 builder.Services.AddDbContext<ClinicWebApp.Data.ClinicDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));

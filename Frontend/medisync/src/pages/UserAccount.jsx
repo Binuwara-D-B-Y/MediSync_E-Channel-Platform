@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Box, 
@@ -19,7 +18,6 @@ import {
   IconButton,
   alpha,
   Divider,
-  Paper
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -29,7 +27,6 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PaymentIcon from '@mui/icons-material/Payment';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import EventIcon from '@mui/icons-material/Event';
 import ModernLayout from '../components/ModernLayout';
 import { mockUserProfile } from '../data/mockData.js';
 

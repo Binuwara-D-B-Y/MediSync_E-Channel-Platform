@@ -10,4 +10,3 @@ namespace Backend.Models.DTOs
 		public static ApiResponseDto<T> Fail(string message) => new() { Success = false, Message = message, Data = default };
 	}
 }
-

@@ -5,4 +5,3 @@ namespace Backend.Models.DTOs
 		public bool Confirm { get; init; }
 	}
 }
-
