@@ -2,7 +2,7 @@
 export const mockDoctors = [
   {
     doctorId: 1,
-    fullName: "Dr. Chamiklllllllllla Lakshan",
+    fullName: "Dr. Chamika Lakshan",
     specialization: "Cardiology",
     details: "Expert in heart diseases and preventive cardiology.",
     consultationFee: 2500,
@@ -13,7 +13,7 @@ export const mockDoctors = [
   },
   {
     doctorId: 2,
-    fullName: "Dr. Nadeeshafffffffffffffffff Perera",
+    fullName: "Dr. Nadeesha Perera",
     specialization: "Dermatology",
     details: "Specialist in skin and hair treatments.",
     consultationFee: 2000,
@@ -114,18 +114,18 @@ export const mockDoctors = [
 
 // Mock data for user profile
 export const mockUserProfile = {
-  name: 'yesen binuwara',
-  email: 'yesen.binuwara@example.com',
-  phone: '123-456-7890',
+  name: "yesen binuwara",
+  email: "yesen.binuwara@example.com",
+  phone: "123-456-7890",
 };
 
-//Mock data for time slots (e.g., available appointment times for a doctor)
+// Mock data for time slots (e.g., available appointment times for a doctor)
 export const mockTimeSlots = [
   {
     id: 1,
     time: "09:00 AM",
     isBooked: false,
-    doctorId: 1  // Optional: Link to a doctor from mockDoctors
+    doctorId: 1
   },
   {
     id: 2,
@@ -136,7 +136,7 @@ export const mockTimeSlots = [
   {
     id: 3,
     time: "11:00 AM",
-    isBooked: true,  // Example of a booked slot
+    isBooked: true,
     doctorId: 1
   },
   {
@@ -158,31 +158,3 @@ export const mockTimeSlots = [
     doctorId: 1
   }
 ];
-
-
-
-
-//YB edits below
-// export const mockTimeSlots = [
-//   {
-//     id: 1,
-//     date: "2025-09-22",   // today’s date for example
-//     time: "09:00 AM",
-//     available: true,
-//     doctorId: 1
-//   },
-//   {
-//     id: 2,
-//     date: "2025-09-22",
-//     time: "10:00 AM",
-//     available: true,
-//     doctorId: 1
-//   },
-//   {
-//     id: 3,
-//     date: "2025-09-22",
-//     time: "11:00 AM",
-//     available: false,
-//     doctorId: 1
-//   }
-// ];

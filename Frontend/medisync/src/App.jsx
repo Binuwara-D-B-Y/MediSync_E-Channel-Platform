@@ -1,19 +1,21 @@
-// import React from 'react';
-// import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-// import Clienthomepage from './pages/Clienthomepage';
-// import Header from './components/Header';
-// import UserAccount from './pages/UserAccount';
-// import BookAppointment from './pages/BookAppointment';
-// // import AdminDashboard from './pages/AdminDashboard'; 
-// import './App.css';
 
-// function AppWrapper() {
-//   return (
-//     <Router>
-//       <App />
-//     </Router>
-//   );
-// }
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Clienthomepage from './pages/Clienthomepage';
+import BookAppointment from './pages/BookAppointment';
+
+import Header from './components/Header';
+import UserAccount from './pages/UserAccount';
+
+// import AdminDashboard from './pages/AdminDashboard'; 
+import './App.css'
+import { Bold } from 'lucide-react';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminDoctors from './pages/admin/AdminDoctors';
+import AdminSchedules from './pages/admin/AdminSchedules';
+
 
 // function App() {
 //   const location = useLocation();
@@ -116,30 +118,31 @@ function App() {
 
   return (
     <div className="App">
-      <Header title="MEDISYNC" actions={headerActions} />
-
+    <Router>
+    <Header title="MediSync" />
       <Routes>
-        {/* Auth protected routes */}
-        <Route path="/patient" element={<PrivateRoute><Clienthomepage /></PrivateRoute>} />
-        <Route path="/account" element={<PrivateRoute><UserAccount /></PrivateRoute>} />
-        <Route path="/book/:doctorId" element={<PrivateRoute><BookAppointment /></PrivateRoute>} />
+        
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/patient" replace />} />
+        <Route path="/account" element={<UserAccount />} />
+        {/* Dashboards */}
+        <Route path="/patient" element={<Clienthomepage />} />
+        <Route path="/account" element={<UserAccount />} />
+        {/* <Route path="/admin" element={<AdminDashboard />} /> */}
 
-        {/* Public routes */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login onAuthed={() => setIsAuthed(true)} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot" element={<Forgot />} />
-        <Route path="/reset" element={<Reset />} />
+        {/* Booking */}
+        <Route path="/book/:doctorId" element={<BookAppointment />} />
+
+        {/* Admin Panel */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="doctors" element={<AdminDoctors />} />
+          <Route path="schedules" element={<AdminSchedules />} />
+        </Route>
       </Routes>
     </div>
   )
 }
 
-// ---------------- Wrapper ----------------
-export default function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  )
-}
+export default App;
+

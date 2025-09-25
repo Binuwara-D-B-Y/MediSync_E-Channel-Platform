@@ -1,9 +1,12 @@
-import React, { useState, useMemo } from 'react';
-import DashboardWrapper from '../components/DashboardWrapper';
-import WelcomeCard from '../components/WelcomeCard';
-import QuickStats from '../components/QuickStats';
+import React, { useState } from 'react';
+import { 
+  Box, 
+  Card, 
+  CardContent, 
+  Typography 
+} from '@mui/material';
+import ModernLayout from '../components/ModernLayout';
 import FindDoctors from '../components/FindDoctors';
-import Header from '../components/Header';
 
 export default function PatientDashboard() {
   // 🔹 State
@@ -14,9 +17,9 @@ export default function PatientDashboard() {
   const [doctorsBySpec, setDoctorsBySpec] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [searchMessage, setSearchMessage] = useState('');
-  const [displayMode, setDisplayMode] = useState('default'); // kept for clarity, but we render one grid
+  const [displayMode, setDisplayMode] = useState('default');
 
-  // Fetch doctors with custom rules
+  // 🔹 Fetch doctors with rules
   React.useEffect(() => {
     async function fetchWithRules() {
       setLoadingDoctors(true);
@@ -30,22 +33,32 @@ export default function PatientDashboard() {
 
       try {
         if (hasName && hasSpec) {
+          // ✅ Specialization ID lookup
+          const specsRes = await fetch('/api/specializations');
+          const specsResponse = await specsRes.json();
+          const specializations = specsResponse.data || [];
+          const selectedSpec = specializations.find(s => s.name === selectedSpecialization);
+
           const [nameRes, specRes] = await Promise.all([
-            fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`),
-            fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
+            fetch(`/api/doctors/search?query=${encodeURIComponent(searchTerm)}`),
+            selectedSpec ? fetch(`/api/doctors/specialization/${selectedSpec.specializationId}`) : Promise.resolve({ json: () => ({ data: [] }) })
           ]);
-          const [nameData, specData] = await Promise.all([nameRes.json(), specRes.json()]);
+
+          const [nameResponse, specResponse] = await Promise.all([nameRes.json(), specRes.json()]);
+          const nameData = nameResponse.data || [];
+          const specData = specResponse.data || [];
+
           setDoctorsByName(nameData);
           setDoctorsBySpec(specData);
 
-          // Rule 1: wrong name + correct specialization → show message + specialization doctors
           if ((!nameData || nameData.length === 0) && (specData && specData.length > 0)) {
             setSearchMessage('Sorry! We could not find results for your search query. You can try one of the below suggestions!');
             setDoctors(specData);
             setDisplayMode('specOnly');
           } else {
-            // Rule 3: correct name + unmatched specialization → message + combine name + specialization (no split grids)
-            const nameMatchesSelectedSpec = (nameData || []).some(d => (d.specialization || '').toLowerCase() === selectedSpecialization.toLowerCase());
+            const nameMatchesSelectedSpec = (nameData || []).some(
+              d => (d.specializationName || '').toLowerCase() === selectedSpecialization.toLowerCase()
+            );
             if (!nameMatchesSelectedSpec && nameData && nameData.length > 0) {
               setSearchMessage('Sorry! We could not find results for your search query. You can try one of the below suggestions!');
               const map = new Map();
@@ -53,7 +66,6 @@ export default function PatientDashboard() {
               setDoctors([...map.values()]);
               setDisplayMode('both');
             } else {
-              // overlap or same spec → merge and show
               const map = new Map();
               [...(nameData || []), ...(specData || [])].forEach(d => map.set(d.doctorId || d.id, d));
               setDoctors([...map.values()]);
@@ -61,28 +73,40 @@ export default function PatientDashboard() {
             }
           }
         } else if (hasName) {
-          const res = await fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`);
-          let data = await res.json();
+          const res = await fetch(`/api/doctors/search?query=${encodeURIComponent(searchTerm)}`);
+          let response = await res.json();
+          let data = response.data || [];
           if (!data || data.length === 0) {
             const allRes = await fetch('/api/doctors');
-            const all = await allRes.json();
+            const allResponse = await allRes.json();
+            const all = allResponse.data || [];
             const q = searchTerm.toLowerCase();
-            data = (all || []).filter(d => (d.fullName || d.name || '').toLowerCase().includes(q));
+            data = all.filter(d => (d.fullName || d.name || '').toLowerCase().includes(q));
           }
-          // Rule 4: name only
           setDoctors(data || []);
           setDisplayMode('nameOnly');
         } else if (hasSpec) {
-          const res = await fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
-          const data = await res.json();
-          // Rule 2: just specialization
-          setDoctorsBySpec(data || []);
-          setDoctors(data || []);
-          setDisplayMode('specOnly');
+          const specsRes = await fetch('/api/specializations');
+          const specsResponse = await specsRes.json();
+          const specializations = specsResponse.data || [];
+          const selectedSpec = specializations.find(s => s.name === selectedSpecialization);
+
+          if (selectedSpec) {
+            const res = await fetch(`/api/doctors/specialization/${selectedSpec.specializationId}`);
+            const response = await res.json();
+            const data = response.data || [];
+            setDoctorsBySpec(data);
+            setDoctors(data);
+            setDisplayMode('specOnly');
+          } else {
+            setDoctors([]);
+            setDisplayMode('specOnly');
+          }
         } else {
           const res = await fetch('/api/doctors');
-          const data = await res.json();
-          setDoctors(data || []);
+          const response = await res.json();
+          const data = response.data || [];
+          setDoctors(data);
           setDisplayMode('default');
         }
       } catch (err) {
@@ -95,39 +119,53 @@ export default function PatientDashboard() {
     fetchWithRules();
   }, [searchTerm, selectedSpecialization]);
 
-
   return (
-    <DashboardWrapper>
-      {/* Welcome */}
-      <WelcomeCard name={'User'} />
+    <ModernLayout title="Find Your Doctor" subtitle="Search and book appointments">
+      {/* Welcome Header */}
+      <Box sx={{ mb: 4 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 800,
+            color: '#1e293b',
+            mb: 1,
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
+        >
+          Find Your Doctor 🔍
+        </Typography>
+        <Typography variant="body1" sx={{ color: '#64748b', fontSize: '1.1rem' }}>
+          Search and book appointments with our qualified medical professionals.
+        </Typography>
+      </Box>
 
-  {/* Quick Stats Section */}
-  <QuickStats />
-
-      {/* Upcoming Appointments Section */}
-      <div className="quick-stats-grid" style={{margin:'2rem 0'}}>
-        <div className="quick-stat-card">
-          <div className="quick-stat-icon blue"><span role="img" aria-label="calendar">📅</span></div>
-          <div>
-            <p className="quick-stat-label">Next Appointment</p>
-            <p className="quick-stat-value">No upcoming appointments</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Find Doctors */}
-      <FindDoctors
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        selectedSpecialization={selectedSpecialization}
-        setSelectedSpecialization={setSelectedSpecialization}
-        doctors={doctors}
-        loading={loadingDoctors}
-        displayMode={displayMode}
-        doctorsByName={doctorsByName}
-        doctorsBySpec={doctorsBySpec}
-        searchMessage={searchMessage}
-      />
-    </DashboardWrapper>
+      {/* Find Doctors Section */}
+      <Card
+        sx={{
+          borderRadius: '20px',
+          background: 'linear-gradient(135deg, #fff 0%, #f8fafc 100%)',
+          border: '1px solid #e2e8f0',
+          overflow: 'hidden'
+        }}
+      >
+        <CardContent sx={{ p: 4 }}>
+          <FindDoctors
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedSpecialization={selectedSpecialization}
+            setSelectedSpecialization={setSelectedSpecialization}
+            doctors={doctors}
+            loading={loadingDoctors}
+            displayMode={displayMode}
+            doctorsByName={doctorsByName}
+            doctorsBySpec={doctorsBySpec}
+            searchMessage={searchMessage}
+          />
+        </CardContent>
+      </Card>
+    </ModernLayout>
   );
 }

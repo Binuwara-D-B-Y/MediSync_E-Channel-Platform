@@ -1,28 +1,66 @@
 using Microsoft.AspNetCore.Mvc;
-using Backend.Data;
+using Backend.Services;
 
 namespace Backend.Controllers
 {
+    /// <summary>
+    /// Public controller for Specialization information
+    /// Provides read-only access to specialization data for patients
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class SpecializationsController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        public SpecializationsController(AppDbContext context)
+        private readonly ISpecializationService _specializationService;
+        private readonly ILogger<SpecializationsController> _logger;
+
+        public SpecializationsController(ISpecializationService specializationService, ILogger<SpecializationsController> logger)
         {
-            _context = context;
+            _specializationService = specializationService;
+            _logger = logger;
         }
 
-        // GET: api/specializations
+        /// <summary>
+        /// Gets all active specializations
+        /// </summary>
+        /// <returns>List of specializations</returns>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetSpecializations()
         {
-            var specs = _context.Doctors
-                .Select(d => d.Specialization)
-                .Distinct()
-                .OrderBy(s => s)
-                .ToList();
-            return Ok(specs);
+            try
+            {
+                var result = await _specializationService.GetAllSpecializationsAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving specializations");
+                return StatusCode(500, new { Success = false, Message = "Internal server error" });
+            }
+        }
+
+        /// <summary>
+        /// Gets a specific specialization by ID
+        /// </summary>
+        /// <param name="id">Specialization ID</param>
+        /// <returns>Specialization details</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSpecialization(int id)
+        {
+            try
+            {
+                var result = await _specializationService.GetSpecializationByIdAsync(id);
+                if (!result.Success)
+                {
+                    return NotFound(result);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving specialization with ID: {SpecializationId}", id);
+                return StatusCode(500, new { Success = false, Message = "Internal server error" });
+            }
         }
     }
 }

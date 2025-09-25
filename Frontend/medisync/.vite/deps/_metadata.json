@@ -1,40 +1,40 @@
 {
-  "hash": "f13e565a",
-  "configHash": "dba95771",
-  "lockfileHash": "523f8906",
-  "browserHash": "24656eb3",
-  "optimized": {
-    "react": {
-      "src": "../../node_modules/react/index.js",
-      "file": "react.js",
-      "fileHash": "f3a6728e",
-      "needsInterop": true
-    },
-    "react-dom/client": {
-      "src": "../../node_modules/react-dom/client.js",
-      "file": "react-dom_client.js",
-      "fileHash": "ce2ca019",
-      "needsInterop": true
-    },
-    "react-router-dom": {
-      "src": "../../node_modules/react-router-dom/dist/index.js",
-      "file": "react-router-dom.js",
-      "fileHash": "4ae618f3",
-      "needsInterop": false
-    },
-    "lucide-react": {
-      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
-      "file": "lucide-react.js",
-      "fileHash": "6c34dcdf",
-      "needsInterop": false
+      "hash": "08b964b5",
+      "configHash": "e52a3cc3",
+      "lockfileHash": "455917e1",
+      "browserHash": "a305a5ed",
+      "optimized": {
+        "react": {
+          "src": "../../node_modules/react/index.js",
+          "file": "react.js",
+          "fileHash": "b8d9f733",
+          "needsInterop": true
+        },
+        "react-dom/client": {
+          "src": "../../node_modules/react-dom/client.js",
+          "file": "react-dom_client.js",
+          "fileHash": "8df7c7a6",
+          "needsInterop": true
+        },
+        "react-router-dom": {
+          "src": "../../node_modules/react-router-dom/dist/index.js",
+          "file": "react-router-dom.js",
+          "fileHash": "3d33b477",
+          "needsInterop": false
+        },
+        "lucide-react": {
+          "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+          "file": "lucide-react.js",
+          "fileHash": "50015716",
+          "needsInterop": false
+        }
+      },
+      "chunks": {
+        "chunk-JJSCUBFW": {
+          "file": "chunk-JJSCUBFW.js"
+        },
+        "chunk-H3AANLML": {
+          "file": "chunk-H3AANLML.js"
+        }
+      }
     }
-  },
-  "chunks": {
-    "chunk-JJSCUBFW": {
-      "file": "chunk-JJSCUBFW.js"
-    },
-    "chunk-H3AANLML": {
-      "file": "chunk-H3AANLML.js"
-    }
-  }
-}

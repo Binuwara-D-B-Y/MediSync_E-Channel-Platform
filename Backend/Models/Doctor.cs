@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic; // Needed for ICollection
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,23 +13,34 @@ namespace Backend.Models
         [Required, MaxLength(100)]
         public required string FullName { get; set; }
 
-        [Required, MaxLength(50)]
-        public required string Specialization { get; set; }
+        [Required]
+        public int SpecializationId { get; set; }
 
-        // Qualification is marked required but nullable (?) -> conflict
-        // Either make it required & non-nullable OR optional
-        [MaxLength(100)]
-        public string? Qualification { get; set; }
+        [MaxLength(50)]
+        public string? SpecializationName { get; set; } // For display only
 
-        [Required, MaxLength(100)]
-        [EmailAddress] // extra validation
+        [Required, MaxLength(15)]
+        public required string ContactNumber { get; set; }
+
+        [Required, EmailAddress, MaxLength(100)]
         public required string Email { get; set; }
 
-        [Required, MaxLength(25)]
-        public required string ContactNo { get; set; }
+        [Required, MaxLength(500)]
+        public required string Qualifications { get; set; }
 
-        [Required, MaxLength(300)]
-        public required string Details { get; set; }
+        [Required]
+        public int ExperienceYears { get; set; }
+
+        [MaxLength(300)]
+        public string? Details { get; set; }
+
+        [MaxLength(100)]
+        public string? HospitalName { get; set; }
+
+        [MaxLength(200)]
+        public string? Address { get; set; }
+
+        public bool IsActive { get; set; } = true;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
