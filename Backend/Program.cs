@@ -102,7 +102,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate(); // Creates database if missing, applies pending migrations
+    // db.Database.Migrate(); // Creates database if missing, applies pending migrations
 }
 
 Console.WriteLine($"App running on port {port}");
