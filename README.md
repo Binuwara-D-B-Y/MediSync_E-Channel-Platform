@@ -27,7 +27,7 @@ A web application that allows patients to register, search and filter doctors, b
 ## Project Structure
 - `/frontend` – React.js application
 - `/backend` – ASP.NET Web API
-- `/database` – MySQL schema and sample data
+- `/database` – Azure SQL
 - `/docs` – Documentation and test cases
 
 ## Installation
