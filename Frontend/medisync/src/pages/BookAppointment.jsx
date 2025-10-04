@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, MapPin, Star, Check } from 'lucide-react';
-import { mockDoctors, mockTimeSlots } from '../data/mockData';
+import { mockTimeSlots } from '../data/mockData';
 import '../styles/BookAppointment.css';
 
 export default function BookAppointment() {
@@ -25,13 +25,11 @@ export default function BookAppointment() {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      
       try {
         // Fetch doctor from API
         const response = await fetch('/api/doctors');
         const doctors = await response.json();
         const foundDoctor = doctors.find(d => d.doctorId == doctorId);
-        
         if (foundDoctor) {
           // Add missing fields for compatibility
           foundDoctor.consultationFee = foundDoctor.consultationFee || 2000;
@@ -44,13 +42,10 @@ export default function BookAppointment() {
       } catch (error) {
         console.error('Failed to fetch doctor:', error);
       }
-      
-      // Load available time slots (still using mock for now)
+      // TODO: Replace mockTimeSlots with backend data when available
       setAvailableSlots(mockTimeSlots);
-      
       setLoading(false);
     };
-    
     loadData();
   }, [doctorId]);
 
