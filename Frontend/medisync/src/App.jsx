@@ -70,8 +70,8 @@ function App() {
       <Routes>
         {/* Auth protected routes */}
         <Route path="/patient" element={<Clienthomepage />} />
-        <Route path="/account" element={<PrivateRoute><UserAccount /></PrivateRoute>} />
-        <Route path="/book/:doctorId" element={<PrivateRoute><BookAppointment /></PrivateRoute>} />
+        <Route path="/account" element={<UserAccount />} />
+        <Route path="/book/:doctorId" element={<BookAppointment />} />
 
         {/* Public routes */}
         <Route path="/" element={<Navigate to="/login" replace />} />

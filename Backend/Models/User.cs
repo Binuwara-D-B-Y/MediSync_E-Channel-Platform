@@ -38,5 +38,9 @@ namespace Backend.Models
         public ICollection<Appointment>? Appointments { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
+
+        // Clerk identity mapping (nullable for legacy/local users)
+        [MaxLength(200)]
+        public string? ClerkUserId { get; set; }
     }
 }
