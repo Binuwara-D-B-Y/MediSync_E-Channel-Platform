@@ -97,6 +97,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/", () => "MediSync Backend is running!");
 
 // Auto-create/update database
 using (var scope = app.Services.CreateScope())
