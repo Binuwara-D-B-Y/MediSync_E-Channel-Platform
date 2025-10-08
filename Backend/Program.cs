@@ -115,6 +115,7 @@ app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/", () => "MediSync Backend is running!");
 
 // Auto-create/update database
 using (var scope = app.Services.CreateScope())
