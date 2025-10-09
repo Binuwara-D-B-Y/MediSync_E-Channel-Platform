@@ -153,6 +153,47 @@
   flex-direction: column;
 }
 
+/* Rows inside each slot card to display two columns of fields */
+
+.slot-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two equal columns so second column fields start aligned */
+  column-gap: 1.25rem; /* space between the two columns */
+  align-items: center;
+}
+
+.slot-field {
+  display: inline-flex;
+  gap: 0.35rem; /* small gap between label and value */
+  align-items: baseline;
+  white-space: nowrap; /* keep label and value on one line */
+  overflow: hidden;
+}
+
+.slot-label {
+  color: #111827; /* black labels */
+  font-size: 0.9rem;
+  min-width: 0; /* allow label to sit directly next to value */
+}
+
+.slot-value {
+  color: #111827;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .slot-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .slot-label {
+    margin-right: 0;
+  }
+}
+
 .slot-date {
   font-weight: 700;
   color: #111827;

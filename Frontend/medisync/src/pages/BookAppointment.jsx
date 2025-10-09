@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, MapPin, Star, Check } from 'lucide-react';
 import { mockTimeSlots } from '../data/mockData';
 import '../styles/BookAppointment.css';
+import ClientBookingModal from '../components/ClientBookingModal';
 
 export default function BookAppointment() {
   const { doctorId } = useParams();
@@ -13,10 +14,16 @@ export default function BookAppointment() {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [patientName, setPatientName] = useState('');
+  const [patientNIC, setPatientNIC] = useState('');
+  const [patientEmail, setPatientEmail] = useState('');
+  const [patientContactNo, setPatientContactNo] = useState('');
   const [patientNotes, setPatientNotes] = useState('');
   const [isBooking, setIsBooking] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingSlotId, setBookingSlotId] = useState(null);
+  const [showClientForm, setShowClientForm] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const [loading, setLoading] = useState(true);
 
 
@@ -60,23 +67,57 @@ export default function BookAppointment() {
     if (!slot) return;
     const date = slot.date || slot.day || '';
     const time = slot.time || slot.start || '';
-
+    // Prepare the client form flow
     setSelectedDate(date);
     setSelectedTime(time);
-    setBookingSlotId(slot.id);
+    setSelectedSlot(slot);
+    setShowClientForm(true);
+  };
+
+  const handleCancelClientForm = () => {
+    setShowClientForm(false);
+    // clear client fields (optional)
+    setPatientName('');
+    setPatientNIC('');
+    setPatientEmail('');
+    setPatientContactNo('');
+    setSelectedSlot(null);
+  };
+
+  const handlePayNow = async (patient) => {
+    // patient: { name, nic, email, contact }
+    if (!patient || !patient.name || !patient.nic || !patient.email || !patient.contact) {
+      alert('Please fill in all required patient details');
+      return;
+    }
+
+    if (!selectedSlot) {
+      alert('No slot selected');
+      return;
+    }
+
+    // persist patient values to parent state for success screen
+    setPatientName(patient.name);
+    setPatientNIC(patient.nic);
+    setPatientEmail(patient.email);
+    setPatientContactNo(patient.contact);
+
     setIsBooking(true);
-
+    setBookingSlotId(selectedSlot.id);
     try {
-      // Simulate API call (replace with real booking API)
-      await new Promise(resolve => setTimeout(resolve, 1200));
+      // TODO: replace with real payment + booking API
+      await new Promise(resolve => setTimeout(resolve, 1400));
 
-      // Update local availableSlots to simulate a booking decrement
-      setAvailableSlots(prev => prev.map(s => s.id === slot.id ? { ...s, availableSlots: Math.max(0, (s.availableSlots || 0) - 1) } : s));
-      console.log('Booked slot:', { doctorId, slot, fee: doctor?.consultationFee });
+      // on success decrement availableSlots for the selected slot
+      setAvailableSlots(prev => prev.map(s => s.id === selectedSlot.id ? { ...s, availableSlots: Math.max(0, (s.availableSlots || 0) - 1) } : s));
+      // clear client form state and hide modal
+      setShowClientForm(false);
+      setSelectedSlot(null);
+      console.log('Payment successful for', { patient, slot: selectedSlot });
       setBookingSuccess(true);
-    } catch (error) {
-      console.error('Booking failed:', error);
-      alert('Booking failed. Please try again.');
+    } catch (err) {
+      console.error('Payment/booking failed', err);
+      alert('Payment failed. Please try again.');
     } finally {
       setIsBooking(false);
       setBookingSlotId(null);
@@ -119,9 +160,17 @@ export default function BookAppointment() {
           <p>Your appointment has been confirmed.</p>
           <div className="booking-details">
             <p><strong>Doctor:</strong> {doctor.fullName}</p>
-            <p><strong>Date:</strong> {selectedDate}</p>
-            <p><strong>Time:</strong> {selectedTime}</p>
-            <p><strong>Fee:</strong> Rs. {doctor.consultationFee}</p>
+            <p><strong>Specialization:</strong> {doctor.specialization}</p>
+            {/* show date and time separately using slot or selected values directly */}
+            <p><strong>Date:</strong> {selectedSlot?.date || selectedSlot?.day || selectedDate}</p>
+            <p><strong>Time:</strong> {selectedSlot?.time || selectedSlot?.start || selectedTime}</p>
+            <p><strong>Ward:</strong> {selectedSlot?.wardNo ?? doctor.wardRoom}</p>
+            <p><strong>Fee:</strong> Rs. {selectedSlot?.price ?? doctor.consultationFee}</p>
+            <hr />
+            <p><strong>Patient:</strong> {patientName}</p>
+            <p><strong>NIC:</strong> {patientNIC}</p>
+            <p><strong>Contact:</strong> {patientContactNo}</p>
+            <p><strong>Email:</strong> {patientEmail}</p>
           </div>
           <div className="success-actions">
             <button onClick={() => navigate('/patient')} className="btn-primary">
@@ -170,8 +219,27 @@ export default function BookAppointment() {
               {getAvailableSlotsForDoctor().map(slot => (
                 <div key={slot.id} className="slot-card">
                   <div className="slot-meta">
-                    <div className="slot-datetime">{slot.dateTime || `${slot.date} ${slot.time}`}</div>
-                    <div className="slot-submeta">Available: <strong>{slot.availableSlots ?? slot.totalSlots}</strong> • Ward: {slot.wardNo}</div>
+                    <div className="slot-row">
+                      <div className="slot-field">
+                        <span className="slot-label">Date:</span>
+                        <span className="slot-value">{slot?.date || slot?.day || ''}</span>
+                      </div>
+                      <div className="slot-field">
+                        <span className="slot-label">Session time:</span>
+                        <span className="slot-value">{slot?.time || slot?.start || ''}</span>
+                      </div>
+                    </div>
+
+                    <div className="slot-row" style={{ marginTop: 6 }}>
+                      <div className="slot-field">
+                        <span className="slot-label">Available slot:</span>
+                        <span className="slot-value"><strong>{slot.availableSlots ?? slot.totalSlots}</strong></span>
+                      </div>
+                      <div className="slot-field">
+                        <span className="slot-label">Ward room:</span>
+                        <span className="slot-value">{slot.wardNo}</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="slot-actions">
                     <div className="slot-fee">Rs. {slot.price ?? doctor.consultationFee}</div>
@@ -188,6 +256,17 @@ export default function BookAppointment() {
             </div>
           </div>
         </div>
+
+        {/* Client booking modal popup */}
+        {showClientForm && selectedSlot && (
+          <ClientBookingModal
+            doctor={doctor}
+            slot={selectedSlot}
+            onClose={() => { setShowClientForm(false); setSelectedSlot(null); }}
+            onPay={handlePayNow}
+            isProcessing={isBooking && bookingSlotId === selectedSlot.id}
+          />
+        )}
       </div>
     </div>
   );

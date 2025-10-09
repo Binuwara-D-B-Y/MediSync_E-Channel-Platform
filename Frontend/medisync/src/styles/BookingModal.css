@@ -18,6 +18,25 @@
   position: relative;
 }
 
+/* wider modal for client booking */
+.modal-box.modal-wide {
+  max-width: 900px;
+  padding: 1.25rem;
+}
+
+.modal-body.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* make sure form inputs don't overlap and stack on small screens */
+@media (max-width: 768px) {
+  .modal-box.modal-wide { max-width: 100%; padding: 1rem; }
+  .modal-body.modal-grid { grid-template-columns: 1fr; }
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -111,3 +130,5 @@
   align-items: center;
   justify-content: center;
 }
+
+/* booking modal summary uses default .summary-item styling from the global app styles */
