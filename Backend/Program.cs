@@ -99,7 +99,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-            "https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net",  // Production frontend
+            "https://delightful-dune-078dd8700.1.azurestaticapps.net",  // Production frontend
             "http://localhost:5173"  // Local development
         )
               .AllowAnyMethod()  // GET, POST, etc.
