@@ -4,12 +4,15 @@ on:
   push:
     branches:
       - development
+    paths-ignore:
+      - 'backend/**'  # Ignore backend changes
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - development
-  paths-ignore:
-      - 'backend/**'  # Ignore backend folder
+    paths-ignore:
+      - 'backend/**'
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
