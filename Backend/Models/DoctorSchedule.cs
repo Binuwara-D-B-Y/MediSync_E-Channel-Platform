@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,12 +28,16 @@ namespace Backend.Models
         [Required]
         public int TotalSlots { get; set; }
 
+        // automatically decreases when booked
+        [Required]
+        public int AvailableSlots { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }
