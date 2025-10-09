@@ -68,7 +68,7 @@
 #           slot-name: 'Production'
 #           package: .
 
-name: Deploy Backend to Azure Web App
+name: Build and deploy ASP.Net Core app to Azure Web App - backendmedisync
 on:
   push:
     branches:
