@@ -63,7 +63,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net")
+        policy.WithOrigins(
+            "https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net",
+            "http://localhost:5173"
+        )
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
