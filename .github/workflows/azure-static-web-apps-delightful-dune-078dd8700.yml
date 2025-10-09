@@ -72,6 +72,7 @@ on:
     paths-ignore:
       - 'Backend/**'
   workflow_dispatch:
+  
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
