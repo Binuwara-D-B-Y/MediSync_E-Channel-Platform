@@ -94,10 +94,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => "MediSync Backend is running!");
+app.MapGet("/test", () => "Test endpoint is working!");
 
 // Auto-create/update database
 using (var scope = app.Services.CreateScope())
