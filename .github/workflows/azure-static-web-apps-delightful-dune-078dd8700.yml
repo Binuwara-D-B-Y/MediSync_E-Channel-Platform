@@ -63,12 +63,8 @@ on:
   push:
     branches:
       - development
-    paths-ignore:
-      - 'Backend/**'  # Match case of backend folder
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - development
+    paths:
+      - 'Frontend/**'
     paths-ignore:
       - 'Backend/**'
   workflow_dispatch:

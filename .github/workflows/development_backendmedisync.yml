@@ -86,24 +86,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-
       - name: Restore dependencies
         run: cd Backend && dotnet restore
-
       - name: Build
         run: cd Backend && dotnet build --configuration Release --no-restore
-
       - name: Test
         run: cd Backend && dotnet test --no-restore --verbosity normal || true
-
       - name: Publish
         run: cd Backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -115,13 +109,11 @@ jobs:
     needs: build
     permissions:
       contents: read
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
