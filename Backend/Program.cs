@@ -1,4 +1,81 @@
 
+
+
+//...........................................................................................
+// using Backend.Data;
+// using Microsoft.EntityFrameworkCore;
+// using System.IO;
+
+// // Explicitly load .env from current directory
+// DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
+
+// var builder = WebApplication.CreateBuilder(args);
+// //...................................
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowFrontend", policy =>
+//     {
+//         policy.WithOrigins(
+//             "https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net",
+//             "http://localhost:5173"
+//         )
+//               .AllowAnyMethod()
+//               .AllowAnyHeader();
+//     });
+// });
+// //..................................
+// // Load DB connection string
+// var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// if (string.IsNullOrEmpty(rawConnectionString))
+//     throw new InvalidOperationException("Database connection string 'DefaultConnection' is missing.");
+
+// var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+// if (string.IsNullOrWhiteSpace(dbPassword))
+// {
+//     Console.WriteLine("ERROR: DB_PASSWORD not loaded from .env!");
+//     throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
+// }
+
+// var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
+// Console.WriteLine($"DB_PASSWORD: {dbPassword}");
+// Console.WriteLine($"ConnectionString: {connectionString}");
+
+// builder.Services.AddDbContext<AppDbContext>(options =>
+//     options.UseSqlServer(connectionString));
+
+// builder.Services.AddControllers();
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen();
+
+// // Bind to Azure's PORT environment variable or default to 5000 for local development
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+// builder.WebHost.UseUrls($"http://*:{port}");
+
+// var app = builder.Build();
+
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+
+// //app.UseHttpsRedirection();
+// app.UseAuthorization();
+// app.MapControllers();
+// app.MapGet("/", () => "MediSync Backend is running!");
+// app.MapGet("/test", () => "Test endpoint is working!");
+
+// // Auto-create/update database
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//     // db.Database.Migrate(); // Creates database if missing, applies pending migrations
+// }
+
+// Console.WriteLine($"App running on port {port}");
+// app.Run();
+
+
 using Backend.Data;
 using Backend.Repositories;
 using Backend.Services;
@@ -15,20 +92,21 @@ using Microsoft.AspNetCore.Identity;
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
 
 var builder = WebApplication.CreateBuilder(args);
-//...................................
+
+// Add CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-            "https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net",
-            "http://localhost:5173"
+            "https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net",  // Production frontend
+            "http://localhost:5173"  // Local development
         )
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyMethod()  // GET, POST, etc.
+              .AllowAnyHeader(); // Content-Type, etc.
     });
 });
-//..................................
+
 // Load DB connection string
 var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(rawConnectionString))
@@ -136,9 +214,8 @@ app.MapGet("/test", () => "Test endpoint is working!");
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    // db.Database.Migrate(); // Creates database if missing, applies pending migrations
+    // db.Database.Migrate(); // Uncomment if schema updates needed
 }
 
 Console.WriteLine($"App running on port {port}");
 app.Run();
-// test deployment 456
