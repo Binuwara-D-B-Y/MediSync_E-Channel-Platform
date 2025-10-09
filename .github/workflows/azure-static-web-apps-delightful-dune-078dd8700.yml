@@ -65,7 +65,7 @@ on:
     branches:
       - development
     paths:
-      - 'Frontend/**'
+      - 'Frontend/medisync'
   workflow_dispatch:
 
 jobs:
@@ -84,4 +84,4 @@ jobs:
           action: 'upload'
           app_location: 'Frontend/medisync'
           api_location: ''
-          output_location: 'build'
+          output_location: 'dist'
