@@ -15,7 +15,17 @@ using Microsoft.AspNetCore.Identity;
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
 
 var builder = WebApplication.CreateBuilder(args);
-
+//...................................
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://delightful-dune-078dd8700.eastasia-01.azurestaticapps.net")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+//..................................
 // Load DB connection string
 var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(rawConnectionString))
