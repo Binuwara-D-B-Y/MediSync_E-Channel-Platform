@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import '../styles/BookingModal.css';
+import PaymentGatewayForm from './PaymentGatewayForm';
 
 export default function ClientBookingModal({ doctor, slot, onClose, onPay, isProcessing }) {
   const [name, setName] = useState('');
@@ -15,14 +16,20 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
   const timeDisplay = slot?.time || slot?.start || '';
 
   const handlePay = async () => {
-    if (!name || !nic || !email || !contact) {
-      alert('Please fill all required fields');
-      return;
-    }
+    // open payment popup instead of directly calling onPay
+    setShowPayment(true);
+  };
 
+  const [showPayment, setShowPayment] = React.useState(false);
+
+  const handleCheckout = async (paymentPayload) => {
+    // close payment overlay
+    setShowPayment(false);
+    // call parent onPay with combined patient info and simulated payment result
     if (onPay) {
       try {
-        await onPay({ name, nic, email, contact });
+        // include patient fields and a minimal payment receipt
+        await onPay({ name, nic, email, contact, payment: { method: 'bank-transfer', details: paymentPayload } });
       } catch (err) {
         console.error('onPay failed', err);
       }
@@ -31,7 +38,7 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
 
   return (
     <div className="modal-overlay">
-      <div className="modal-box modal-wide">
+  <div className={`modal-box modal-wide ${showPayment ? 'payment-active' : ''}`}>
         <div className="modal-header">
           <h3>Confirm & Pay</h3>
           <button className="modal-close" onClick={onClose}><X size={18} /></button>
@@ -60,6 +67,13 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
             </div>
           </div>
         </div>
+        {showPayment && (
+          <PaymentGatewayForm
+            amount={slot.price ?? doctor.consultationFee}
+            onCancel={() => setShowPayment(false)}
+            onCheckout={handleCheckout}
+          />
+        )}
       </div>
     </div>
   );
