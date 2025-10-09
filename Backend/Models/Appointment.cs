@@ -43,7 +43,6 @@ namespace Backend.Models
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public Transaction? Transaction { get; set; }
