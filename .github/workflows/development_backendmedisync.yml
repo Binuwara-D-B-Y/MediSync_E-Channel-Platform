@@ -1,69 +1,125 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - backendmedisync
+# name: Build and deploy ASP.Net Core app to Azure Web App - backendmedisync
 
+# on:
+#   push:
+#     branches:
+#       - development
+#     paths:
+#       - 'backend/**'  # Only run for /backend changes
+#   workflow_dispatch:
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Set up .NET Core
+#         uses: actions/setup-dotnet@v4
+#         with:
+#           dotnet-version: '8.x'
+
+#       - name: Restore dependencies
+#         run: cd backend && dotnet restore
+
+#       - name: Build
+#         run: cd backend && dotnet build --configuration Release --no-restore
+
+#       - name: Test
+#         run: cd backend && dotnet test --no-restore --verbosity normal || true  # Won't fail if no tests
+
+#       - name: Publish
+#         run: cd backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+#       - name: Upload artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: .net-app
+#           path: ${{env.DOTNET_ROOT}}/myapp
+
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     permissions:
+#       id-token: write
+#       contents: read
+
+#     steps:
+#       - name: Download artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: .net-app
+
+#       - name: Login to Azure
+#         uses: azure/login@v2
+#         with:
+#           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C489D413950E4A2095B37D024AC42D48 }}
+#           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D5B08BA5A1704B5DB9893F691239B6A1 }}
+#           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_087D98E48AA3486DA67F1256D678623A }}
+
+#       - name: Deploy to Azure Web App
+#         id: deploy-to-webapp
+#         uses: azure/webapps-deploy@v3
+#         with:
+#           app-name: 'backendmedisync'
+#           slot-name: 'Production'
+#           package: .
+
+name: Deploy Backend to Azure Web App
 on:
   push:
     branches:
       - development
     paths:
-      - 'backend/**'  # Only run for /backend changes
+      - 'Backend/**'  # Adjust if folder is 'Backend' (case-sensitive)
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
-
+          dotnet-version: '8.0.x'
       - name: Restore dependencies
-        run: cd backend && dotnet restore
-
+        run: cd Backend && dotnet restore  # Adjust to 'Backend'
       - name: Build
-        run: cd backend && dotnet build --configuration Release --no-restore
-
+        run: cd Backend && dotnet build --configuration Release --no-restore
       - name: Test
-        run: cd backend && dotnet test --no-restore --verbosity normal || true  # Won't fail if no tests
-
+        run: cd Backend && dotnet test --no-restore --verbosity normal || true
       - name: Publish
-        run: cd backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+        run: cd Backend && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
       id-token: write
       contents: read
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C489D413950E4A2095B37D024AC42D48 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D5B08BA5A1704B5DB9893F691239B6A1 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_087D98E48AA3486DA67F1256D678623A }}
-
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'backendmedisync'
+          app-name: 'backendmedisync-cua0dmdgh3aacrb0.eastasia-01'  # Correct name
           slot-name: 'Production'
           package: .
