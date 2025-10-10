@@ -15,6 +15,7 @@ import Reset from "./pages/Login-signup/Reset"
 import Clienthomepage from "./pages/Clienthomepage"
 import UserAccount from "./pages/UserAccount"
 import BookAppointment from "./pages/BookAppointment"
+import AppointmentsDone from "./pages/AppointmentsDone"
 // import AdminDashboard from "./pages/AdminDashboard";
 
 // Shared components
@@ -72,6 +73,7 @@ function App() {
         <Route path="/patient" element={<Clienthomepage />} />
         <Route path="/account" element={<UserAccount />} />
         <Route path="/book/:doctorId" element={<BookAppointment />} />
+        <Route path="/appointments" element={<AppointmentsDone />} />
 
         {/* Public routes */}
         <Route path="/" element={<Navigate to="/login" replace />} />
