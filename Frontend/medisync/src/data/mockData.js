@@ -8,6 +8,7 @@ export const mockUserProfile = {
 
 // Mock schedules (matching SQL query data)
 // Each slot includes: id, doctorId, date, time, dateTime (combined string), totalSlots, availableSlots, wardNo, price
+
 export const mockSchedules = [
   // Doctor 1 - Cardiology (matching SQL: 09:00-12:00 and 14:00-17:00)
   { id: 1, doctorId: 1, date: '2025-10-10', time: '09:00 AM', dateTime: '2025-10-10 09:00 AM', totalSlots: 10, availableSlots: 6, wardNo: 'A-101', price: 3000 },

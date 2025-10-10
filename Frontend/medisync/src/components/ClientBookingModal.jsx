@@ -8,6 +8,7 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
   const [nic, setNic] = useState('');
   const [email, setEmail] = useState('');
   const [contact, setContact] = useState('');
+  const [errors, setErrors] = useState({});
 
   // Use date and time directly from the slot. Many schedule sources provide
   // date and time separately (e.g. { date: '2025-10-10', time: '10:00 AM' }).
@@ -15,7 +16,46 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
   const dateDisplay = slot?.date || slot?.day || '';
   const timeDisplay = slot?.time || slot?.start || '';
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Name validation - only letters and spaces
+    if (!name.trim()) {
+      newErrors.name = 'Full name is required';
+    } else if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
+      newErrors.name = 'Name should contain only letters and spaces';
+    }
+    
+    // NIC validation - exactly 12 digits
+    if (!nic.trim()) {
+      newErrors.nic = 'NIC is required';
+    } else if (!/^\d{12}$/.test(nic.trim())) {
+      newErrors.nic = 'NIC should be exactly 12 digits';
+    }
+    
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailPattern.test(email.trim())) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    // Contact validation - only numbers
+    if (!contact.trim()) {
+      newErrors.contact = 'Contact number is required';
+    } else if (!/^\d+$/.test(contact.trim())) {
+      newErrors.contact = 'Contact number should contain only numbers';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handlePay = async () => {
+    if (!validateForm()) {
+      return;
+    }
     // open payment popup instead of directly calling onPay
     setShowPayment(true);
   };
@@ -47,10 +87,48 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
         <div className="modal-body modal-grid">
           <div>
             <h4>Patient Details</h4>
-            <div className="form-group"><label>Full Name *</label><input className="form-input" value={name} onChange={e=>setName(e.target.value)} /></div>
-            <div className="form-group"><label>NIC *</label><input className="form-input" value={nic} onChange={e=>setNic(e.target.value)} /></div>
-            <div className="form-group"><label>Email *</label><input className="form-input" value={email} onChange={e=>setEmail(e.target.value)} /></div>
-            <div className="form-group"><label>Contact No *</label><input className="form-input" value={contact} onChange={e=>setContact(e.target.value)} /></div>
+            <div className="form-group">
+              <label>Full Name *</label>
+              <input 
+                className={`form-input ${errors.name ? 'error' : ''}`} 
+                value={name} 
+                onChange={e=>setName(e.target.value)}
+                placeholder="Enter full name"
+              />
+              {errors.name && <div className="form-error">{errors.name}</div>}
+            </div>
+            <div className="form-group">
+              <label>NIC *</label>
+              <input 
+                className={`form-input ${errors.nic ? 'error' : ''}`} 
+                value={nic} 
+                onChange={e=>setNic(e.target.value)}
+                placeholder="12 digit NIC number"
+                maxLength="12"
+              />
+              {errors.nic && <div className="form-error">{errors.nic}</div>}
+            </div>
+            <div className="form-group">
+              <label>Email *</label>
+              <input 
+                className={`form-input ${errors.email ? 'error' : ''}`} 
+                type="email"
+                value={email} 
+                onChange={e=>setEmail(e.target.value)}
+                placeholder="example@email.com"
+              />
+              {errors.email && <div className="form-error">{errors.email}</div>}
+            </div>
+            <div className="form-group">
+              <label>Contact No *</label>
+              <input 
+                className={`form-input ${errors.contact ? 'error' : ''}`} 
+                value={contact} 
+                onChange={e=>setContact(e.target.value)}
+                placeholder="Contact number"
+              />
+              {errors.contact && <div className="form-error">{errors.contact}</div>}
+            </div>
           </div>
 
           <div>

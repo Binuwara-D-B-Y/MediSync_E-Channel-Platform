@@ -45,7 +45,7 @@ function App() {
 
   // Header actions depending on route + auth
   let headerActions = []
-  if (!isAuthed) {
+  if (isAuthed) {
     if (location.pathname.startsWith("/account")) {
       headerActions = [
         { label: "Home", path: "/patient", className: "settings-button" },

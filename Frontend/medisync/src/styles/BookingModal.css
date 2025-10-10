@@ -167,4 +167,15 @@
 }
 .form-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; }
 
+.form-input.error {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.form-input.error:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
 /* booking modal summary uses default .summary-item styling from the global app styles */
