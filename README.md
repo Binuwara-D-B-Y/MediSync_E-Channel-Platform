@@ -20,7 +20,7 @@ A web application that allows patients to register, search and filter doctors, b
 ## Technology Stack
 - **Frontend:** React.js
 - **Backend:** ASP.NET Web API
-- **Database:** MySQL
+- **Database:** ASURE SQL
 - **Deployment:** Azure App Services
 - **Testing:** Selenium, JMeter, Unit Tests
 
