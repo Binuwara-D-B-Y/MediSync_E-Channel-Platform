@@ -114,9 +114,9 @@ export const mockDoctors = [
 
 // Mock data for user profile
 export const mockUserProfile = {
-  name: 'yesen binuwara',
-  email: 'yesen.binuwara@example.com',
-  phone: '123-456-7890',
+  name: "yesen binuwara",
+  email: "yesen.binuwara@example.com",
+  phone: "123-456-7890",
 };
 
 // Mock data for time slots (e.g., available appointment times for a doctor)
@@ -125,7 +125,7 @@ export const mockTimeSlots = [
     id: 1,
     time: "09:00 AM",
     isBooked: false,
-    doctorId: 1  // Optional: Link to a doctor from mockDoctors
+    doctorId: 1
   },
   {
     id: 2,
@@ -136,7 +136,7 @@ export const mockTimeSlots = [
   {
     id: 3,
     time: "11:00 AM",
-    isBooked: true,  // Example of a booked slot
+    isBooked: true,
     doctorId: 1
   },
   {

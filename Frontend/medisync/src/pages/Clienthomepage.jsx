@@ -1,97 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
-  Grid, 
   Card, 
   CardContent, 
-  Typography, 
-  Avatar,
-  Chip,
-  LinearProgress,
-  alpha,
-  Paper
+  Typography 
 } from '@mui/material';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import CategoryIcon from '@mui/icons-material/Category';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import EventIcon from '@mui/icons-material/Event';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import ModernLayout from '../components/ModernLayout';
 import FindDoctors from '../components/FindDoctors';
-
-function ModernStatCard({ icon, label, value, subtitle, color }) {
-  return (
-    <Card sx={{
-      background: `linear-gradient(135deg, ${color}15 0%, ${color}05 100%)`,
-      border: `1px solid ${alpha(color, 0.1)}`,
-      borderRadius: '20px',
-      overflow: 'hidden',
-      position: 'relative',
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        transform: 'translateY(-4px)',
-        boxShadow: `0 12px 40px ${alpha(color, 0.15)}`,
-      }
-    }}>
-      <CardContent sx={{ p: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
-          <Box sx={{
-            width: 56,
-            height: 56,
-            borderRadius: '16px',
-            background: `linear-gradient(135deg, ${color} 0%, ${alpha(color, 0.8)} 100%)`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: `0 8px 24px ${alpha(color, 0.3)}`
-          }}>
-            {React.cloneElement(icon, { sx: { color: '#fff', fontSize: 28 } })}
-          </Box>
-        </Box>
-        
-        <Typography variant="h3" sx={{ 
-          fontWeight: 800, 
-          color: '#1e293b',
-          mb: 0.5,
-          background: `linear-gradient(135deg, ${color} 0%, ${alpha(color, 0.7)} 100%)`,
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
-        }}>
-          {value}
-        </Typography>
-        
-        <Typography variant="h6" sx={{ 
-          color: '#64748b', 
-          fontWeight: 600,
-          mb: 0.5
-        }}>
-          {label}
-        </Typography>
-        
-        {subtitle && (
-          <Typography variant="caption" sx={{ 
-            color: '#94a3b8',
-            fontSize: '0.8rem'
-          }}>
-            {subtitle}
-          </Typography>
-        )}
-      </CardContent>
-      
-      {/* Decorative gradient overlay */}
-      <Box sx={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        width: 100,
-        height: 100,
-        background: `radial-gradient(circle, ${alpha(color, 0.1)} 0%, transparent 70%)`,
-        pointerEvents: 'none'
-      }} />
-    </Card>
-  );
-}
 
 export default function PatientDashboard() {
   // 🔹 State
@@ -102,7 +17,7 @@ export default function PatientDashboard() {
   const [doctorsBySpec, setDoctorsBySpec] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [searchMessage, setSearchMessage] = useState('');
-  const [displayMode, setDisplayMode] = useState('default'); // kept for clarity, but we render one grid
+  const [displayMode, setDisplayMode] = useState('default');
 
   // Fetch doctors with custom rules
   React.useEffect(() => {
@@ -146,7 +61,6 @@ export default function PatientDashboard() {
           const specResponse = specText ? JSON.parse(specText) : { data: [] };
           const nameData = nameResponse.data || [];
           const specData = specResponse.data || [];
-          
           setDoctorsByName(nameData);
           setDoctorsBySpec(specData);
 
@@ -165,7 +79,6 @@ export default function PatientDashboard() {
               setDoctors([...map.values()]);
               setDisplayMode('both');
             } else {
-              // overlap or same spec → merge and show
               const map = new Map();
               [...(nameData || []), ...(specData || [])].forEach(d => map.set(d.doctorId || d.id, d));
               setDoctors([...map.values()]);
@@ -241,7 +154,6 @@ export default function PatientDashboard() {
     }
     fetchWithRules();
   }, [searchTerm, selectedSpecialization]);
-
 
   return (
     <ModernLayout title="Find Your Doctor" subtitle="Search and book appointments">

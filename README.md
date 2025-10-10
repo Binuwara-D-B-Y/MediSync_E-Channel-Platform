@@ -27,7 +27,7 @@ A web application that allows patients to register, search and filter doctors, b
 ## Project Structure
 - `/frontend` – React.js application
 - `/backend` – ASP.NET Web API
-- `/database` – MySQL schema and sample data
+- `/database` – Azure SQL
 - `/docs` – Documentation and test cases
 
 ## Installation
@@ -41,3 +41,14 @@ D B Y Binuwara
 A M N D Bandara
 Mahima Linash
 Chamika Pathirana
+
+
+## to update db
+dotnet ef migrations add AddNewColumnToDoctor
+
+dotnet ef database update
+
+## to run
+dotnet clean
+dotnet build
+dotnet run

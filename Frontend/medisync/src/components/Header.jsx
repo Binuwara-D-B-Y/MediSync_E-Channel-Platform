@@ -1,16 +1,43 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Header.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/Header.css";
 
-export default function Header({ title }) {
+export default function Header({ title, actions }) {
   const navigate = useNavigate();
+
+  // Default actions (if none are passed from props)
+  const defaultActions = [
+    { label: "Profile", path: "/account", className: "settings-button" },
+    { label: "Logout", path: "/logout", className: "logout-button" },
+  ];
+
+  const actionButtons = actions && actions.length > 0 ? actions : defaultActions;
 
   return (
     <header className="dashboard-header">
-      <div className="header-title" onClick={() => navigate('/patient')}>{title}</div>
+      <div className="header-title" onClick={() => navigate("/patient")}>
+        {title}
+      </div>
       <div className="header-actions">
-        <button className="settings-button" onClick={() => navigate('/account')}>Profile</button>
-        <button className="logout-button">Logout</button>
+        {actionButtons.map((action, index) => (
+          <button
+            key={index}
+            className={action.className || "header-button"}
+            onClick={() => {
+              try {
+                if (action.action) {
+                  action.action();
+                } else if (action.path) {
+                  navigate(action.path);
+                }
+              } catch (error) {
+                console.error('Navigation error:', error);
+              }
+            }}
+          >
+            {action.label}
+          </button>
+        ))}
       </div>
     </header>
   );

@@ -8,4 +8,3 @@ namespace Backend.Models.DTOs
 		public DateTime ExpiresAtUtc { get; init; }
 	}
 }
-

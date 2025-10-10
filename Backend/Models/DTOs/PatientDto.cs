@@ -23,4 +23,3 @@ namespace Backend.Models.DTOs
 		};
 	}
 }
-

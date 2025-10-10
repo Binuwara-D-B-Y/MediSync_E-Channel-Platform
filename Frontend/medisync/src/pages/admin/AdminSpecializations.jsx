@@ -34,10 +34,13 @@ function SpecForm({ open, onClose, initial, onSubmit }) {
       <DialogTitle>{isEdit ? 'Edit Specialization' : 'Add Specialization'}</DialogTitle>
       <DialogContent>
         <Grid container spacing={2} sx={{ mt: 0.5 }}>
-          <Grid size={12}>
+          <Grid item xs={12}>
             <TextField label="Name" name="name" value={form.name} onChange={handleChange} fullWidth required />
           </Grid>
-          <Grid size={12}>
+          <Grid item xs={12}>
+            <TextField label="Name" name="name" value={form.name} onChange={handleChange} fullWidth required />
+          </Grid>
+          <Grid item xs={12}>
             <TextField label="Description" name="description" value={form.description} onChange={handleChange} fullWidth multiline minRows={2} />
           </Grid>
         </Grid>

@@ -269,21 +269,19 @@ function RecentActivityCard() {
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ doctors: 0, specializations: 0, schedules: 0 });
+  const [stats, setStats] = useState({ doctors: 0, schedules: 0 });
 
   useEffect(() => {
     let mounted = true;
     async function load() {
       try {
-        const [docStats, specStats, schedList] = await Promise.all([
+        const [docStats, schedList] = await Promise.all([
           DoctorsApi.list(),
-          SpecializationsApi.list(),
           SchedulesApi.list({ pageSize: 1 }),
         ]);
         if (!mounted) return;
         setStats({
           doctors: docStats?.data?.length || 0,
-          specializations: specStats?.data?.length || 0,
           schedules: schedList?.pagination?.totalCount || 0,
         });
       } catch (e) {
@@ -336,7 +334,7 @@ export default function AdminDashboard() {
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <Grid item xs={12} sm={6} lg={4}>
           <ModernStatCard 
             icon={<LocalHospitalIcon />}
             label="Total Doctors"
@@ -346,17 +344,7 @@ export default function AdminDashboard() {
             subtitle="Active medical professionals"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <ModernStatCard 
-            icon={<CategoryIcon />}
-            label="Specializations"
-            value={stats.specializations}
-            trend="+5%"
-            color="#f093fb"
-            subtitle="Medical departments"
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <Grid item xs={12} sm={6} lg={4}>
           <ModernStatCard 
             icon={<ScheduleIcon />}
             label="Schedules"
@@ -366,7 +354,7 @@ export default function AdminDashboard() {
             subtitle="Available time slots"
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <Grid item xs={12} sm={6} lg={4}>
           <ModernStatCard 
             icon={<EventIcon />}
             label="Today's Appointments"
@@ -380,10 +368,10 @@ export default function AdminDashboard() {
 
       {/* Secondary Stats and Activity */}
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, lg: 4 }}>
+        <Grid item xs={12} lg={4}>
           <QuickStatsCard />
         </Grid>
-        <Grid size={{ xs: 12, lg: 8 }}>
+        <Grid item xs={12} lg={8}>
           <RecentActivityCard />
         </Grid>
       </Grid>
@@ -400,7 +388,7 @@ export default function AdminDashboard() {
             { label: 'Manage Specializations', color: '#f093fb', icon: <CategoryIcon /> },
             { label: 'View Reports', color: '#4facfe', icon: <TrendingUpIcon /> },
           ].map((action, index) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
+            <Grid item xs={12} sm={6} md={3} key={index}>
               <Card sx={{
                 p: 2,
                 borderRadius: '16px',

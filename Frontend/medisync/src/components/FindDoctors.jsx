@@ -27,7 +27,11 @@ export default function FindDoctors({
     async function fetchSpecs() {
       try {
         const res = await fetch('/api/specializations');
-        const response = await res.json();
+        if (!res.ok) {
+          throw new Error(`Specializations API error: ${res.status}`);
+        }
+        const resText = await res.text();
+        const response = resText ? JSON.parse(resText) : { data: [] };
         const data = response.data || [];
         setSpecializations(['All Specializations', ...data.map(spec => spec.name)]);
       } catch {
@@ -41,7 +45,6 @@ export default function FindDoctors({
   const handleSearch = () => {
     setSearchTerm(localSearchTerm);
     setSelectedSpecialization(localSpecialization);
-    // Optionally: pass appointmentDate to parent and use in backend fetch
   };
 
   // Filter doctors for dropdown (from backend data)
@@ -77,11 +80,6 @@ export default function FindDoctors({
                   onMouseDown={() => {
                     setLocalSearchTerm(doctor.fullName || doctor.name);
                     setShowDropdown(false);
-                    // Auto-select specialization if available
-                    // if (doctor.specialization) {
-                    //   setLocalSpecialization(doctor.specialization);
-                    //   setSelectedSpecialization(doctor.specialization);
-                    // }
                   }}
                 >
                   {doctor.fullName || doctor.name}

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Box, 
@@ -36,7 +35,7 @@ import { mockUserProfile } from '../data/mockData.js';
 export default function UserAccount() {
   const [profile, setProfile] = useState({
     ...mockUserProfile,
-    password: 'password123',
+    password: '',
     image: null
   });
   const [editMode, setEditMode] = useState(false);
@@ -136,7 +135,7 @@ export default function UserAccount() {
       {/* Profile Tab */}
       {activeTab === 0 && (
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid item xs={12} md={4}>
             {/* Profile Image Card */}
             <Card sx={{
               borderRadius: '20px',
@@ -208,7 +207,7 @@ export default function UserAccount() {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 8 }}>
+          <Grid item xs={12} md={8}>
             {/* Profile Details Card */}
             <Card sx={{
               borderRadius: '20px',
@@ -277,7 +276,7 @@ export default function UserAccount() {
                 </Box>
 
                 <Grid container spacing={3}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Full Name"
@@ -293,7 +292,7 @@ export default function UserAccount() {
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Email Address"
@@ -310,7 +309,7 @@ export default function UserAccount() {
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Phone Number"
@@ -326,7 +325,7 @@ export default function UserAccount() {
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Password"

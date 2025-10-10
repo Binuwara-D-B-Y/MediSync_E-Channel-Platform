@@ -26,4 +26,3 @@ namespace Backend.Models.DTOs
 		public string NewPassword { get; init; } = string.Empty;
 	}
 }
-

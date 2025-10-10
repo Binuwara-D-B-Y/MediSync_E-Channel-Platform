@@ -195,6 +195,7 @@ export default function AdminDoctors() {
                 <TableCell>Email</TableCell>
                 <TableCell>Contact</TableCell>
                 <TableCell>Experience</TableCell>
+                <TableCell>Doctor Details</TableCell>
                 <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -206,6 +207,24 @@ export default function AdminDoctors() {
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.contactNumber}</TableCell>
                   <TableCell>{row.experienceYears} yrs</TableCell>
+                  <TableCell sx={{ maxWidth: 300 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                      {row.qualifications}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                      {row.experienceYears} years experience
+                    </Typography>
+                    {row.details && (
+                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.5 }}>
+                        {row.details.length > 50 ? `${row.details.substring(0, 50)}...` : row.details}
+                      </Typography>
+                    )}
+                    {row.hospitalName && (
+                      <Typography variant="caption" sx={{ color: 'primary.main', display: 'block', mt: 0.5 }}>
+                        📍 {row.hospitalName}
+                      </Typography>
+                    )}
+                  </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit"><IconButton onClick={() => handleEdit(row)}><EditIcon /></IconButton></Tooltip>
                     <Tooltip title="Delete"><IconButton color="error" onClick={() => handleDelete(row)}><DeleteIcon /></IconButton></Tooltip>
