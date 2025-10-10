@@ -24,7 +24,12 @@ export default defineConfig({
     }
   },
   build: {
-    // Ensure environment variables are included in production
-    envDir: '.', // Look for .env files in project root
+    assetsDir: 'assets', // Ensure assets are output to /assets
+    rollupOptions: {
+      // Ensure images are included
+      input: {
+        main: './index.html'
+      }
+    }
   }
 });
