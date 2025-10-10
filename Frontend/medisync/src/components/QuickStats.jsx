@@ -8,7 +8,7 @@ export default function QuickStats() {
       <div className="quick-stat-card">
         <div className="quick-stat-icon blue"><Calendar size={24} /></div>
         <div>
-          <p className="quick-stat-label">Upcoming Appointments</p>
+          <p className="quick-stat-label">My Appointments</p>
           <p className="quick-stat-value">0</p>
         </div>
       </div>
