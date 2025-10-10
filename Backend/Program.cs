@@ -195,7 +195,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();  // Keep commented for HTTP in local dev
+app.UseHttpsRedirection();  // Keep commented for HTTP in local dev
 
 app.UseCors("AllowFrontend");  // Add this line before UseAuthorization
 app.UseAuthorization();
