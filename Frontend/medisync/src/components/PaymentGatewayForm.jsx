@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PaymentGatewayForm.css';
+import '../styles/PaymentGatewayForm.css';
 
 export default function PaymentGatewayForm({ amount, onCancel, onCheckout }) {
   const [accName, setAccName] = useState('');

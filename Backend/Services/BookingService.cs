@@ -24,11 +24,11 @@ namespace Backend.Services
             _paymentService = paymentService;
         }
 
-        public async Task<BookingResponseDto> CreateBookingAsync(BookingRequestDto request)
+        public async Task<BookingResponseDto> CreateBookingAsync(BookingRequestDto request, int patientId)
         {
             try
             {
-                Console.WriteLine($"Received PatientId: {request.PatientId}");
+                Console.WriteLine($"Received PatientId: {patientId}");
                 // Validate schedule availability
                 var schedule = await _scheduleRepo.GetByIdAsync(request.ScheduleId);
                 if (schedule == null)
@@ -43,7 +43,7 @@ namespace Backend.Services
             // Create appointment first
             var appointment = new Appointment
             {
-                PatientId = request.PatientId,
+                PatientId = patientId,
                 ScheduleId = request.ScheduleId,
                 PatientName = request.PatientName,
                 PatientContact = request.ContactNo,
@@ -60,7 +60,7 @@ namespace Backend.Services
             var transaction = new Transaction
             {
                 AppointmentId = createdAppointment.AppointmentId,
-                PatientId = request.PatientId,
+                PatientId = patientId,
                 PaymentId = paymentId,
                 NIC = request.NIC,
                 ContactNo = request.ContactNo,

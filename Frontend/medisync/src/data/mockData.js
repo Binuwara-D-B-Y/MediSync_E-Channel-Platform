@@ -6,19 +6,19 @@ export const mockUserProfile = {
 };
 
 
-// Mock schedules (compatible with Backend.Models.DoctorSchedule)
+// Mock schedules (matching SQL query data)
 // Each slot includes: id, doctorId, date, time, dateTime (combined string), totalSlots, availableSlots, wardNo, price
 export const mockSchedules = [
-  // Doctor 1 - Cardiology
-  { id: 101, doctorId: 1, date: '2025-10-10', time: '09:00 AM', dateTime: '2025-10-10 09:00 AM', totalSlots: 10, availableSlots: 6, wardNo: 'A-101', price: 3000 },
-  { id: 102, doctorId: 1, date: '2025-10-10', time: '02:00 PM', dateTime: '2025-10-10 02:00 PM', totalSlots: 10, availableSlots: 4, wardNo: 'A-101', price: 3000 },
+  // Doctor 1 - Cardiology (matching SQL: 09:00-12:00 and 14:00-17:00)
+  { id: 1, doctorId: 1, date: '2025-10-10', time: '09:00 AM', dateTime: '2025-10-10 09:00 AM', totalSlots: 10, availableSlots: 6, wardNo: 'A-101', price: 3000 },
+  { id: 2, doctorId: 1, date: '2025-10-10', time: '02:00 PM', dateTime: '2025-10-10 02:00 PM', totalSlots: 10, availableSlots: 4, wardNo: 'A-101', price: 3000 },
 
-  // Doctor 2 - Neurology
-  { id: 201, doctorId: 2, date: '2025-10-11', time: '09:30 AM', dateTime: '2025-10-11 09:30 AM', totalSlots: 8, availableSlots: 3, wardNo: 'B-201', price: 3200 },
-  { id: 202, doctorId: 2, date: '2025-10-11', time: '03:00 PM', dateTime: '2025-10-11 03:00 PM', totalSlots: 8, availableSlots: 5, wardNo: 'B-201', price: 3200 },
+  // Doctor 2 - Neurology (matching SQL: 09:30-12:30 and 15:00-18:00)
+  { id: 3, doctorId: 2, date: '2025-10-11', time: '09:30 AM', dateTime: '2025-10-11 09:30 AM', totalSlots: 8, availableSlots: 3, wardNo: 'B-201', price: 3200 },
+  { id: 4, doctorId: 2, date: '2025-10-11', time: '03:00 PM', dateTime: '2025-10-11 03:00 PM', totalSlots: 8, availableSlots: 5, wardNo: 'B-201', price: 3200 },
 
-  // Doctor 3 - Pediatrics
-  { id: 301, doctorId: 3, date: '2025-10-10', time: '10:00 AM', dateTime: '2025-10-10 10:00 AM', totalSlots: 12, availableSlots: 8, wardNo: 'C-301', price: 1800 },
+  // Doctor 3 - Pediatrics (matching SQL: 10:00-13:00)
+  { id: 5, doctorId: 3, date: '2025-10-10', time: '10:00 AM', dateTime: '2025-10-10 10:00 AM', totalSlots: 12, availableSlots: 8, wardNo: 'C-301', price: 1800 },
   { id: 302, doctorId: 3, date: '2025-10-12', time: '01:00 PM', dateTime: '2025-10-12 01:00 PM', totalSlots: 12, availableSlots: 12, wardNo: 'C-301', price: 1800 },
 
   // Doctor 4 - Orthopedics

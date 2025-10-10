@@ -5,9 +5,6 @@ namespace Backend.Models.DTOs
     public class BookingRequestDto
     {
         [Required]
-        public int PatientId { get; set; }
-        
-        [Required]
         public int ScheduleId { get; set; }
         
         [Required, MaxLength(100)]

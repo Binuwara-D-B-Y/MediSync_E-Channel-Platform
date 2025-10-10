@@ -1,6 +1,8 @@
 using Backend.Models.DTOs;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Backend.Controllers
 {
@@ -16,6 +18,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BookingResponseDto>> CreateBooking([FromBody] BookingRequestDto request)
         {
             try
@@ -23,7 +26,12 @@ namespace Backend.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = await _bookingService.CreateBookingAsync(request);
+                // Get user ID from JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+                if (!int.TryParse(userIdClaim, out int patientId))
+                    return Unauthorized(new { message = "Invalid token" });
+
+                var result = await _bookingService.CreateBookingAsync(request, patientId);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -57,11 +65,17 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("user/{patientId}")]
-        public async Task<ActionResult<List<UserAppointmentDto>>> GetUserAppointments(int patientId)
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<ActionResult<List<UserAppointmentDto>>> GetUserAppointments()
         {
             try
             {
+                // Get user ID from JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+                if (!int.TryParse(userIdClaim, out int patientId))
+                    return Unauthorized(new { message = "Invalid token" });
+
                 var appointments = await _bookingService.GetUserAppointmentsAsync(patientId);
                 return Ok(appointments);
             }

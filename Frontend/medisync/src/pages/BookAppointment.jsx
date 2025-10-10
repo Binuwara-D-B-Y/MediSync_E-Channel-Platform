@@ -33,7 +33,7 @@ export default function BookAppointment() {
       setLoading(true);
       try {
         // Fetch doctor from API
-        const response = await fetch('/api/doctors');
+        const response = await fetch('http://localhost:5000/api/doctors');
         const doctors = await response.json();
         const foundDoctor = doctors.find(d => d.doctorId == doctorId);
         if (foundDoctor) {
@@ -48,7 +48,7 @@ export default function BookAppointment() {
       } catch (error) {
         console.error('Failed to fetch doctor:', error);
       }
-      // TODO: Replace mockTimeSlots with backend data when available
+      // Use mock data for now - TODO: Replace with real schedule API
       setAvailableSlots(mockTimeSlots);
       setLoading(false);
     };
@@ -85,7 +85,7 @@ export default function BookAppointment() {
   };
 
   const handlePayNow = async (patient) => {
-    // patient: { name, nic, email, contact }
+    // patient: { name, nic, email, contact, payment: { details: paymentPayload } }
     if (!patient || !patient.name || !patient.nic || !patient.email || !patient.contact) {
       alert('Please fill in all required patient details');
       return;
@@ -104,20 +104,58 @@ export default function BookAppointment() {
 
     setIsBooking(true);
     setBookingSlotId(selectedSlot.id);
+    
     try {
-      // TODO: replace with real payment + booking API
-      await new Promise(resolve => setTimeout(resolve, 1400));
+      // Get JWT token from localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login to book an appointment');
+        return;
+      }
+
+      // Prepare booking request
+      const bookingRequest = {
+        scheduleId: selectedSlot.id,
+        patientName: patient.name,
+        nic: patient.nic,
+        email: patient.email,
+        contactNo: patient.contact,
+        payment: {
+          accountName: patient.payment?.details?.accName || patient.name,
+          accountNumber: patient.payment?.details?.accNo || '1234567890',
+          bankName: patient.payment?.details?.bankName || 'Default Bank',
+          bankBranch: patient.payment?.details?.bankBranch || 'Main Branch',
+          amount: selectedSlot.price || doctor.consultationFee || 2500
+        }
+      };
+
+      // Call backend API
+      const response = await fetch('http://localhost:5000/api/booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(bookingRequest)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Booking failed');
+      }
+
+      const result = await response.json();
+      console.log('Booking successful:', result);
 
       // on success decrement availableSlots for the selected slot
       setAvailableSlots(prev => prev.map(s => s.id === selectedSlot.id ? { ...s, availableSlots: Math.max(0, (s.availableSlots || 0) - 1) } : s));
       // clear client form state and hide modal
       setShowClientForm(false);
       setSelectedSlot(null);
-      console.log('Payment successful for', { patient, slot: selectedSlot });
       setBookingSuccess(true);
     } catch (err) {
       console.error('Payment/booking failed', err);
-      alert('Payment failed. Please try again.');
+      alert(`Payment failed: ${err.message}`);
     } finally {
       setIsBooking(false);
       setBookingSlotId(null);
