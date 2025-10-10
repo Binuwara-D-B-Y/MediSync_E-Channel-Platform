@@ -14,13 +14,13 @@ import { SpecializationsApi } from '../../api/admin/specializations';
 
 function DoctorForm({ open, onClose, initial, onSubmit, specializations }) {
   const [form, setForm] = useState(initial || {
-    fullName: '', specializationId: '', contactNumber: '', email: '',
-    qualifications: '', experienceYears: 0, details: '', hospitalName: '', address: ''
+    fullName: '', specialization: '', contactNumber: '', email: '',
+    qualifications: '', details: '', hospitalName: '', address: ''
   });
 
   useEffect(() => setForm(initial || {
-    fullName: '', specializationId: '', contactNumber: '', email: '',
-    qualifications: '', experienceYears: 0, details: '', hospitalName: '', address: ''
+    fullName: '', specialization: '', contactNumber: '', email: '',
+    qualifications: '', details: '', hospitalName: '', address: ''
   }), [initial]);
 
   const isEdit = Boolean(initial?.doctorId);
@@ -33,11 +33,10 @@ function DoctorForm({ open, onClose, initial, onSubmit, specializations }) {
   const handleSubmit = () => {
     const payload = {
       fullName: form.fullName,
-      specializationId: Number(form.specializationId),
+      specialization: form.specialization,
       contactNumber: form.contactNumber,
       email: form.email,
       qualifications: form.qualifications,
-      experienceYears: Number(form.experienceYears),
       details: form.details || null,
       hospitalName: form.hospitalName || null,
       address: form.address || null,
@@ -55,9 +54,9 @@ function DoctorForm({ open, onClose, initial, onSubmit, specializations }) {
             <TextField label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} fullWidth required />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextField select label="Specialization" name="specializationId" value={form.specializationId} onChange={handleChange} fullWidth required>
+            <TextField select label="Specialization" name="specialization" value={form.specialization} onChange={handleChange} fullWidth required>
               {specializations.map((s) => (
-                <MenuItem key={s.specializationId} value={s.specializationId}>{s.name}</MenuItem>
+                <MenuItem key={s.specializationId} value={s.name}>{s.name}</MenuItem>
               ))}
             </TextField>
           </Grid>
@@ -70,9 +69,7 @@ function DoctorForm({ open, onClose, initial, onSubmit, specializations }) {
           <Grid item xs={12}>
             <TextField label="Qualifications" name="qualifications" value={form.qualifications} onChange={handleChange} fullWidth required />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField label="Experience (years)" type="number" name="experienceYears" value={form.experienceYears} onChange={handleChange} fullWidth required />
-          </Grid>
+
           <Grid item xs={12} md={6}>
             <TextField label="Hospital" name="hospitalName" value={form.hospitalName} onChange={handleChange} fullWidth />
           </Grid>
@@ -167,12 +164,12 @@ export default function AdminDoctors() {
       </Stack>
 
       <Paper sx={{ p: 2, mb: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField fullWidth placeholder="Search name, qualifications, hospital" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={3}>
+            <TextField fullWidth placeholder="Search name, qualifications, hospital" value={search} onChange={(e) => setSearch(e.target.value)} sx={{ '& .MuiInputBase-root': { height: '56px' } }} />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField select fullWidth label="Specialization" value={specFilter} onChange={(e) => setSpecFilter(e.target.value)}>
+          <Grid item xs={12} md={7}>
+            <TextField select fullWidth label="Specialization" value={specFilter} onChange={(e) => setSpecFilter(e.target.value)} sx={{ '& .MuiInputBase-root': { height: '56px' } }}>
               <MenuItem value="">All</MenuItem>
               {specs.map((s) => (
                 <MenuItem key={s.specializationId} value={s.specializationId}>{s.name}</MenuItem>
@@ -180,7 +177,7 @@ export default function AdminDoctors() {
             </TextField>
           </Grid>
           <Grid item xs={12} md={2}>
-            <Button fullWidth startIcon={<SearchIcon />} variant="outlined" onClick={handleSearch}>Filter</Button>
+            <Button fullWidth startIcon={<SearchIcon />} variant="outlined" onClick={handleSearch} sx={{ height: '56px' }}>Filter</Button>
           </Grid>
         </Grid>
       </Paper>
@@ -194,7 +191,6 @@ export default function AdminDoctors() {
                 <TableCell>Specialization</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Contact</TableCell>
-                <TableCell>Experience</TableCell>
                 <TableCell>Doctor Details</TableCell>
                 <TableCell align="right">Actions</TableCell>
               </TableRow>
@@ -203,16 +199,12 @@ export default function AdminDoctors() {
               {rows.map((row) => (
                 <TableRow key={row.doctorId} hover>
                   <TableCell>{row.fullName}</TableCell>
-                  <TableCell>{row.specializationName}</TableCell>
+                  <TableCell>{row.specialization}</TableCell>
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.contactNumber}</TableCell>
-                  <TableCell>{row.experienceYears} yrs</TableCell>
                   <TableCell sx={{ maxWidth: 300 }}>
                     <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
                       {row.qualifications}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                      {row.experienceYears} years experience
                     </Typography>
                     {row.details && (
                       <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.5 }}>

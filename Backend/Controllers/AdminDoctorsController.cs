@@ -48,7 +48,7 @@ namespace Backend.Controllers
 
                 if (!string.IsNullOrWhiteSpace(search) || specializationId.HasValue)
                 {
-                    result = await _doctorService.SearchDoctorsAsync(search, specializationId);
+                    result = await _doctorService.SearchDoctorsAsync(search, null);
                 }
                 else if (isActive.HasValue && isActive.Value)
                 {
@@ -238,19 +238,19 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="specializationId">Specialization ID</param>
         /// <returns>List of doctors in the specialization</returns>
-        [HttpGet("specialization/{specializationId}")]
-        public async Task<IActionResult> GetDoctorsBySpecialization(int specializationId)
+        [HttpGet("specialization/{specialization}")]
+        public async Task<IActionResult> GetDoctorsBySpecialization(string specialization)
         {
             try
             {
-                _logger.LogInformation("Getting doctors by specialization: {SpecializationId}", specializationId);
+                _logger.LogInformation("Getting doctors by specialization: {Specialization}", specialization);
 
-                if (specializationId <= 0)
+                if (string.IsNullOrEmpty(specialization))
                 {
-                    return BadRequest(new { Success = false, Message = "Invalid specialization ID" });
+                    return BadRequest(new { Success = false, Message = "Invalid specialization" });
                 }
 
-                var result = await _doctorService.GetDoctorsBySpecializationAsync(specializationId);
+                var result = await _doctorService.GetDoctorsBySpecializationAsync(specialization);
                 
                 if (!result.Success)
                 {
@@ -261,7 +261,7 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting doctors by specialization: {SpecializationId}", specializationId);
+                _logger.LogError(ex, "Error getting doctors by specialization: {Specialization}", specialization);
                 return StatusCode(500, new { Success = false, Message = "Internal server error" });
             }
         }
@@ -312,7 +312,7 @@ namespace Backend.Controllers
             {
                 _logger.LogInformation("Searching doctors with term: {SearchTerm}", searchTerm);
 
-                var result = await _doctorService.SearchDoctorsAsync(searchTerm, specializationId);
+                var result = await _doctorService.SearchDoctorsAsync(searchTerm, null);
                 
                 if (!result.Success)
                 {
@@ -322,15 +322,7 @@ namespace Backend.Controllers
                 // Apply experience filters if provided
                 var doctors = result.Data?.ToList() ?? new List<DoctorResponseDto>();
                 
-                if (minExperience.HasValue)
-                {
-                    doctors = doctors.Where(d => d.ExperienceYears >= minExperience.Value).ToList();
-                }
-                
-                if (maxExperience.HasValue)
-                {
-                    doctors = doctors.Where(d => d.ExperienceYears <= maxExperience.Value).ToList();
-                }
+
 
                 var filteredResult = new ApiResponseDto<IEnumerable<DoctorResponseDto>>
                 {
@@ -376,11 +368,11 @@ namespace Backend.Controllers
                     new CreateDoctorDto
                     {
                         FullName = "Dr. Lakshan Pathirana",
-                        SpecializationId = 1,
+                        Specialization = "Cardiology",
                         ContactNumber = "+94771234567",
                         Email = "lakshan.pathirana@medisync.lk",
                         Qualifications = "MBBS, MD (Cardiology), FRCP",
-                        ExperienceYears = 15,
+
                         Details = "Senior Consultant Cardiologist with expertise in interventional cardiology",
                         HospitalName = "National Hospital of Sri Lanka",
                         Address = "Colombo 10"
@@ -388,11 +380,11 @@ namespace Backend.Controllers
                     new CreateDoctorDto
                     {
                         FullName = "Dr. Nadeesha Perera",
-                        SpecializationId = 2,
+                        Specialization = "Dermatology",
                         ContactNumber = "+94772345678",
                         Email = "nadeesha.perera@medisync.lk",
                         Qualifications = "MBBS, MD (Dermatology), MRCP",
-                        ExperienceYears = 12,
+
                         Details = "Consultant Dermatologist specializing in cosmetic and medical dermatology",
                         HospitalName = "Asiri Medical Hospital",
                         Address = "Colombo 05"
@@ -400,11 +392,11 @@ namespace Backend.Controllers
                     new CreateDoctorDto
                     {
                         FullName = "Dr. Mahima Bashitha",
-                        SpecializationId = 3,
+                        Specialization = "Neurology",
                         ContactNumber = "+94773456789",
                         Email = "bashitha.mahima@medisync.lk",
                         Qualifications = "MBBS, MD (Neurology), FRCP",
-                        ExperienceYears = 18,
+
                         Details = "Senior Neurologist with expertise in stroke management and epilepsy",
                         HospitalName = "Lanka Hospital",
                         Address = "Colombo 06"
@@ -412,11 +404,11 @@ namespace Backend.Controllers
                     new CreateDoctorDto
                     {
                         FullName = "Dr. Priya Fernando",
-                        SpecializationId = 4,
+                        Specialization = "Orthopedics",
                         ContactNumber = "+94774567890",
                         Email = "priya.fernando@medisync.lk",
                         Qualifications = "MBBS, MS (Orthopedics), FRCS",
-                        ExperienceYears = 20,
+
                         Details = "Orthopedic Surgeon specializing in joint replacement and sports medicine",
                         HospitalName = "Nawaloka Hospital",
                         Address = "Colombo 02"
@@ -424,11 +416,11 @@ namespace Backend.Controllers
                     new CreateDoctorDto
                     {
                         FullName = "Dr. Saman Silva",
-                        SpecializationId = 5,
+                        Specialization = "Pediatrics",
                         ContactNumber = "+94775678901",
                         Email = "saman.silva@medisync.lk",
                         Qualifications = "MBBS, MD (Pediatrics), MRCPCH",
-                        ExperienceYears = 14,
+
                         Details = "Consultant Pediatrician with expertise in neonatal care",
                         HospitalName = "Lady Ridgeway Hospital",
                         Address = "Colombo 08"

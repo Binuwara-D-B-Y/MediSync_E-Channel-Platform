@@ -21,12 +21,10 @@ namespace Backend.Repositories
         public async Task<IEnumerable<Doctor>> GetAllAsync()
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                ORDER BY d.FullName";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                ORDER BY FullName";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -46,13 +44,11 @@ namespace Backend.Repositories
         public async Task<IEnumerable<Doctor>> GetActiveDoctorsAsync()
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                WHERE d.IsActive = 1
-                ORDER BY d.FullName";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                WHERE IsActive = 1
+                ORDER BY FullName";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -72,12 +68,10 @@ namespace Backend.Repositories
         public async Task<Doctor?> GetByIdAsync(int id)
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                WHERE d.DoctorId = @Id";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                WHERE DoctorId = @Id";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -92,12 +86,10 @@ namespace Backend.Repositories
         public async Task<DoctorResponseDto?> GetDoctorWithSpecializationAsync(int doctorId)
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                WHERE d.DoctorId = @DoctorId";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                WHERE DoctorId = @DoctorId";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -112,12 +104,10 @@ namespace Backend.Repositories
         public async Task<IEnumerable<DoctorResponseDto>> GetAllDoctorsWithSpecializationAsync()
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                ORDER BY d.FullName";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                ORDER BY FullName";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -134,20 +124,18 @@ namespace Backend.Repositories
             return doctors;
         }
 
-        public async Task<IEnumerable<Doctor>> GetDoctorsBySpecializationAsync(int specializationId)
+        public async Task<IEnumerable<Doctor>> GetDoctorsBySpecializationAsync(string specialization)
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                WHERE d.SpecializationId = @SpecializationId AND d.IsActive = 1
-                ORDER BY d.FullName";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                WHERE Specialization = @Specialization AND IsActive = 1
+                ORDER BY FullName";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@SpecializationId", specializationId);
+            command.Parameters.AddWithValue("@Specialization", specialization);
 
             await connection.OpenAsync();
             using var reader = await command.ExecuteReaderAsync();
@@ -161,31 +149,29 @@ namespace Backend.Repositories
             return doctors;
         }
 
-        public async Task<IEnumerable<Doctor>> SearchDoctorsAsync(string? searchTerm, int? specializationId = null)
+        public async Task<IEnumerable<Doctor>> SearchDoctorsAsync(string? searchTerm, string? specialization = null)
         {
             var sql = @"
-                SELECT d.DoctorId, d.FullName, d.SpecializationId, s.Name as SpecializationName,
-                       d.ContactNumber, d.Email, d.Qualifications, d.ExperienceYears,
-                       d.Details, d.HospitalName, d.Address, d.IsActive, d.CreatedAt, d.UpdatedAt
-                FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
-                WHERE d.IsActive = 1";
+                SELECT DoctorId, FullName, Specialization, ContactNumber, Email, Qualifications,
+                       Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt
+                FROM Doctors
+                WHERE IsActive = 1";
 
             var parameters = new List<MySqlParameter>();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                sql += " AND (d.FullName LIKE @SearchTerm OR d.Qualifications LIKE @SearchTerm OR d.HospitalName LIKE @SearchTerm)";
+                sql += " AND (FullName LIKE @SearchTerm OR Qualifications LIKE @SearchTerm OR HospitalName LIKE @SearchTerm)";
                 parameters.Add(new MySqlParameter("@SearchTerm", $"%{searchTerm}%"));
             }
 
-            if (specializationId.HasValue)
+            if (!string.IsNullOrEmpty(specialization))
             {
-                sql += " AND d.SpecializationId = @SpecializationId";
-                parameters.Add(new MySqlParameter("@SpecializationId", specializationId.Value));
+                sql += " AND Specialization = @Specialization";
+                parameters.Add(new MySqlParameter("@Specialization", specialization));
             }
 
-            sql += " ORDER BY d.FullName";
+            sql += " ORDER BY FullName";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
@@ -206,21 +192,20 @@ namespace Backend.Repositories
         public async Task<Doctor> CreateAsync(Doctor entity)
         {
             const string sql = @"
-                INSERT INTO Doctors (FullName, SpecializationId, ContactNumber, Email, Qualifications, 
-                                   ExperienceYears, Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt) 
-                VALUES (@FullName, @SpecializationId, @ContactNumber, @Email, @Qualifications, 
-                        @ExperienceYears, @Details, @HospitalName, @Address, @IsActive, @CreatedAt, @UpdatedAt);
+                INSERT INTO Doctors (FullName, Specialization, ContactNumber, Email, Qualifications, 
+                                   Details, HospitalName, Address, IsActive, CreatedAt, UpdatedAt) 
+                VALUES (@FullName, @Specialization, @ContactNumber, @Email, @Qualifications, 
+                        @Details, @HospitalName, @Address, @IsActive, @CreatedAt, @UpdatedAt);
                 SELECT LAST_INSERT_ID();";
 
             using var connection = _connectionService.CreateConnection();
             using var command = new MySqlCommand(sql, connection);
 
             command.Parameters.AddWithValue("@FullName", entity.FullName);
-            command.Parameters.AddWithValue("@SpecializationId", entity.SpecializationId);
+            command.Parameters.AddWithValue("@Specialization", entity.Specialization);
             command.Parameters.AddWithValue("@ContactNumber", entity.ContactNumber);
             command.Parameters.AddWithValue("@Email", entity.Email);
             command.Parameters.AddWithValue("@Qualifications", entity.Qualifications);
-            command.Parameters.AddWithValue("@ExperienceYears", entity.ExperienceYears);
             command.Parameters.AddWithValue("@Details", entity.Details);
             command.Parameters.AddWithValue("@HospitalName", entity.HospitalName);
             command.Parameters.AddWithValue("@Address", entity.Address);
@@ -239,10 +224,9 @@ namespace Backend.Repositories
         {
             const string sql = @"
                 UPDATE Doctors 
-                SET FullName = @FullName, SpecializationId = @SpecializationId, ContactNumber = @ContactNumber,
-                    Email = @Email, Qualifications = @Qualifications, ExperienceYears = @ExperienceYears,
-                    Details = @Details, HospitalName = @HospitalName, Address = @Address, 
-                    IsActive = @IsActive, UpdatedAt = @UpdatedAt
+                SET FullName = @FullName, Specialization = @Specialization, ContactNumber = @ContactNumber,
+                    Email = @Email, Qualifications = @Qualifications, Details = @Details, 
+                    HospitalName = @HospitalName, Address = @Address, IsActive = @IsActive, UpdatedAt = @UpdatedAt
                 WHERE DoctorId = @Id";
 
             using var connection = _connectionService.CreateConnection();
@@ -250,11 +234,10 @@ namespace Backend.Repositories
 
             command.Parameters.AddWithValue("@Id", entity.DoctorId);
             command.Parameters.AddWithValue("@FullName", entity.FullName);
-            command.Parameters.AddWithValue("@SpecializationId", entity.SpecializationId);
+            command.Parameters.AddWithValue("@Specialization", entity.Specialization);
             command.Parameters.AddWithValue("@ContactNumber", entity.ContactNumber);
             command.Parameters.AddWithValue("@Email", entity.Email);
             command.Parameters.AddWithValue("@Qualifications", entity.Qualifications);
-            command.Parameters.AddWithValue("@ExperienceYears", entity.ExperienceYears);
             command.Parameters.AddWithValue("@Details", entity.Details);
             command.Parameters.AddWithValue("@HospitalName", entity.HospitalName);
             command.Parameters.AddWithValue("@Address", entity.Address);
@@ -321,14 +304,13 @@ namespace Backend.Repositories
         public async Task<IEnumerable<dynamic>> GetDoctorsWithScheduleStatsAsync()
         {
             const string sql = @"
-                SELECT d.DoctorId, d.FullName, s.Name as SpecializationName, d.IsActive,
+                SELECT d.DoctorId, d.FullName, d.Specialization, d.IsActive,
                        COUNT(ds.ScheduleId) as TotalSchedules,
                        COUNT(CASE WHEN ds.ScheduleDate >= CURDATE() THEN 1 END) as UpcomingSchedules,
                        COALESCE(SUM(ds.BookedSlots), 0) as TotalBookedSlots
                 FROM Doctors d
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
                 LEFT JOIN DoctorSchedules ds ON d.DoctorId = ds.DoctorId AND ds.IsActive = 1
-                GROUP BY d.DoctorId, d.FullName, s.Name, d.IsActive
+                GROUP BY d.DoctorId, d.FullName, d.Specialization, d.IsActive
                 ORDER BY d.FullName";
 
             using var connection = _connectionService.CreateConnection();
@@ -344,7 +326,7 @@ namespace Backend.Repositories
                 {
                     DoctorId = reader.GetInt32("DoctorId"),
                     FullName = reader.GetString("FullName"),
-                    SpecializationName = reader.IsDBNull("SpecializationName") ? "Unknown" : reader.GetString("SpecializationName"),
+                    Specialization = reader.IsDBNull("Specialization") ? "Unknown" : reader.GetString("Specialization"),
                     IsActive = reader.GetBoolean("IsActive"),
                     TotalSchedules = reader.GetInt32("TotalSchedules"),
                     UpcomingSchedules = reader.GetInt32("UpcomingSchedules"),
@@ -361,12 +343,10 @@ namespace Backend.Repositories
             {
                 DoctorId = reader.GetInt32(reader.GetOrdinal("DoctorId")),
                 FullName = reader.GetString(reader.GetOrdinal("FullName")),
-                SpecializationId = reader.GetInt32(reader.GetOrdinal("SpecializationId")),
-                SpecializationName = reader.IsDBNull(reader.GetOrdinal("SpecializationName")) ? null : reader.GetString(reader.GetOrdinal("SpecializationName")),
+                Specialization = reader.GetString(reader.GetOrdinal("Specialization")),
                 ContactNumber = reader.GetString(reader.GetOrdinal("ContactNumber")),
                 Email = reader.GetString(reader.GetOrdinal("Email")),
                 Qualifications = reader.GetString(reader.GetOrdinal("Qualifications")),
-                ExperienceYears = reader.GetInt32(reader.GetOrdinal("ExperienceYears")),
                 Details = reader.IsDBNull(reader.GetOrdinal("Details")) ? null : reader.GetString(reader.GetOrdinal("Details")),
                 HospitalName = reader.IsDBNull(reader.GetOrdinal("HospitalName")) ? null : reader.GetString(reader.GetOrdinal("HospitalName")),
                 Address = reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString(reader.GetOrdinal("Address")),
@@ -382,18 +362,34 @@ namespace Backend.Repositories
             {
                 DoctorId = reader.GetInt32(reader.GetOrdinal("DoctorId")),
                 FullName = reader.GetString(reader.GetOrdinal("FullName")),
-                SpecializationId = reader.GetInt32(reader.GetOrdinal("SpecializationId")),
-                SpecializationName = reader.IsDBNull(reader.GetOrdinal("SpecializationName")) ? "Unknown" : reader.GetString(reader.GetOrdinal("SpecializationName")),
+                Specialization = reader.GetString(reader.GetOrdinal("Specialization")),
                 ContactNumber = reader.GetString(reader.GetOrdinal("ContactNumber")),
                 Email = reader.GetString(reader.GetOrdinal("Email")),
                 Qualifications = reader.GetString(reader.GetOrdinal("Qualifications")),
-                ExperienceYears = reader.GetInt32(reader.GetOrdinal("ExperienceYears")),
                 Details = reader.IsDBNull(reader.GetOrdinal("Details")) ? null : reader.GetString(reader.GetOrdinal("Details")),
                 HospitalName = reader.IsDBNull(reader.GetOrdinal("HospitalName")) ? null : reader.GetString(reader.GetOrdinal("HospitalName")),
                 Address = reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString(reader.GetOrdinal("Address")),
                 IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive")),
                 CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt = reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+            };
+        }
+
+        private static string GetSpecializationName(int specializationId)
+        {
+            return specializationId switch
+            {
+                1 => "Cardiology",
+                2 => "Dermatology", 
+                3 => "Neurology",
+                4 => "Orthopedics",
+                5 => "Pediatrics",
+                6 => "Psychiatry",
+                7 => "General Medicine",
+                8 => "Gynecology",
+                9 => "Ophthalmology",
+                10 => "ENT",
+                _ => "General Medicine"
             };
         }
     }

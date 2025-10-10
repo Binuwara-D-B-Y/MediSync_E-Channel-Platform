@@ -50,12 +50,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddSingleton<IDatabaseConnectionService, DatabaseConnectionService>();
 
 // Repositories
-builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepositoryImpl>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 
 // Services
-builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 builder.Services.AddScoped<IDoctorService, DoctorServiceImpl>();
 builder.Services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
 

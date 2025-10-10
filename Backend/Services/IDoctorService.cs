@@ -52,16 +52,16 @@ namespace Backend.Services
         /// Searches doctors by criteria
         /// </summary>
         /// <param name="searchTerm">Search term</param>
-        /// <param name="specializationId">Optional specialization filter</param>
+        /// <param name="specialization">Optional specialization filter</param>
         /// <returns>Matching doctors</returns>
-        Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> SearchDoctorsAsync(string? searchTerm, int? specializationId = null);
+        Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> SearchDoctorsAsync(string? searchTerm, string? specialization = null);
 
         /// <summary>
         /// Gets doctors by specialization
         /// </summary>
-        /// <param name="specializationId">Specialization ID</param>
+        /// <param name="specialization">Specialization name</param>
         /// <returns>Doctors in specialization</returns>
-        Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> GetDoctorsBySpecializationAsync(int specializationId);
+        Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> GetDoctorsBySpecializationAsync(string specialization);
 
         /// <summary>
         /// Gets doctors with schedule statistics

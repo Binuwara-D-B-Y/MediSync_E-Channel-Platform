@@ -13,11 +13,8 @@ namespace Backend.Models
         [Required, MaxLength(100)]
         public required string FullName { get; set; }
 
-        [Required]
-        public int SpecializationId { get; set; }
-
-        [MaxLength(50)]
-        public string? SpecializationName { get; set; } // For display purposes
+        [Required, MaxLength(100)]
+        public required string Specialization { get; set; }
 
         [Required, MaxLength(15)]
         public required string ContactNumber { get; set; }
@@ -28,10 +25,7 @@ namespace Backend.Models
         [Required, MaxLength(500)]
         public required string Qualifications { get; set; }
 
-        [Required]
-        public int ExperienceYears { get; set; }
-
-        [MaxLength(300)]
+        [MaxLength(500)]
         public string? Details { get; set; }
 
         [MaxLength(100)]

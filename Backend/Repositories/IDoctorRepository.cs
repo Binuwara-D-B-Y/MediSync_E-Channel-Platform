@@ -17,17 +17,17 @@ namespace Backend.Repositories
         /// <summary>
         /// Gets doctors by specialization
         /// </summary>
-        /// <param name="specializationId">Specialization ID</param>
+        /// <param name="specialization">Specialization name</param>
         /// <returns>List of doctors</returns>
-        Task<IEnumerable<Doctor>> GetDoctorsBySpecializationAsync(int specializationId);
+        Task<IEnumerable<Doctor>> GetDoctorsBySpecializationAsync(string specialization);
 
         /// <summary>
         /// Searches doctors by name, specialization, or other criteria
         /// </summary>
         /// <param name="searchTerm">Search term</param>
-        /// <param name="specializationId">Optional specialization filter</param>
+        /// <param name="specialization">Optional specialization filter</param>
         /// <returns>List of matching doctors</returns>
-        Task<IEnumerable<Doctor>> SearchDoctorsAsync(string? searchTerm, int? specializationId = null);
+        Task<IEnumerable<Doctor>> SearchDoctorsAsync(string? searchTerm, string? specialization = null);
 
         /// <summary>
         /// Gets doctor with specialization details

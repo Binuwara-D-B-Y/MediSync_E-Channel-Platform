@@ -33,19 +33,9 @@ export default function PatientDashboard() {
 
       try {
         if (hasName && hasSpec) {
-          // Find specialization ID first
-          const specsRes = await fetch('/api/specializations');
-          if (!specsRes.ok) {
-            throw new Error(`Specializations API error: ${specsRes.status}`);
-          }
-          const specsText = await specsRes.text();
-          const specsResponse = specsText ? JSON.parse(specsText) : { data: [] };
-          const specializations = specsResponse.data || [];
-          const selectedSpec = specializations.find(s => s.name === selectedSpecialization);
-          
           const [nameRes, specRes] = await Promise.all([
             fetch(`/api/doctors/search?query=${encodeURIComponent(searchTerm)}`),
-            selectedSpec ? fetch(`/api/doctors/specialization/${selectedSpec.specializationId}`) : Promise.resolve({ ok: true, text: () => Promise.resolve('{}') })
+            fetch(`/api/doctors/specialization/${encodeURIComponent(selectedSpecialization)}`)
           ]);
           
           if (!nameRes.ok) {
@@ -108,32 +98,17 @@ export default function PatientDashboard() {
           setDoctors(data || []);
           setDisplayMode('nameOnly');
         } else if (hasSpec) {
-          // Find specialization ID first
-          const specsRes = await fetch('/api/specializations');
-          if (!specsRes.ok) {
-            throw new Error(`Specializations API error: ${specsRes.status}`);
+          const res = await fetch(`/api/doctors/specialization/${encodeURIComponent(selectedSpecialization)}`);
+          if (!res.ok) {
+            throw new Error(`Doctors specialization API error: ${res.status}`);
           }
-          const specsText = await specsRes.text();
-          const specsResponse = specsText ? JSON.parse(specsText) : { data: [] };
-          const specializations = specsResponse.data || [];
-          const selectedSpec = specializations.find(s => s.name === selectedSpecialization);
-          
-          if (selectedSpec) {
-            const res = await fetch(`/api/doctors/specialization/${selectedSpec.specializationId}`);
-            if (!res.ok) {
-              throw new Error(`Doctors specialization API error: ${res.status}`);
-            }
-            const resText = await res.text();
-            const response = resText ? JSON.parse(resText) : { data: [] };
-            const data = response.data || [];
-            // Rule 2: just specialization
-            setDoctorsBySpec(data);
-            setDoctors(data);
-            setDisplayMode('specOnly');
-          } else {
-            setDoctors([]);
-            setDisplayMode('specOnly');
-          }
+          const resText = await res.text();
+          const response = resText ? JSON.parse(resText) : { data: [] };
+          const data = response.data || [];
+          // Rule 2: just specialization
+          setDoctorsBySpec(data);
+          setDoctors(data);
+          setDisplayMode('specOnly');
         } else {
           const res = await fetch('/api/doctors');
           if (!res.ok) {

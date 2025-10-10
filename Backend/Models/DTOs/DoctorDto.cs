@@ -7,8 +7,8 @@ namespace Backend.Models.DTOs
         [Required, MaxLength(100)]
         public required string FullName { get; set; }
 
-        [Required]
-        public int SpecializationId { get; set; }
+        [Required, MaxLength(100)]
+        public required string Specialization { get; set; }
 
         [Required, MaxLength(15)]
         public required string ContactNumber { get; set; }
@@ -19,10 +19,7 @@ namespace Backend.Models.DTOs
         [Required, MaxLength(500)]
         public required string Qualifications { get; set; }
 
-        [Required, Range(0, 50)]
-        public int ExperienceYears { get; set; }
-
-        [MaxLength(300)]
+        [MaxLength(500)]
         public string? Details { get; set; }
 
         [MaxLength(100)]
@@ -40,8 +37,8 @@ namespace Backend.Models.DTOs
         [Required, MaxLength(100)]
         public required string FullName { get; set; }
 
-        [Required]
-        public int SpecializationId { get; set; }
+        [Required, MaxLength(100)]
+        public required string Specialization { get; set; }
 
         [Required, MaxLength(15)]
         public required string ContactNumber { get; set; }
@@ -52,10 +49,7 @@ namespace Backend.Models.DTOs
         [Required, MaxLength(500)]
         public required string Qualifications { get; set; }
 
-        [Required, Range(0, 50)]
-        public int ExperienceYears { get; set; }
-
-        [MaxLength(300)]
+        [MaxLength(500)]
         public string? Details { get; set; }
 
         [MaxLength(100)]
@@ -71,12 +65,10 @@ namespace Backend.Models.DTOs
     {
         public int DoctorId { get; set; }
         public string FullName { get; set; } = string.Empty;
-        public int SpecializationId { get; set; }
-        public string SpecializationName { get; set; } = string.Empty;
+        public string Specialization { get; set; } = string.Empty;
         public string ContactNumber { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Qualifications { get; set; } = string.Empty;
-        public int ExperienceYears { get; set; }
         public string? Details { get; set; }
         public string? HospitalName { get; set; }
         public string? Address { get; set; }

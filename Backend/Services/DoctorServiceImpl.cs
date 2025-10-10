@@ -10,23 +10,36 @@ namespace Backend.Services
     public class DoctorServiceImpl : IDoctorService
     {
         private readonly IDoctorRepository _doctorRepository;
-        private readonly ISpecializationRepository _specializationRepository;
 
-        public DoctorServiceImpl(IDoctorRepository doctorRepository, ISpecializationRepository specializationRepository)
+        public DoctorServiceImpl(IDoctorRepository doctorRepository)
         {
             _doctorRepository = doctorRepository;
-            _specializationRepository = specializationRepository;
         }
 
         public async Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> GetAllDoctorsAsync()
         {
             try
             {
-                var doctors = await _doctorRepository.GetAllDoctorsWithSpecializationAsync();
+                var doctors = await _doctorRepository.GetActiveDoctorsAsync();
+                var doctorDtos = doctors.Select(d => new DoctorResponseDto
+                {
+                    DoctorId = d.DoctorId,
+                    FullName = d.FullName,
+                    Specialization = d.Specialization,
+                    ContactNumber = d.ContactNumber,
+                    Email = d.Email,
+                    Qualifications = d.Qualifications,
+                    Details = d.Details,
+                    HospitalName = d.HospitalName,
+                    Address = d.Address,
+                    IsActive = d.IsActive,
+                    CreatedAt = d.CreatedAt,
+                    UpdatedAt = d.UpdatedAt
+                });
                 return new ApiResponseDto<IEnumerable<DoctorResponseDto>>
                 {
                     Success = true,
-                    Data = doctors,
+                    Data = doctorDtos,
                     Message = "Doctors retrieved successfully"
                 };
             }
@@ -49,12 +62,10 @@ namespace Backend.Services
                 {
                     DoctorId = d.DoctorId,
                     FullName = d.FullName,
-                    SpecializationId = d.SpecializationId,
-                    SpecializationName = d.SpecializationName ?? "Unknown",
+                    Specialization = d.Specialization,
                     ContactNumber = d.ContactNumber,
                     Email = d.Email,
                     Qualifications = d.Qualifications,
-                    ExperienceYears = d.ExperienceYears,
                     Details = d.Details,
                     HospitalName = d.HospitalName,
                     Address = d.Address,
@@ -115,16 +126,6 @@ namespace Backend.Services
         {
             try
             {
-                // Validate specialization exists
-                if (!await _specializationRepository.ExistsAsync(createDto.SpecializationId))
-                {
-                    return new ApiResponseDto<DoctorResponseDto>
-                    {
-                        Success = false,
-                        Message = "Invalid specialization ID"
-                    };
-                }
-
                 // Check if email already exists
                 if (await _doctorRepository.EmailExistsAsync(createDto.Email))
                 {
@@ -138,11 +139,10 @@ namespace Backend.Services
                 var doctor = new Doctor
                 {
                     FullName = createDto.FullName,
-                    SpecializationId = createDto.SpecializationId,
+                    Specialization = createDto.Specialization,
                     ContactNumber = createDto.ContactNumber,
                     Email = createDto.Email,
                     Qualifications = createDto.Qualifications,
-                    ExperienceYears = createDto.ExperienceYears,
                     Details = createDto.Details,
                     HospitalName = createDto.HospitalName,
                     Address = createDto.Address,
@@ -152,7 +152,21 @@ namespace Backend.Services
                 };
 
                 var createdDoctor = await _doctorRepository.CreateAsync(doctor);
-                var doctorResponse = await _doctorRepository.GetDoctorWithSpecializationAsync(createdDoctor.DoctorId);
+                var doctorResponse = new DoctorResponseDto
+                {
+                    DoctorId = createdDoctor.DoctorId,
+                    FullName = createdDoctor.FullName,
+                    Specialization = createdDoctor.Specialization,
+                    ContactNumber = createdDoctor.ContactNumber,
+                    Email = createdDoctor.Email,
+                    Qualifications = createdDoctor.Qualifications,
+                    Details = createdDoctor.Details,
+                    HospitalName = createdDoctor.HospitalName,
+                    Address = createdDoctor.Address,
+                    IsActive = createdDoctor.IsActive,
+                    CreatedAt = createdDoctor.CreatedAt,
+                    UpdatedAt = createdDoctor.UpdatedAt
+                };
 
                 return new ApiResponseDto<DoctorResponseDto>
                 {
@@ -185,16 +199,6 @@ namespace Backend.Services
                     };
                 }
 
-                // Validate specialization exists
-                if (!await _specializationRepository.ExistsAsync(updateDto.SpecializationId))
-                {
-                    return new ApiResponseDto<DoctorResponseDto>
-                    {
-                        Success = false,
-                        Message = "Invalid specialization ID"
-                    };
-                }
-
                 // Check if email already exists (excluding current doctor)
                 if (await _doctorRepository.EmailExistsAsync(updateDto.Email, updateDto.DoctorId))
                 {
@@ -217,11 +221,10 @@ namespace Backend.Services
 
                 // Update doctor properties
                 existingDoctor.FullName = updateDto.FullName;
-                existingDoctor.SpecializationId = updateDto.SpecializationId;
+                existingDoctor.Specialization = updateDto.Specialization;
                 existingDoctor.ContactNumber = updateDto.ContactNumber;
                 existingDoctor.Email = updateDto.Email;
                 existingDoctor.Qualifications = updateDto.Qualifications;
-                existingDoctor.ExperienceYears = updateDto.ExperienceYears;
                 existingDoctor.Details = updateDto.Details;
                 existingDoctor.HospitalName = updateDto.HospitalName;
                 existingDoctor.Address = updateDto.Address;
@@ -279,21 +282,19 @@ namespace Backend.Services
             }
         }
 
-        public async Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> SearchDoctorsAsync(string? searchTerm, int? specializationId = null)
+        public async Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> SearchDoctorsAsync(string? searchTerm, string? specialization = null)
         {
             try
             {
-                var doctors = await _doctorRepository.SearchDoctorsAsync(searchTerm, specializationId);
+                var doctors = await _doctorRepository.SearchDoctorsAsync(searchTerm, specialization);
                 var doctorDtos = doctors.Select(d => new DoctorResponseDto
                 {
                     DoctorId = d.DoctorId,
                     FullName = d.FullName,
-                    SpecializationId = d.SpecializationId,
-                    SpecializationName = d.SpecializationName ?? "Unknown",
+                    Specialization = d.Specialization,
                     ContactNumber = d.ContactNumber,
                     Email = d.Email,
                     Qualifications = d.Qualifications,
-                    ExperienceYears = d.ExperienceYears,
                     Details = d.Details,
                     HospitalName = d.HospitalName,
                     Address = d.Address,
@@ -319,21 +320,19 @@ namespace Backend.Services
             }
         }
 
-        public async Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> GetDoctorsBySpecializationAsync(int specializationId)
+        public async Task<ApiResponseDto<IEnumerable<DoctorResponseDto>>> GetDoctorsBySpecializationAsync(string specialization)
         {
             try
             {
-                var doctors = await _doctorRepository.GetDoctorsBySpecializationAsync(specializationId);
+                var doctors = await _doctorRepository.GetDoctorsBySpecializationAsync(specialization);
                 var doctorDtos = doctors.Select(d => new DoctorResponseDto
                 {
                     DoctorId = d.DoctorId,
                     FullName = d.FullName,
-                    SpecializationId = d.SpecializationId,
-                    SpecializationName = d.SpecializationName ?? "Unknown",
+                    Specialization = d.Specialization,
                     ContactNumber = d.ContactNumber,
                     Email = d.Email,
                     Qualifications = d.Qualifications,
-                    ExperienceYears = d.ExperienceYears,
                     Details = d.Details,
                     HospitalName = d.HospitalName,
                     Address = d.Address,

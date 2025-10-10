@@ -41,7 +41,6 @@ export default function AdminLayout() {
   const menu = [
     { to: '/admin', label: 'Dashboard', icon: <DashboardIcon />, color: '#667eea' },
     { to: '/admin/doctors', label: 'Doctors', icon: <LocalHospitalIcon />, color: '#f093fb' },
-    { to: '/admin/specializations', label: 'Specializations', icon: <CategoryIcon />, color: '#4facfe' },
     { to: '/admin/schedules', label: 'Schedules', icon: <ScheduleIcon />, color: '#43e97b' },
   ];
 

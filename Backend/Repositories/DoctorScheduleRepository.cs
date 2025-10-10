@@ -265,13 +265,12 @@ namespace Backend.Repositories
         public async Task<DoctorScheduleResponseDto?> GetScheduleWithDetailsAsync(int scheduleId)
         {
             const string sql = @"
-                SELECT ds.ScheduleId, ds.DoctorId, d.FullName as DoctorName, s.Name as SpecializationName,
+                SELECT ds.ScheduleId, ds.DoctorId, d.FullName as DoctorName, d.Specialization as SpecializationName,
                        ds.ScheduleDate, ds.StartTime, ds.EndTime, ds.SlotDurationMinutes,
                        ds.MaxPatientsPerSlot, ds.TotalSlots, ds.BookedSlots, ds.IsActive, ds.Notes,
                        ds.CreatedAt, ds.UpdatedAt
                 FROM DoctorSchedules ds
                 LEFT JOIN Doctors d ON ds.DoctorId = d.DoctorId
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
                 WHERE ds.ScheduleId = @ScheduleId";
 
             using var connection = _connectionService.CreateConnection();
@@ -289,13 +288,12 @@ namespace Backend.Repositories
         public async Task<IEnumerable<DoctorScheduleResponseDto>> GetAllSchedulesWithDetailsAsync()
         {
             const string sql = @"
-                SELECT ds.ScheduleId, ds.DoctorId, d.FullName as DoctorName, s.Name as SpecializationName,
+                SELECT ds.ScheduleId, ds.DoctorId, d.FullName as DoctorName, d.Specialization as SpecializationName,
                        ds.ScheduleDate, ds.StartTime, ds.EndTime, ds.SlotDurationMinutes,
                        ds.MaxPatientsPerSlot, ds.TotalSlots, ds.BookedSlots, ds.IsActive, ds.Notes,
                        ds.CreatedAt, ds.UpdatedAt
                 FROM DoctorSchedules ds
                 LEFT JOIN Doctors d ON ds.DoctorId = d.DoctorId
-                LEFT JOIN Specializations s ON d.SpecializationId = s.SpecializationId
                 ORDER BY ds.ScheduleDate DESC, ds.StartTime DESC";
 
             using var connection = _connectionService.CreateConnection();

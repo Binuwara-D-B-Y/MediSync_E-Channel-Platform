@@ -68,16 +68,16 @@ namespace Backend.Controllers
         /// Search doctors by various criteria
         /// </summary>
         /// <param name="query">Search query</param>
-        /// <param name="specializationId">Specialization ID filter</param>
+        /// <param name="specialization">Specialization name filter</param>
         /// <returns>Filtered list of doctors</returns>
         [HttpGet("search")]
         public async Task<IActionResult> SearchDoctors(
             [FromQuery] string? query = null,
-            [FromQuery] int? specializationId = null)
+            [FromQuery] string? specialization = null)
         {
             try
             {
-                var result = await _doctorService.SearchDoctorsAsync(query, specializationId);
+                var result = await _doctorService.SearchDoctorsAsync(query, specialization);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -88,16 +88,16 @@ namespace Backend.Controllers
         }
 
         /// <summary>
-        /// Gets doctors by specialization
+        /// Gets doctors by specialization name
         /// </summary>
-        /// <param name="specializationId">Specialization ID</param>
+        /// <param name="specialization">Specialization name</param>
         /// <returns>Doctors in specialization</returns>
-        [HttpGet("specialization/{specializationId}")]
-        public async Task<IActionResult> GetDoctorsBySpecialization(int specializationId)
+        [HttpGet("specialization/{specialization}")]
+        public async Task<IActionResult> GetDoctorsBySpecialization(string specialization)
         {
             try
             {
-                var result = await _doctorService.GetDoctorsBySpecializationAsync(specializationId);
+                var result = await _doctorService.GetDoctorsBySpecializationAsync(specialization);
                 return Ok(result);
             }
             catch (Exception ex)
