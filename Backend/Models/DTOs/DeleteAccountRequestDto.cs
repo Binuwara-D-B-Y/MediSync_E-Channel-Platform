@@ -1,4 +1,4 @@
-namespace ClinicWebApp.Models.DTOs
+namespace Backend.Models.DTOs
 {
 	public sealed class DeleteAccountRequestDto
 	{

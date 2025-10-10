@@ -1,6 +1,8 @@
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Backend.Services;
+using Backend.Repositories;
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -19,8 +21,11 @@ if (string.IsNullOrWhiteSpace(dbPassword))
     throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
 }
 var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
-Console.WriteLine($"DB_PASSWORD: {dbPassword}");
-Console.WriteLine($"ConnectionString: {connectionString}");
+// Avoid printing sensitive credentials
+if (builder.Environment.IsDevelopment())
+{
+    Console.WriteLine("Database connection string loaded successfully.");
+}
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -28,6 +33,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Dependency Injection: ADO.NET services and repositories
+builder.Services.AddSingleton<IDatabaseConnectionService, DatabaseConnectionService>();
+
+// Repositories
+builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
+builder.Services.AddScoped<IDoctorRepository, DoctorRepositoryImpl>();
+builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+
+// Services
+builder.Services.AddScoped<ISpecializationService, SpecializationService>();
+builder.Services.AddScoped<IDoctorService, DoctorServiceImpl>();
+builder.Services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
 
 var app = builder.Build();
 

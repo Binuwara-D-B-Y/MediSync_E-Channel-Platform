@@ -1,6 +1,6 @@
 using System;
 
-namespace ClinicWebApp.Models.DTOs
+namespace Backend.Models.DTOs
 {
 	public sealed class AuthResponseDto
 	{

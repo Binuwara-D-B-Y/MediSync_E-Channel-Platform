@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ClinicWebApp.Models;
-using ClinicWebApp.Models.DTOs;
+using Backend.Models.DTOs;
 using ClinicWebApp.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

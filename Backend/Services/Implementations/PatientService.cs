@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using ClinicWebApp.Models.DTOs;
+using Backend.Models.DTOs;
 using ClinicWebApp.Repositories;
 using ClinicWebApp.Services.Interfaces;
 

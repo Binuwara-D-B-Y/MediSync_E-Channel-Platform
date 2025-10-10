@@ -1,5 +1,5 @@
 using ClinicWebApp.Models;
-using ClinicWebApp.Models.DTOs;
+using Backend.Models.DTOs;
 
 namespace ClinicWebApp.Services.Interfaces
 {
