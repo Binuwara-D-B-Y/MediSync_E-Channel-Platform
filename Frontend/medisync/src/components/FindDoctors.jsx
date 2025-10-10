@@ -27,8 +27,9 @@ export default function FindDoctors({
     async function fetchSpecs() {
       try {
         const res = await fetch('/api/specializations');
-        const data = await res.json();
-        setSpecializations(['All Specializations', ...data]);
+        const response = await res.json();
+        const data = response.data || [];
+        setSpecializations(['All Specializations', ...data.map(spec => spec.name)]);
       } catch {
         setSpecializations(['All Specializations']);
       }
@@ -121,7 +122,7 @@ export default function FindDoctors({
           )}
           {doctors.map((doctor) => {
             const name = doctor.fullName || doctor.name || 'Unknown Doctor';
-            const specialization = doctor.specialization || 'General Practitioner';
+            const specialization = doctor.specializationName || doctor.specialization || 'General Practitioner';
             const image = doctor.profileImage || '/images/unnamed.png';
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>

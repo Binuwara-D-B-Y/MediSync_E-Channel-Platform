@@ -10,6 +10,11 @@ import UserAccount from './pages/UserAccount';
 // import AdminDashboard from './pages/AdminDashboard'; 
 import './App.css'
 import { Bold } from 'lucide-react';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminDoctors from './pages/admin/AdminDoctors';
+import AdminSpecializations from './pages/admin/AdminSpecializations';
+import AdminSchedules from './pages/admin/AdminSchedules';
 
 function App() {
   return (
@@ -30,6 +35,14 @@ function App() {
         {/* Booking */}
         <Route path="/book/:doctorId" element={<BookAppointment />} />
 
+        {/* Admin Panel */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="doctors" element={<AdminDoctors />} />
+          <Route path="specializations" element={<AdminSpecializations />} />
+          <Route path="schedules" element={<AdminSchedules />} />
+        </Route>
+
       </Routes>
     </Router>
     </div>
@@ -37,4 +50,5 @@ function App() {
 }
 
 export default App;
+
 
