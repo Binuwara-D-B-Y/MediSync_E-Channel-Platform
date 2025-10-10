@@ -272,7 +272,7 @@ export default function FindDoctors({
           {doctors.map((doctor) => {
             const name = doctor.fullName || doctor.name || 'Unknown Doctor';
             const specialization = doctor.specialization || 'General Practitioner';
-            const image = doctor.profileImage || '/assets/unnamed.png';
+            const image = doctor.profileImage || '/assets/Elogo.png'; // image?
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>
                 <div className="doctor-card-header">
