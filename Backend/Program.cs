@@ -209,6 +209,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection(); // Disabled for development
+app.UseHttpsRedirection();  // Keep commented for HTTP in local dev
 
 // Use CORS
 app.UseCors("AllowReactApp");
