@@ -1,0 +1,25 @@
+MEDISYNC VALIDATION TESTS
+============================
+PASS Name - Empty name
+PASS Name - Whitespace only
+PASS Name - Valid name
+PASS Name - Name with numbers
+PASS NIC - Empty NIC
+PASS NIC - Valid 12-digit
+PASS NIC - 11-digit
+PASS NIC - With letters
+PASS Email - Empty email
+PASS Email - Valid email
+PASS Email - Invalid format
+PASS Email - Without domain
+PASS Contact - Empty contact
+PASS Contact - Valid contact
+PASS Contact - With letters
+PASS Contact - With hyphens
+
+Total Tests: 16
+Passed: 16
+Failed: 0
+Success Rate: 100.0%
+
+All tests passed!

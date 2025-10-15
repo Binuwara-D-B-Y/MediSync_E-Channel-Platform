@@ -19,30 +19,30 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
   const validateForm = () => {
     const newErrors = {};
     
-    // Name validation - only letters and spaces
-    if (!name.trim()) {
+    // Name validation - only letters and spaces, cannot be empty
+    if (!name || !name.trim()) {
       newErrors.name = 'Full name is required';
     } else if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
       newErrors.name = 'Name should contain only letters and spaces';
     }
     
-    // NIC validation - exactly 12 digits
-    if (!nic.trim()) {
+    // NIC validation - exactly 12 digits, cannot be empty
+    if (!nic || !nic.trim()) {
       newErrors.nic = 'NIC is required';
     } else if (!/^\d{12}$/.test(nic.trim())) {
       newErrors.nic = 'NIC should be exactly 12 digits';
     }
     
-    // Email validation
+    // Email validation - cannot be empty
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) {
+    if (!email || !email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!emailPattern.test(email.trim())) {
       newErrors.email = 'Please enter a valid email address';
     }
     
-    // Contact validation - only numbers
-    if (!contact.trim()) {
+    // Contact validation - only numbers, cannot be empty
+    if (!contact || !contact.trim()) {
       newErrors.contact = 'Contact number is required';
     } else if (!/^\d+$/.test(contact.trim())) {
       newErrors.contact = 'Contact number should contain only numbers';

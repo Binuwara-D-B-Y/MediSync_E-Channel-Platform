@@ -43,11 +43,6 @@ Mahima Linash
 Chamika Pathirana
 
 
-## to update db
-dotnet ef migrations add AddNewColumnToDoctor
-
-dotnet ef database update
-
 ## to run
 dotnet clean
 dotnet build
