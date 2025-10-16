@@ -23,9 +23,7 @@ const AdminDoctors = () => {
 
     const fetchDoctors = async () => {
         try {
-            const data = await apiRequest('/api/admin/admindoctors', {
-                headers: authHeaders()
-            });
+            const data = await apiRequest('/api/admin/testadmin/admindoctors');
             setDoctors(data);
         } catch (error) {
             console.error('Error fetching doctors:', error);
@@ -44,10 +42,9 @@ const AdminDoctors = () => {
             
             const method = editingDoctor ? 'PUT' : 'POST';
             
-            await apiRequest(url, {
-                method,
-                headers: authHeaders(),
-                body: JSON.stringify(editingDoctor ? { ...formData, doctorId: editingDoctor.doctorId } : formData)
+            await apiRequest('/api/admin/testadmin/admindoctors', {
+                method: 'POST',
+                body: JSON.stringify(formData)
             });
 
             fetchDoctors();

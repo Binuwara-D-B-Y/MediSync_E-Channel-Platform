@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Admin Access</title>
+</head>
+<body>
+    <h1>Test Admin Access</h1>
+    <button onclick="setAdminToken()">Set Admin Token</button>
+    <button onclick="checkAccess()">Check Admin Access</button>
+    <div id="result"></div>
+
+    <script>
+        function setAdminToken() {
+            // Set a mock admin token for testing
+            localStorage.setItem('token', 'mock-admin-token');
+            localStorage.setItem('userRole', 'Admin');
+            document.getElementById('result').innerHTML = '✅ Admin token set';
+        }
+
+        function checkAccess() {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('userRole');
+            
+            if (token && role === 'Admin') {
+                document.getElementById('result').innerHTML = `
+                    ✅ Admin access available<br>
+                    Token: ${token}<br>
+                    Role: ${role}<br>
+                    <a href="http://localhost:5173/admin/dashboard" target="_blank">Open Admin Dashboard</a>
+                `;
+            } else {
+                document.getElementById('result').innerHTML = '❌ No admin access';
+            }
+        }
+    </script>
+</body>
+</html>
