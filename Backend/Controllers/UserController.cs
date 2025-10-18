@@ -74,12 +74,17 @@ namespace Backend.Controllers
         [HttpPost("change-password")]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto request)
         {
+            Console.WriteLine("ChangePassword controller method called");
             try
             {
                 if (!ModelState.IsValid)
+                {
+                    Console.WriteLine("ModelState is invalid");
                     return BadRequest(ModelState);
+                }
 
                 var userId = GetUserIdFromToken();
+                Console.WriteLine($"Extracted userId: {userId}");
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
                 await _userService.ChangePasswordAsync(userId.Value, request);
@@ -87,10 +92,13 @@ namespace Backend.Controllers
             }
             catch (ArgumentException ex)
             {
+                Console.WriteLine($"ArgumentException: {ex.Message}");
                 return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
                 return StatusCode(500, new { message = "An error occurred while changing password" });
             }
         }

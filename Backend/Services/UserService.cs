@@ -9,15 +9,15 @@ namespace Backend.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly AuthService _authService;
         public UserService(
             IUserRepository userRepository,
             ITransactionRepository transactionRepository,
-            IPasswordHasher<User> passwordHasher)
+            AuthService authService)
         {
             _userRepository = userRepository;
             _transactionRepository = transactionRepository;
-            _passwordHasher = passwordHasher;
+            _authService = authService;
         }
 
         public async Task<UserProfileDto> GetProfileAsync(int userId)
@@ -82,6 +82,8 @@ namespace Backend.Services
 
         public async Task ChangePasswordAsync(int userId, ChangePasswordDto request)
         {
+            Console.WriteLine($"ChangePassword called for userId: {userId}");
+            
             if (request.NewPassword != request.ConfirmNewPassword)
                 throw new ArgumentException("New passwords do not match.");
 
@@ -92,12 +94,21 @@ namespace Backend.Services
             if (user == null)
                 throw new ArgumentException("User not found");
 
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.CurrentPassword);
-            if (result != PasswordVerificationResult.Success)
+            Console.WriteLine($"Found user: {user.Email}");
+
+            if (!_authService.VerifyPassword(request.CurrentPassword, user.PasswordHash))
                 throw new ArgumentException("Current password is incorrect.");
 
-            user.PasswordHash = _passwordHasher.HashPassword(user, request.NewPassword);
+            Console.WriteLine("Current password verified successfully");
+            
+            var oldHash = user.PasswordHash;
+            user.PasswordHash = _authService.HashPassword(request.NewPassword);
+            
+            Console.WriteLine($"Password hash changed from {oldHash.Substring(0, 10)}... to {user.PasswordHash.Substring(0, 10)}...");
+            
             await _userRepository.UpdateAsync(user);
+            
+            Console.WriteLine("Password update completed successfully");
         }
 
         public async Task DeleteAccountAsync(int userId)
