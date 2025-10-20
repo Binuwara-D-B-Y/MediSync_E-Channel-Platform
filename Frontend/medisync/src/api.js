@@ -64,3 +64,37 @@ export const userAPI = {
     })
   },
 }
+
+export const favoritesAPI = {
+  // Get user favorites
+  getFavorites: async () => {
+    return apiRequest("/api/Favorites", {
+      method: "GET",
+      headers: authHeaders(),
+    })
+  },
+
+  // Add doctor to favorites
+  addFavorite: async (doctorId) => {
+    return apiRequest(`/api/Favorites/${doctorId}`, {
+      method: "POST",
+      headers: authHeaders(),
+    })
+  },
+
+  // Remove doctor from favorites
+  removeFavorite: async (doctorId) => {
+    return apiRequest(`/api/Favorites/${doctorId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    })
+  },
+
+  // Check if doctor is favorite
+  checkFavorite: async (doctorId) => {
+    return apiRequest(`/api/Favorites/check/${doctorId}`, {
+      method: "GET",
+      headers: authHeaders(),
+    })
+  },
+}

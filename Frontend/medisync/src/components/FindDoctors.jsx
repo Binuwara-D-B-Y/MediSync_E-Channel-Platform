@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import FavoriteButton from './FavoriteButton';
 import '../styles/FindDoctors.css';
 
 export default function FindDoctors({
@@ -126,6 +127,20 @@ export default function FindDoctors({
             const image = doctor.profileImage || '/assets/unnamed.png';
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>
+                <div className="doctor-card-header">
+                  <FavoriteButton
+                    doctorId={doctor.doctorId || doctor.id}
+                    initialIsFavorite={doctor.isFavorite || false}
+                    onToggle={(isFav, msg) => {
+                      // Show toast message
+                      const toast = document.createElement('div');
+                      toast.textContent = msg;
+                      toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#10b981;color:white;padding:12px 16px;border-radius:6px;z-index:1000;font-size:14px';
+                      document.body.appendChild(toast);
+                      setTimeout(() => document.body.removeChild(toast), 3000);
+                    }}
+                  />
+                </div>
                 <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
                   <div style={{width:120, height:120, borderRadius:12, overflow:'hidden', background:'#f3f4f6', border:'1px solid #e5e7eb'}}>
                     <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e)=>{e.currentTarget.src='src/assets/Elogo.png'}} />

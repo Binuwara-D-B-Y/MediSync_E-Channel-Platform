@@ -16,6 +16,7 @@ import Clienthomepage from "./pages/Clienthomepage"
 import UserAccount from "./pages/UserAccount"
 import BookAppointment from "./pages/BookAppointment"
 import AppointmentsDone from "./pages/AppointmentsDone"
+import FavoriteDoctors from "./pages/FavoriteDoctors"
 // import AdminDashboard from "./pages/AdminDashboard";
 
 // Shared components
@@ -49,10 +50,24 @@ function App() {
     if (location.pathname.startsWith("/account")) {
       headerActions = [
         { label: "Home", path: "/patient", className: "settings-button" },
+        { label: "Favorites", path: "/favorites", className: "settings-button" },
+        { label: "Logout", action: handleLogout, className: "logout-button" },
+      ]
+    } else if (location.pathname === "/patient") {
+      headerActions = [
+        { label: "Favorites", path: "/favorites", className: "settings-button" },
+        { label: "Profile", path: "/account", className: "settings-button" },
+        { label: "Logout", action: handleLogout, className: "logout-button" },
+      ]
+    } else if (location.pathname === "/favorites") {
+      headerActions = [
+        { label: "Home", path: "/patient", className: "settings-button" },
+        { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
     } else {
       headerActions = [
+        { label: "Home", path: "/patient", className: "settings-button" },
         { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
@@ -74,9 +89,10 @@ function App() {
         <Route path="/account" element={<UserAccount />} />
         <Route path="/book/:doctorId" element={<BookAppointment />} />
         <Route path="/appointments" element={<AppointmentsDone />} />
+        <Route path="/favorites" element={<FavoriteDoctors />} />
 
         {/* Public routes */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={isAuthed ? <Navigate to="/patient" replace /> : <Navigate to="/login" replace />} />
         <Route path="/login" element={<Login onAuthed={() => setIsAuthed(true)} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
