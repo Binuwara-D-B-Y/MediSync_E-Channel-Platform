@@ -1,0 +1,10 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  ValidationTests -> D:\Yesen\Learning\Projects\ASP.NET\Y03S01\ValidationTests\bin\Debug\net9.0\ValidationTests.dll
+Test run for D:\Yesen\Learning\Projects\ASP.NET\Y03S01\ValidationTests\bin\Debug\net9.0\ValidationTests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 376 ms - ValidationTests.dll (net9.0)

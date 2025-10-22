@@ -34,6 +34,9 @@ namespace Backend.Models
         // Password reset support
         public string? PasswordResetToken { get; set; }
         public DateTime? PasswordResetTokenExpiresUtc { get; set; }
+        
+        // Clerk integration
+        public string? ClerkUserId { get; set; }
 
         public ICollection<Appointment>? Appointments { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }

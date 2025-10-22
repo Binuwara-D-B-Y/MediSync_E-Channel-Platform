@@ -1,4 +1,4 @@
-export const API_BASE = import.meta.env.VITE_API_BASE || window.__API_BASE || 'http://localhost:5090';
+export const API_BASE = import.meta.env.VITE_API_BASE || window.__API_BASE || 'http://localhost:5000';
 
 export async function apiRequest(path, options = {}) {
 	const url = `${API_BASE}${path}`;

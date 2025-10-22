@@ -4,7 +4,7 @@ namespace Backend.Models.DTOs
 {
 	public sealed class LoginDto
 	{
-		[Required, MaxLength(256), EmailAddress]
+		[Required, MaxLength(100), EmailAddress]
 		public string Email { get; init; } = string.Empty;
 
 		[Required, MinLength(6), MaxLength(100)]
@@ -13,7 +13,7 @@ namespace Backend.Models.DTOs
 
 	public sealed class ForgotPasswordRequestDto
 	{
-		[Required, MaxLength(256), EmailAddress]
+		[Required, MaxLength(100), EmailAddress]
 		public string Email { get; init; } = string.Empty;
 	}
 
@@ -26,3 +26,4 @@ namespace Backend.Models.DTOs
 		public string NewPassword { get; init; } = string.Empty;
 	}
 }
+
