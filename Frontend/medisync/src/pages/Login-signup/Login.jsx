@@ -17,18 +17,14 @@ export default function Login({ onAuthed }) {
     setLoading(true)
 
     try {
-      // const res = await apiRequest("/api/Auth/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ email, password }),
-      // })
+      const res = await apiRequest("/api/Auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
 
-      // const token = res.data?.token || res.data?.Token || res.Token || res.token
+      const token = res.data?.token || res.data?.Token || res.Token || res.token
 
-      const res = await authAPI.login(email, password)
-      const token = res?.token || res?.Token || res.token
-
-      //.......
       if (token) {
         localStorage.setItem("token", token)
 
