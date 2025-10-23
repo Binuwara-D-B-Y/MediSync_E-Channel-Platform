@@ -7,6 +7,8 @@ const AdminDoctors = () => {
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [editingDoctor, setEditingDoctor] = useState(null);
+    const [sortField, setSortField] = useState('fullName');
+    const [sortDirection, setSortDirection] = useState('asc');
     const [formData, setFormData] = useState({
         fullName: '',
         specialization: '',
@@ -23,7 +25,7 @@ const AdminDoctors = () => {
 
     const fetchDoctors = async () => {
         try {
-            const data = await apiRequest('/api/admin/testadmin/admindoctors');
+            const data = await apiRequest('/api/doctors');
             setDoctors(data);
         } catch (error) {
             console.error('Error fetching doctors:', error);
@@ -34,23 +36,40 @@ const AdminDoctors = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Form submitted with data:', formData);
         
         try {
-            const url = editingDoctor 
-                ? `/api/admin/admindoctors/${editingDoctor.doctorId}`
-                : '/api/admin/admindoctors';
+            let result;
+            if (editingDoctor) {
+                console.log(`Making request to: /api/doctors/${editingDoctor.doctorId} with method: PUT`);
+                result = await apiRequest(`/api/doctors/${editingDoctor.doctorId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ...formData, doctorId: editingDoctor.doctorId })
+                });
+            } else {
+                console.log('Making request to: /api/doctors with method: POST');
+                result = await apiRequest('/api/doctors', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+            }
             
-            const method = editingDoctor ? 'PUT' : 'POST';
-            
-            await apiRequest('/api/admin/testadmin/admindoctors', {
-                method: 'POST',
-                body: JSON.stringify(formData)
-            });
-
+            console.log('Doctor saved successfully:', result);
             fetchDoctors();
             resetForm();
         } catch (error) {
             console.error('Error saving doctor:', error);
+            console.error('Form data sent:', formData);
+            if (editingDoctor) {
+                console.error('Editing doctor:', editingDoctor);
+            }
+            alert('Error saving doctor: ' + error.message);
         }
     };
 
@@ -72,9 +91,8 @@ const AdminDoctors = () => {
         if (!confirm('Are you sure you want to delete this doctor?')) return;
         
         try {
-            await apiRequest(`/api/admin/admindoctors/${doctorId}`, {
-                method: 'DELETE',
-                headers: authHeaders()
+            await apiRequest(`/api/doctors/${doctorId}`, {
+                method: 'DELETE'
             });
             fetchDoctors();
         } catch (error) {
@@ -95,6 +113,24 @@ const AdminDoctors = () => {
         setEditingDoctor(null);
         setShowForm(false);
     };
+
+    const handleSort = (field) => {
+        if (sortField === field) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortField(field);
+            setSortDirection('asc');
+        }
+    };
+
+    const sortedDoctors = [...doctors].sort((a, b) => {
+        const aVal = a[sortField] || '';
+        const bVal = b[sortField] || '';
+        if (sortDirection === 'asc') {
+            return aVal.localeCompare(bVal);
+        }
+        return bVal.localeCompare(aVal);
+    });
 
     if (loading) return <div className="loading">Loading doctors...</div>;
 
@@ -176,15 +212,21 @@ const AdminDoctors = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Specialization</th>
-                            <th>Email</th>
+                            <th onClick={() => handleSort('fullName')} style={{cursor: 'pointer'}}>
+                                Name {sortField === 'fullName' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th onClick={() => handleSort('specialization')} style={{cursor: 'pointer'}}>
+                                Specialization {sortField === 'specialization' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th onClick={() => handleSort('email')} style={{cursor: 'pointer'}}>
+                                Email {sortField === 'email' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
                             <th>Contact</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {doctors.map(doctor => (
+                        {sortedDoctors.map(doctor => (
                             <tr key={doctor.doctorId}>
                                 <td>{doctor.fullName}</td>
                                 <td>{doctor.specialization}</td>

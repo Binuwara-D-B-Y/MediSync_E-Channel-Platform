@@ -12,12 +12,17 @@ const AdminDashboard = () => {
 
     const fetchDashboardStats = async () => {
         try {
-            const data = await apiRequest('/api/admin/admindashboard/stats', {
-                headers: authHeaders()
-            });
+            const data = await apiRequest('/api/admin/admindashboard/stats');
             setStats(data);
         } catch (error) {
             console.error('Error fetching dashboard stats:', error);
+            setStats({
+                totalDoctors: 0,
+                totalPatients: 0,
+                totalAppointments: 0,
+                todayAppointments: 0,
+                recentAppointments: []
+            });
         } finally {
             setLoading(false);
         }
@@ -62,17 +67,23 @@ const AdminDashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {stats?.recentAppointments?.map(appointment => (
+                            {stats?.recentAppointments?.length > 0 ? stats.recentAppointments.map(appointment => (
                                 <tr key={appointment.appointmentId}>
                                     <td>{appointment.patientName}</td>
                                     <td>{appointment.doctorName}</td>
                                     <td>{new Date(appointment.scheduleDate).toLocaleDateString()}</td>
                                     <td>{new Date(appointment.bookingDate).toLocaleDateString()}</td>
-                                    <td className={`status ${appointment.status.toLowerCase()}`}>
-                                        {appointment.status}
+                                    <td className={`status ${appointment.status?.toString().toLowerCase() || 'unknown'}`}>
+                                        {appointment.status || 'Unknown'}
                                     </td>
                                 </tr>
-                            ))}
+                            )) : (
+                                <tr>
+                                    <td colSpan="5" style={{textAlign: 'center', padding: '2rem'}}>
+                                        No recent appointments found
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

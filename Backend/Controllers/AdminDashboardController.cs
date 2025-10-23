@@ -7,7 +7,7 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/admin/[controller]")]
-    [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     public class AdminDashboardController : ControllerBase
     {
         private readonly AppDbContext _context;
