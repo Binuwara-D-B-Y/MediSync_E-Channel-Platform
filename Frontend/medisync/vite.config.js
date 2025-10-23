@@ -18,11 +18,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      '/api': 'http://localhost:5000' // For local dev only
-    }
-  },
   build: {
     envDir: '.', // Look for .env files in project root
     assetsDir: 'assets', // Ensure assets are output to /assets
