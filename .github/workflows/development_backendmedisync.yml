@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - development
-    paths:
-      - 'Backend/**'
   workflow_dispatch:
 
 jobs:
@@ -44,7 +42,6 @@ jobs:
         with:
           name: .net-app
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'backendmedisync-cua0dmdgh3aacrb0'
