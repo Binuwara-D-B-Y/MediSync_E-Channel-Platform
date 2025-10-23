@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
 using System.Text;
+using Backend.Models;
+using Microsoft.AspNetCore.Identity;
+
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -31,6 +34,10 @@ Console.WriteLine($"ConnectionString: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+//..............
+builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
 // Add HttpClient
 builder.Services.AddHttpClient();
@@ -61,12 +68,16 @@ builder.Services.AddScoped<DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // Register services
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -95,7 +106,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Disabled for development
 
 // Use CORS
 app.UseCors("AllowReactApp");

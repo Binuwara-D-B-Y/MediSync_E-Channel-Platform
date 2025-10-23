@@ -12,42 +12,13 @@ export default function PaymentGatewayForm({ amount, onCancel, onCheckout }) {
 
   const validate = () => {
     const e = {};
-    
-    // Account name validation
-    if (!accName || !accName.trim()) {
-      e.accName = 'Account name is required';
-    } else if (accName.trim().length < 2) {
-      e.accName = 'Account name must be at least 2 characters';
-    }
-    
-    // Account number validation
-    if (!accNo || !accNo.trim()) {
-      e.accNo = 'Account number is required';
-    } else if (!/^[0-9]+$/.test(accNo.trim())) {
-      e.accNo = 'Account number must be digits only';
-    } else if (accNo.trim().length < 6 || accNo.trim().length > 24) {
-      e.accNo = 'Account number must be 6-24 digits';
-    }
-    
-    // Bank name validation
-    if (!bankName || !bankName.trim()) {
-      e.bankName = 'Bank name is required';
-    } else if (bankName.trim().length < 2) {
-      e.bankName = 'Bank name must be at least 2 characters';
-    }
-    
-    // Bank branch validation
-    if (!bankBranch || !bankBranch.trim()) {
-      e.bankBranch = 'Bank branch is required';
-    }
-    
-    // PIN validation
-    if (!pin || !pin.trim()) {
-      e.pin = 'PIN is required';
-    } else if (!/^[0-9]{4}$/.test(pin.trim())) {
-      e.pin = 'PIN must be exactly 4 digits';
-    }
-    
+    if (!accName || accName.trim().length < 2) e.accName = 'Enter account name';
+    if (!/^[0-9]+$/.test(accNo || '')) e.accNo = 'Account number must be digits only';
+    // reasonable length check for account number: 6-24 digits
+    if ((accNo || '').length < 6 || (accNo || '').length > 24) e.accNo = 'Account number length invalid';
+  if (!bankName || bankName.trim().length < 2) e.bankName = 'Enter bank name';
+  if (!bankBranch || bankBranch.trim().length < 1) e.bankBranch = 'Enter bank branch';
+    if (!/^[0-9]{4}$/.test(pin || '')) e.pin = 'PIN must be 4 digits';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -72,62 +43,13 @@ export default function PaymentGatewayForm({ amount, onCancel, onCheckout }) {
     <div className="payment-overlay">
       <div className="payment-box">
         <h4>Payment Details</h4>
-        <div className="form-group">
-          <label>Account Name</label>
-          <input 
-            className={`form-input ${errors.accName ? 'error' : ''}`} 
-            value={accName} 
-            onChange={e=>setAccName(e.target.value)}
-            placeholder="Enter account holder name"
-          />
-          {errors.accName && <div className="form-error">{errors.accName}</div>}
-        </div>
-        
-        <div className="form-group">
-          <label>Account Number</label>
-          <input 
-            className={`form-input ${errors.accNo ? 'error' : ''}`} 
-            value={accNo} 
-            onChange={e=>setAccNo(e.target.value)}
-            placeholder="Enter account number"
-          />
-          {errors.accNo && <div className="form-error">{errors.accNo}</div>}
-        </div>
-        
-        <div className="form-group">
-          <label>Bank Name</label>
-          <input 
-            className={`form-input ${errors.bankName ? 'error' : ''}`} 
-            value={bankName} 
-            onChange={e=>setBankName(e.target.value)}
-            placeholder="Enter bank name"
-          />
-          {errors.bankName && <div className="form-error">{errors.bankName}</div>}
-        </div>
-        
-        <div className="form-group">
-          <label>Bank Branch</label>
-          <input 
-            className={`form-input ${errors.bankBranch ? 'error' : ''}`} 
-            value={bankBranch} 
-            onChange={e=>setBankBranch(e.target.value)}
-            placeholder="Enter bank branch"
-          />
-          {errors.bankBranch && <div className="form-error">{errors.bankBranch}</div>}
-        </div>
-        
-        <div className="form-group">
-          <label>PIN</label>
-          <input 
-            className={`form-input ${errors.pin ? 'error' : ''}`} 
-            type="password"
-            value={pin} 
-            onChange={e=>setPin(e.target.value)} 
-            maxLength={4}
-            placeholder="4-digit PIN"
-          />
-          {errors.pin && <div className="form-error">{errors.pin}</div>}
-        </div>
+        <div className="form-group"><label>Account Name</label><input className="form-input" value={accName} onChange={e=>setAccName(e.target.value)} /></div>
+        <div className="form-group"><label>Account Number</label><input className="form-input" value={accNo} onChange={e=>setAccNo(e.target.value)} /></div>
+        {errors.accNo && <div className="form-error">{errors.accNo}</div>}
+        <div className="form-group"><label>Bank Name</label><input className="form-input" value={bankName} onChange={e=>setBankName(e.target.value)} /></div>
+  <div className="form-group"><label>Bank Branch</label><input className="form-input" value={bankBranch} onChange={e=>setBankBranch(e.target.value)} /></div>
+        <div className="form-group"><label>PIN</label><input className="form-input" value={pin} onChange={e=>setPin(e.target.value)} maxLength={4} /></div>
+        {errors.pin && <div className="form-error">{errors.pin}</div>}
 
         <div className="payment-summary">
           <span className="label">Amount:</span>

@@ -19,3 +19,48 @@ export function authHeaders() {
 	const token = localStorage.getItem('token');
 	return token ? { Authorization: `Bearer ${token}` } : {};
 }
+
+
+export const userAPI = {
+  // Get user profile
+  getProfile: async () => {
+    return apiRequest("/api/User/profile", {  // Updated path
+      method: "GET",
+      headers: authHeaders(),
+    })
+  },
+
+  // Update user profile
+  updateProfile: async (data) => {
+    return apiRequest("/api/User/profile", {  // Updated path
+      method: "PUT",
+      headers: authHeaders(),
+      body: JSON.stringify(data),
+    })
+  },
+
+  // Change password
+  changePassword: async (data) => {
+    return apiRequest("/api/User/change-password", {  // Updated path
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(data),
+    })
+  },
+
+  // Delete account
+  deleteAccount: async () => {
+    return apiRequest("/api/User", {  // Updated path
+      method: "DELETE",
+      headers: authHeaders(),
+    })
+  },
+
+  // Get user transactions
+  getTransactions: async () => {
+    return apiRequest("/api/User/transactions", {  // Updated path
+      method: "GET",
+      headers: authHeaders(),
+    })
+  },
+}
