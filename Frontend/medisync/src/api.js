@@ -63,7 +63,6 @@ export const userAPI = {
       headers: authHeaders(),
     })
   },
-<<<<<<< HEAD
 }
 
 export const favoritesAPI = {
@@ -98,6 +97,4 @@ export const favoritesAPI = {
       headers: authHeaders(),
     })
   },
-=======
->>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 }

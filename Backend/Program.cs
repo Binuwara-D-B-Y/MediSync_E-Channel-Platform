@@ -69,10 +69,7 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
-=======
->>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 
 
 // Register services

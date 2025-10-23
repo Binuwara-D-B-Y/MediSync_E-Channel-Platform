@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import FavoriteButton from './FavoriteButton';
-=======
->>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 import '../styles/FindDoctors.css';
 
 export default function FindDoctors({
@@ -130,7 +127,6 @@ export default function FindDoctors({
             const image = doctor.profileImage || '/assets/unnamed.png';
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>
-<<<<<<< HEAD
                 <div className="doctor-card-header">
                   <FavoriteButton
                     doctorId={doctor.doctorId || doctor.id}
@@ -145,8 +141,6 @@ export default function FindDoctors({
                     }}
                   />
                 </div>
-=======
->>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
                 <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
                   <div style={{width:120, height:120, borderRadius:12, overflow:'hidden', background:'#f3f4f6', border:'1px solid #e5e7eb'}}>
                     <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e)=>{e.currentTarget.src='src/assets/Elogo.png'}} />
