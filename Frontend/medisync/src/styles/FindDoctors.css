@@ -87,9 +87,20 @@
   padding: 1.0rem;
   text-align: center;
   transition: box-shadow 0.2s;
+<<<<<<< HEAD
   min-width: 260px;
   max-width: 320px;
   margin: 0 auto;
+=======
+  position: relative;
+}
+
+.doctor-card-header {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+>>>>>>> wishlist
 }
 
 .doctor-card:hover {

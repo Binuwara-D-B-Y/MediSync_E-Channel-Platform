@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -14,6 +15,13 @@ import {
   Avatar,
 } from "@mui/material";
 import { Search, CalendarToday } from "@mui/icons-material";
+=======
+import React, { useState, useEffect } from 'react';
+import { Search, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import FavoriteButton from './FavoriteButton';
+import '../styles/FindDoctors.css';
+>>>>>>> wishlist
 
 const FindDoctors = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -167,6 +175,7 @@ const FindDoctors = () => {
               "&:hover": { bgcolor: "#115293" },
             }}
           >
+<<<<<<< HEAD
             Search
           </Button>
         </Grid>
@@ -217,6 +226,70 @@ const FindDoctors = () => {
         )}
       </Grid>
     </Box>
+=======
+            {specializations.map((spec) => (
+              <option key={spec} value={spec}>{spec}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="find-doctors-extra">
+        <input
+          type="date"
+          value={appointmentDate}
+          onChange={(e) => setAppointmentDate(e.target.value)}
+          className="appointment-date-input"
+        />
+        <button className="doctor-search-btn" onClick={handleSearch}>Search</button>
+      </div>
+      {loading && <div style={{padding:'1rem 1.5rem', color:'#888'}}>Loading doctors...</div>}
+      {/* Single unified grid per rules */}
+      {!loading && (
+        <div className="doctors-grid">
+          {searchMessage && (
+            <div className="no-results-content" style={{gridColumn:'1/-1', marginBottom:'0.5rem'}}>
+              <p style={{color:'#b91c1c', fontWeight:600, textAlign:'center'}}>{searchMessage}</p>
+            </div>
+          )}
+          {doctors.map((doctor) => {
+            const name = doctor.fullName || doctor.name || 'Unknown Doctor';
+            const specialization = doctor.specialization || 'General Practitioner';
+            // Prefer backend image, fallback to default
+            const image = doctor.profileImage || '/assets/unnamed.png';
+            return (
+              <div className="doctor-card" key={doctor.doctorId || doctor.id}>
+                <div className="doctor-card-header">
+                  <FavoriteButton
+                    doctorId={doctor.doctorId || doctor.id}
+                    initialIsFavorite={doctor.isFavorite || false}
+                    onToggle={(isFav, msg) => {
+                      // Show toast message
+                      const toast = document.createElement('div');
+                      toast.textContent = msg;
+                      toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#10b981;color:white;padding:12px 16px;border-radius:6px;z-index:1000;font-size:14px';
+                      document.body.appendChild(toast);
+                      setTimeout(() => document.body.removeChild(toast), 3000);
+                    }}
+                  />
+                </div>
+                <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
+                  <div style={{width:120, height:120, borderRadius:12, overflow:'hidden', background:'#f3f4f6', border:'1px solid #e5e7eb'}}>
+                    <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e)=>{e.currentTarget.src='src/assets/Elogo.png'}} />
+                  </div>
+                  <div className="doctor-name" style={{margin:0, textAlign:'center'}}>{name}</div>
+                  <div className="doctor-spec" style={{textAlign:'center'}}>{specialization}</div>
+                </div>
+                  <button className="doctor-book-btn" style={{marginTop:'0.75rem'}} onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}>Book Now</button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {!loading && doctors.length === 0 && (
+        <div style={{padding:'1rem 1.5rem', color:'#6b7280'}}>No doctors found.</div>
+      )}
+    </div>
+>>>>>>> wishlist
   );
 };
 

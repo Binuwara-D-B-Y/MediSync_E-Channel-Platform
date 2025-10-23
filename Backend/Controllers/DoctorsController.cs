@@ -1,6 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using Backend.Services;
 using Backend.Models.DTOs;
+=======
+using Backend.Data;
+using Backend.Models;
+using Backend.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+>>>>>>> wishlist
 
 namespace Backend.Controllers
 {
@@ -12,6 +20,7 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     public class DoctorsController : ControllerBase
     {
+<<<<<<< HEAD
         private readonly IDoctorService _doctorService;
         private readonly ILogger<DoctorsController> _logger;
 
@@ -19,6 +28,21 @@ namespace Backend.Controllers
         {
             _doctorService = doctorService;
             _logger = logger;
+=======
+        private readonly AppDbContext _context;
+        private readonly IFavoriteRepository _favoriteRepository;
+        
+        public DoctorsController(AppDbContext context, IFavoriteRepository favoriteRepository)
+        {
+            _context = context;
+            _favoriteRepository = favoriteRepository;
+        }
+
+        private int? GetUserIdIfAuthenticated()
+        {
+            var userIdClaim = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out int userId) ? userId : null;
+>>>>>>> wishlist
         }
 
         /// <summary>
@@ -64,6 +88,7 @@ namespace Backend.Controllers
             }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Search doctors by various criteria
         /// </summary>
@@ -105,6 +130,37 @@ namespace Backend.Controllers
                 _logger.LogError(ex, "Error retrieving doctors by specialization");
                 return StatusCode(500, new { Success = false, Message = "Internal server error" });
             }
+=======
+            var doctors = await query.ToListAsync();
+            
+            // Add favorite status if user is authenticated
+            var userId = GetUserIdIfAuthenticated();
+            if (userId.HasValue)
+            {
+                var doctorsWithFavorites = new List<object>();
+                foreach (var doctor in doctors)
+                {
+                    var isFavorite = await _favoriteRepository.IsFavoriteAsync(userId.Value, doctor.DoctorId);
+                    doctorsWithFavorites.Add(new
+                    {
+                        doctor.DoctorId,
+                        doctor.FullName,
+                        doctor.Specialization,
+                        doctor.NIC,
+                        doctor.Qualification,
+                        doctor.Email,
+                        doctor.ContactNo,
+                        doctor.Details,
+                        doctor.CreatedAt,
+                        doctor.UpdatedAt,
+                        IsFavorite = isFavorite
+                    });
+                }
+                return Ok(doctorsWithFavorites);
+            }
+            
+            return Ok(doctors);
+>>>>>>> wishlist
         }
     }
 }

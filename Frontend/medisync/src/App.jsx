@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -51,6 +52,8 @@ import AdminSchedules from './pages/admin/AdminSchedules';
 // export default AppWrapper;
 
 
+=======
+>>>>>>> wishlist
 "use client"
 
 import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from "react-router-dom"
@@ -68,6 +71,8 @@ import Reset from "./pages/Login-signup/Reset"
 import Clienthomepage from "./pages/Clienthomepage"
 import UserAccount from "./pages/UserAccount"
 import BookAppointment from "./pages/BookAppointment"
+import AppointmentsDone from "./pages/AppointmentsDone"
+import FavoriteDoctors from "./pages/FavoriteDoctors"
 // import AdminDashboard from "./pages/AdminDashboard";
 
 // Shared components
@@ -101,10 +106,23 @@ function App() {
     if (location.pathname.startsWith("/account")) {
       headerActions = [
         { label: "Home", path: "/patient", className: "settings-button" },
+        { label: "Favorites", path: "/favorites", className: "settings-button" },
+        { label: "Logout", action: handleLogout, className: "logout-button" },
+      ]
+    } else if (location.pathname === "/patient") {
+      headerActions = [
+        { label: "Profile", path: "/account", className: "settings-button" },
+        { label: "Logout", action: handleLogout, className: "logout-button" },
+      ]
+    } else if (location.pathname === "/favorites") {
+      headerActions = [
+        { label: "Home", path: "/patient", className: "settings-button" },
+        { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
     } else {
       headerActions = [
+        { label: "Home", path: "/patient", className: "settings-button" },
         { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
@@ -121,6 +139,7 @@ function App() {
     <Router>
     <Header title="MediSync" />
       <Routes>
+<<<<<<< HEAD
         
         {/* Default redirect */}
         <Route path="/" element={<Navigate to="/patient" replace />} />
@@ -139,6 +158,21 @@ function App() {
           <Route path="doctors" element={<AdminDoctors />} />
           <Route path="schedules" element={<AdminSchedules />} />
         </Route>
+=======
+        {/* Auth protected routes */}
+        <Route path="/patient" element={<Clienthomepage />} />
+        <Route path="/account" element={<UserAccount />} />
+        <Route path="/book/:doctorId" element={<BookAppointment />} />
+        <Route path="/appointments" element={<AppointmentsDone />} />
+        <Route path="/favorites" element={<FavoriteDoctors />} />
+
+        {/* Public routes */}
+        <Route path="/" element={isAuthed ? <Navigate to="/patient" replace /> : <Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login onAuthed={() => setIsAuthed(true)} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot" element={<Forgot />} />
+        <Route path="/reset" element={<Reset />} />
+>>>>>>> wishlist
       </Routes>
     </div>
   )

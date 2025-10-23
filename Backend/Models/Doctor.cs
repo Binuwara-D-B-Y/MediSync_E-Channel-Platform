@@ -16,6 +16,7 @@ namespace Backend.Models
         [Required]
         public int SpecializationId { get; set; }
 
+<<<<<<< HEAD
         [MaxLength(50)]
         public string? SpecializationName { get; set; } // For display only
 
@@ -41,13 +42,32 @@ namespace Backend.Models
         public string? Address { get; set; }
 
         public bool IsActive { get; set; } = true;
+=======
+        [Required, MaxLength(12)]
+        [RegularExpression(@"^\d{9}[Vv]|\d{12}$", ErrorMessage = "NIC must be either 9 digits followed by 'V' or 12 digits")]
+        public required string NIC { get; set; }
+
+        [MaxLength(200)]
+        public string? Qualification { get; set; }
+
+        [Required, MaxLength(50)]
+        [EmailAddress]
+        public required string Email { get; set; }
+
+        [Required, MaxLength(15)]
+        [Phone]
+        public required string ContactNo { get; set; }
+
+        [Required, MaxLength(500)]
+        public required string Details { get; set; }
+>>>>>>> wishlist
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+        // Navigation properties
         public ICollection<DoctorSchedule>? DoctorSchedules { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }
     }

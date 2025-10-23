@@ -35,12 +35,14 @@ namespace Backend.Models
     public string? PatientContact { get; set; }
 
     [Required]
+    public int SlotNumber { get; set; }
+
+    [Required]
     public AppointmentStatus Status { get; set; } = AppointmentStatus.booked;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public Transaction? Transaction { get; set; }

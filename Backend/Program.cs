@@ -1,8 +1,20 @@
+
 using Backend.Data;
+using Backend.Repositories;
+using Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IO;
+<<<<<<< HEAD
 using Backend.Services;
 using Backend.Repositories;
+=======
+using System.Text;
+using Backend.Models;
+using Microsoft.AspNetCore.Identity;
+
+>>>>>>> wishlist
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -20,6 +32,7 @@ if (string.IsNullOrWhiteSpace(dbPassword))
     Console.WriteLine("ERROR: DB_PASSWORD not loaded from .env!");
     throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
 }
+
 var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
 // Avoid printing sensitive credentials
 if (builder.Environment.IsDevelopment())
@@ -28,7 +41,63 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));  // Replace with your connection string
+    options.UseSqlServer(connectionString));
+
+//..............
+builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
+
+// Add HttpClient
+builder.Services.AddHttpClient();
+
+// Add JWT Authentication
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "dev_secret_change_me";
+var secretBytes = Encoding.UTF8.GetBytes(jwtSecret);
+if (secretBytes.Length < 32)
+{
+    secretBytes = System.Security.Cryptography.SHA256.HashData(secretBytes);
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+// Register repositories
+builder.Services.AddScoped<DoctorRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+
+
+// Register services
+builder.Services.AddScoped<DoctorService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddDbContext<ClinicWebApp.Data.ClinicDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -37,6 +106,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+<<<<<<< HEAD
 // Dependency Injection: ADO.NET services and repositories
 builder.Services.AddSingleton<IDatabaseConnectionService, DatabaseConnectionService>();
 
@@ -53,6 +123,11 @@ builder.Services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
 builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IAuthService, ClinicWebApp.Services.Implementations.AuthService>();
 builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IJwtService, ClinicWebApp.Services.Implementations.JwtService>();
 builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IPatientService, ClinicWebApp.Services.Implementations.PatientService>();
+=======
+// Bind to Azure's PORT environment variable or default to 5000 for local development
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://*:{port}");
+>>>>>>> wishlist
 
 var app = builder.Build();
 
@@ -62,7 +137,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Disabled for development
+
+// Use CORS
+app.UseCors("AllowReactApp");
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
@@ -70,7 +150,8 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate(); // Creates database if missing, applies pending migrations
+    // db.Database.Migrate(); // Creates database if missing, applies pending migrations
 }
 
+Console.WriteLine($"App running on port {port}");
 app.Run();

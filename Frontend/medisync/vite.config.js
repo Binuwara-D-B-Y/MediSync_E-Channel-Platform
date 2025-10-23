@@ -8,7 +8,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+<<<<<<< HEAD
       '/api': 'http://localhost:5094'
+=======
+      '/api': 'http://localhost:5000'
+>>>>>>> wishlist
     }
   }
 })

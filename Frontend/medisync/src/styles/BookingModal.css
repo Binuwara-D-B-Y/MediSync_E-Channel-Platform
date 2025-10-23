@@ -18,6 +18,39 @@
   position: relative;
 }
 
+/* wider modal for client booking */
+.modal-box.modal-wide {
+  max-width: 900px;
+  padding: 1.25rem;
+}
+
+.modal-body.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* When payment popup is active, blur the modal content beneath and prevent interaction */
+.modal-box.payment-active .modal-body,
+.modal-box.payment-active .modal-header {
+  filter: blur(4px) saturate(0.95);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.95;
+}
+
+.modal-box.payment-active .modal-header,
+.modal-box.payment-active .modal-body > div {
+  transition: filter 120ms ease;
+}
+
+/* make sure form inputs don't overlap and stack on small screens */
+@media (max-width: 768px) {
+  .modal-box.modal-wide { max-width: 100%; padding: 1rem; }
+  .modal-body.modal-grid { grid-template-columns: 1fr; }
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -111,3 +144,38 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Payment overlay inside the modal */
+.payment-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  padding: 1rem;
+}
+.payment-box {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.form-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; }
+
+.form-input.error {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.form-input.error:focus {
+  outline: none;
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+/* booking modal summary uses default .summary-item styling from the global app styles */

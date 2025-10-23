@@ -1,4 +1,5 @@
 using Backend.Models;
+<<<<<<< HEAD
 using Backend.Models.DTOs;
 
 namespace Backend.Repositories
@@ -80,3 +81,14 @@ namespace Backend.Repositories
         Task<IEnumerable<DoctorSchedule>> GetUpcomingSchedulesAsync(int doctorId, int days = 30);
     }
 }
+=======
+
+namespace Backend.Repositories
+{
+    public interface IDoctorScheduleRepository
+    {
+        Task<DoctorSchedule?> GetByIdAsync(int scheduleId);
+        Task<DoctorSchedule> UpdateAsync(DoctorSchedule schedule);
+    }
+}
+>>>>>>> wishlist
