@@ -16,7 +16,10 @@ import Clienthomepage from "./pages/Clienthomepage"
 import UserAccount from "./pages/UserAccount"
 import BookAppointment from "./pages/BookAppointment"
 import AppointmentsDone from "./pages/AppointmentsDone"
+<<<<<<< HEAD
 import FavoriteDoctors from "./pages/FavoriteDoctors"
+=======
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 // import AdminDashboard from "./pages/AdminDashboard";
 
 // Shared components
@@ -87,10 +90,16 @@ function App() {
         <Route path="/account" element={<UserAccount />} />
         <Route path="/book/:doctorId" element={<BookAppointment />} />
         <Route path="/appointments" element={<AppointmentsDone />} />
+<<<<<<< HEAD
         <Route path="/favorites" element={<FavoriteDoctors />} />
 
         {/* Public routes */}
         <Route path="/" element={isAuthed ? <Navigate to="/patient" replace /> : <Navigate to="/login" replace />} />
+=======
+
+        {/* Public routes */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
         <Route path="/login" element={<Login onAuthed={() => setIsAuthed(true)} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />

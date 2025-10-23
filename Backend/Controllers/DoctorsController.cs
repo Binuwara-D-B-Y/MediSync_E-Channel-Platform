@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Models;
+<<<<<<< HEAD
 using Backend.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+=======
+using Microsoft.EntityFrameworkCore;
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 
 namespace Backend.Controllers
 {
@@ -12,6 +16,7 @@ namespace Backend.Controllers
     public class DoctorsController : ControllerBase
     {
         private readonly AppDbContext _context;
+<<<<<<< HEAD
         private readonly IFavoriteRepository _favoriteRepository;
         
         public DoctorsController(AppDbContext context, IFavoriteRepository favoriteRepository)
@@ -26,6 +31,13 @@ namespace Backend.Controllers
             return int.TryParse(userIdClaim, out int userId) ? userId : null;
         }
 
+=======
+        public DoctorsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
         // GET: api/doctors
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? name, [FromQuery] string? specialization, [FromQuery] DateTime? date)
@@ -40,6 +52,7 @@ namespace Backend.Controllers
             // if (date.HasValue) { ... }
 
             var doctors = await query.ToListAsync();
+<<<<<<< HEAD
             
             // Add favorite status if user is authenticated
             var userId = GetUserIdIfAuthenticated();
@@ -67,6 +80,8 @@ namespace Backend.Controllers
                 return Ok(doctorsWithFavorites);
             }
             
+=======
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
             return Ok(doctors);
         }
     }

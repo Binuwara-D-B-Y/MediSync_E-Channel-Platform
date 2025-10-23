@@ -86,6 +86,7 @@
   padding: 1.5rem;
   text-align: center;
   transition: box-shadow 0.2s;
+<<<<<<< HEAD
   position: relative;
 }
 
@@ -94,6 +95,8 @@
   top: 0.75rem;
   right: 0.75rem;
   z-index: 1;
+=======
+>>>>>>> e3f9d7c471bef687e3cfe49d18c5cc1252e5b0ee
 }
 
 .doctor-card:hover {
