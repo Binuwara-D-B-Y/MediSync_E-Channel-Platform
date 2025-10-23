@@ -10,8 +10,11 @@ using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 
 
-// Explicitly load .env from current directory
-DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
+// Load .env file only in development
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,8 +40,16 @@ if (string.IsNullOrEmpty(rawConnectionString))
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 if (string.IsNullOrWhiteSpace(dbPassword))
 {
-    Console.WriteLine("ERROR: DB_PASSWORD not loaded from .env!");
-    throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
+    if (app.Environment.IsDevelopment())
+    {
+        Console.WriteLine("ERROR: DB_PASSWORD not loaded from .env!");
+        throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
+    }
+    else
+    {
+        Console.WriteLine("ERROR: DB_PASSWORD environment variable not set in Azure!");
+        throw new InvalidOperationException("DB_PASSWORD environment variable not set in Azure");
+    }
 }
 
 var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
@@ -111,9 +122,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Bind to Azure's PORT environment variable or default to 5000 for local development
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-builder.WebHost.UseUrls($"http://*:{port}");
+// Configure for Azure deployment
+if (!app.Environment.IsDevelopment())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 var app = builder.Build();
 
@@ -143,6 +157,14 @@ using (var scope = app.Services.CreateScope())
     // db.Database.Migrate(); // Uncomment if schema updates needed
 }
 
-Console.WriteLine($"App running on port {port}");
+if (!app.Environment.IsDevelopment())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+    Console.WriteLine($"App running on port {port}");
+}
+else
+{
+    Console.WriteLine("App running in development mode");
+}
 app.Run();
 // test

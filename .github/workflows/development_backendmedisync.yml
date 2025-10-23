@@ -73,6 +73,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - backendmedisync
 on:
   push:
     branches:
+      - main
       - development
     paths:
       - 'Backend/**'
