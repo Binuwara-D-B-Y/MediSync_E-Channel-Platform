@@ -126,7 +126,7 @@ export default function FindDoctors({
           {doctors.map((doctor) => {
             const name = doctor.fullName || doctor.name || 'Unknown Doctor';
             const specialization = doctor.specialization || 'General Practitioner';
-            const image = doctor.profileImage || '/assets/Elogo.png';
+            const image = doctor.profileImage || '/Elogo.png';
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>
                 <div className="doctor-card-header">
@@ -145,7 +145,7 @@ export default function FindDoctors({
                 </div>
                 <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
                   <div style={{width:120, height:120, borderRadius:12, overflow:'hidden', background:'#f3f4f6', border:'1px solid #e5e7eb'}}>
-                    <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e) => {e.currentTarget.src='/assets/Elogo.png'; e.currentTarget.onerror=null;}} />
+                    <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e) => {e.currentTarget.src='/Elogo.png'; e.currentTarget.onerror=null;}} />
                   </div>
                   <div className="doctor-name" style={{margin:0, textAlign:'center'}}>{name}</div>
                   <div className="doctor-spec" style={{textAlign:'center'}}>{specialization}</div>
