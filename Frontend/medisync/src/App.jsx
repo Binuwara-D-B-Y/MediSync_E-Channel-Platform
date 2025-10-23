@@ -22,6 +22,7 @@ import AdminLayout from "./pages/admin/AdminLayout"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminDoctors from "./pages/admin/AdminDoctors"
 import AdminSchedules from "./pages/admin/AdminSchedules"
+import AdminTransactions from "./pages/admin/AdminTransactions"
 
 // Shared components
 import Header from "./components/Header"
@@ -96,6 +97,7 @@ function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="doctors" element={<AdminDoctors />} />
           <Route path="schedules" element={<AdminSchedules />} />
+          <Route path="transactions" element={<AdminTransactions />} />
         </Route>
 
         {/* Public routes */}

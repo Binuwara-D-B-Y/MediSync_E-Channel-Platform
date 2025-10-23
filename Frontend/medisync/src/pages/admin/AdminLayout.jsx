@@ -27,6 +27,9 @@ const AdminLayout = () => {
                     <li>
                         <Link to="/admin/schedules">Manage Schedules</Link>
                     </li>
+                    <li>
+                        <Link to="/admin/transactions">Manage Transactions</Link>
+                    </li>
                 </ul>
                 <div className="admin-logout">
                     <button onClick={handleLogout} className="logout-btn">
