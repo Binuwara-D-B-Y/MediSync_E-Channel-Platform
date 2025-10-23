@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import { favoritesAPI } from '../api';
 
+// Reusable heart button for adding/removing doctors from favorites
 export default function FavoriteButton({ doctorId, initialIsFavorite = false, onToggle }) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const [loading, setLoading] = useState(false);
 
+  // Check if this doctor is actually in favorites when component loads
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       const token = localStorage.getItem('token');
@@ -22,7 +24,9 @@ export default function FavoriteButton({ doctorId, initialIsFavorite = false, on
     checkFavoriteStatus();
   }, [doctorId]);
 
+  // Handle heart click - add or remove from favorites
   const handleToggle = async (e) => {
+    // Prevent triggering parent click events (like navigating to doctor details)
     e.stopPropagation();
     e.preventDefault();
     
@@ -69,6 +73,7 @@ export default function FavoriteButton({ doctorId, initialIsFavorite = false, on
       }}
       title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
     >
+      {/* Heart icon changes color and fill based on favorite status */}
       <Heart
         size={20}
         fill={isFavorite ? '#ef4444' : 'none'}

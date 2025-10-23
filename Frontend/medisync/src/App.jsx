@@ -55,7 +55,6 @@ function App() {
       ]
     } else if (location.pathname === "/patient") {
       headerActions = [
-        { label: "Favorites", path: "/favorites", className: "settings-button" },
         { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]

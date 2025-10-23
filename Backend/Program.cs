@@ -11,12 +11,12 @@ using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 
 
-// Explicitly load .env from current directory
+// Load environment variables for database password and JWT secret
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load DB connection string
+// Set up database connection with password from environment
 var rawConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(rawConnectionString))
     throw new InvalidOperationException("Database connection string 'DefaultConnection' is missing.");
@@ -35,18 +35,19 @@ Console.WriteLine($"ConnectionString: {connectionString}");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//..............
+// Password hashing service for user accounts
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 
 // Add HttpClient
 builder.Services.AddHttpClient();
 
-// Add JWT Authentication
+// JWT authentication setup for user login sessions
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "dev_secret_change_me";
 var secretBytes = Encoding.UTF8.GetBytes(jwtSecret);
 if (secretBytes.Length < 32)
 {
+    // Ensure minimum key length for security
     secretBytes = System.Security.Cryptography.SHA256.HashData(secretBytes);
 }
 
@@ -63,24 +64,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Register repositories
+// Register data access repositories
 builder.Services.AddScoped<DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>(); // For managing favorite doctors
 
 
-// Register services
+// Register business logic services
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>(); // Handles user account management
 
 
-// Add CORS
+// Allow React frontend to call our API
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -95,7 +96,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Bind to Azure's PORT environment variable or default to 5000 for local development
+// Configure port for Azure deployment or local development
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 builder.WebHost.UseUrls($"http://*:{port}");
 

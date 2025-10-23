@@ -6,6 +6,7 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
+    // User account management - profile, password, transactions, account deletion
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -18,6 +19,7 @@ namespace Backend.Controllers
             _userService = userService;
         }
 
+        // Helper to get current user ID from JWT token
         private int? GetUserIdFromToken()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
@@ -26,6 +28,7 @@ namespace Backend.Controllers
             return null;
         }
 
+        // Get user profile info including name, email, phone, and profile image
         [HttpGet("profile")]
         public async Task<ActionResult<UserProfileDto>> GetProfile()
         {
@@ -47,6 +50,7 @@ namespace Backend.Controllers
             }
         }
 
+        // Update profile details - handles image upload as base64 string
         [HttpPut("profile")]
         public async Task<ActionResult<UserProfileDto>> UpdateProfile([FromBody] UpdateProfileDto request)
         {
@@ -71,6 +75,7 @@ namespace Backend.Controllers
             }
         }
 
+        // Change password - requires current password verification
         [HttpPost("change-password")]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto request)
         {
@@ -103,6 +108,7 @@ namespace Backend.Controllers
             }
         }
 
+        // Permanently delete user account - this action cannot be undone
         [HttpDelete]
         public async Task<ActionResult> DeleteAccount()
         {
@@ -124,6 +130,7 @@ namespace Backend.Controllers
             }
         }
 
+        // Get user's payment history for appointments
         [HttpGet("transactions")]
         public async Task<ActionResult<List<TransactionDto>>> GetTransactions()
         {
