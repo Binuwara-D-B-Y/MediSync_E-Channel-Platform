@@ -6,15 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
-<<<<<<< HEAD
-using Backend.Services;
-using Backend.Repositories;
-=======
 using System.Text;
 using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 
->>>>>>> wishlist
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -34,11 +29,8 @@ if (string.IsNullOrWhiteSpace(dbPassword))
 }
 
 var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
-// Avoid printing sensitive credentials
-if (builder.Environment.IsDevelopment())
-{
-    Console.WriteLine("Database connection string loaded successfully.");
-}
+Console.WriteLine($"DB_PASSWORD: {dbPassword}");
+Console.WriteLine($"ConnectionString: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -99,35 +91,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<ClinicWebApp.Data.ClinicDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-<<<<<<< HEAD
-// Dependency Injection: ADO.NET services and repositories
-builder.Services.AddSingleton<IDatabaseConnectionService, DatabaseConnectionService>();
-
-// Repositories
-builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
-builder.Services.AddScoped<IDoctorRepository, DoctorRepositoryImpl>();
-builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
-builder.Services.AddScoped<ClinicWebApp.Repositories.IPatientRepository, ClinicWebApp.Repositories.PatientRepository>();
-
-// Services
-builder.Services.AddScoped<ISpecializationService, SpecializationService>();
-builder.Services.AddScoped<IDoctorService, DoctorServiceImpl>();
-builder.Services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
-builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IAuthService, ClinicWebApp.Services.Implementations.AuthService>();
-builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IJwtService, ClinicWebApp.Services.Implementations.JwtService>();
-builder.Services.AddScoped<ClinicWebApp.Services.Interfaces.IPatientService, ClinicWebApp.Services.Implementations.PatientService>();
-=======
 // Bind to Azure's PORT environment variable or default to 5000 for local development
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 builder.WebHost.UseUrls($"http://*:{port}");
->>>>>>> wishlist
 
 var app = builder.Build();
 

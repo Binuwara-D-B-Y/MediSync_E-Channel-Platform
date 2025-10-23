@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories
 {
-    public class DoctorRepository_Legacy
+    public class DoctorRepository
     {
         private readonly AppDbContext _context;
-        public DoctorRepository_Legacy(AppDbContext context)
+        public DoctorRepository(AppDbContext context)
         {
             _context = context;
         }

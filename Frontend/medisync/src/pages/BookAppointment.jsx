@@ -26,6 +26,7 @@ export default function BookAppointment() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
   // Load doctor data and time slots
   useEffect(() => {
     const loadData = async () => {
@@ -105,19 +106,6 @@ export default function BookAppointment() {
     setBookingSlotId(selectedSlot.id);
     
     try {
-<<<<<<< HEAD
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log('Booking details:', {
-        doctorId,
-        patientName,
-        patientContact,
-        patientNotes,
-        selectedDate,
-        selectedTime,
-        fee: doctor?.consultationFee
-=======
       // Get JWT token from localStorage
       const token = localStorage.getItem('token');
       if (!token) {
@@ -149,7 +137,6 @@ export default function BookAppointment() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(bookingRequest)
->>>>>>> wishlist
       });
 
       if (!response.ok) {
