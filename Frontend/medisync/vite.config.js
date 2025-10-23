@@ -24,6 +24,7 @@ export default defineConfig({
     }
   },
   build: {
+    envDir: '.', // Look for .env files in project root
     assetsDir: 'assets', // Ensure assets are output to /assets
     rollupOptions: {
       // Ensure images are included
