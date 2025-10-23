@@ -10,13 +10,13 @@ using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 
 
+var builder = WebApplication.CreateBuilder(args);
+
 // Load .env file only in development
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+if (builder.Environment.IsDevelopment())
 {
     DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
 }
-
-var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS policy
 // builder.Services.AddCors(options =>
@@ -40,16 +40,8 @@ if (string.IsNullOrEmpty(rawConnectionString))
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 if (string.IsNullOrWhiteSpace(dbPassword))
 {
-    if (app.Environment.IsDevelopment())
-    {
-        Console.WriteLine("ERROR: DB_PASSWORD not loaded from .env!");
-        throw new InvalidOperationException("DB_PASSWORD not loaded from .env");
-    }
-    else
-    {
-        Console.WriteLine("ERROR: DB_PASSWORD environment variable not set in Azure!");
-        throw new InvalidOperationException("DB_PASSWORD environment variable not set in Azure");
-    }
+    Console.WriteLine("ERROR: DB_PASSWORD environment variable not set!");
+    throw new InvalidOperationException("DB_PASSWORD environment variable not set");
 }
 
 var connectionString = rawConnectionString.Replace("${DB_PASSWORD}", dbPassword);
@@ -122,13 +114,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure for Azure deployment
-if (!app.Environment.IsDevelopment())
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
-    builder.WebHost.UseUrls($"http://*:{port}");
-}
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -157,14 +142,6 @@ using (var scope = app.Services.CreateScope())
     // db.Database.Migrate(); // Uncomment if schema updates needed
 }
 
-if (!app.Environment.IsDevelopment())
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
-    Console.WriteLine($"App running on port {port}");
-}
-else
-{
-    Console.WriteLine("App running in development mode");
-}
+Console.WriteLine("MediSync Backend starting...");
 app.Run();
 // test
