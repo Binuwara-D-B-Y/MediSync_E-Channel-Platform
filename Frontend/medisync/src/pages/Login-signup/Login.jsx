@@ -24,29 +24,20 @@ export default function Login({ onAuthed }) {
       })
 
       const token = res.data?.token || res.data?.Token || res.Token || res.token
+      const role = res.data?.role || res.role
+      
       if (token) {
         localStorage.setItem("token", token)
-
-        // try to decode role from token payload (works for typical JWTs)
-        const parseJwt = (t) => {
-          try {
-            const payload = t.split('.')[1]
-            const json = JSON.parse(window.atob(payload.replace(/-/g, '+').replace(/_/g, '/')))
-            return json
-          } catch (e) {
-            return null
-          }
-        }
-
-        const payload = parseJwt(token)
-        // possible claim keys for role
-        const roleClaim = payload?.role ?? payload?.roles ?? payload?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ?? payload?.Role
-
-        // Normalize and decide redirect: treat numeric 0 or string "Patient"/"patient" as patient
-        const isPatient = roleClaim === 0 || roleClaim === '0' || String(roleClaim).toLowerCase() === 'patient'
+        localStorage.setItem("userRole", role)
 
         onAuthed?.()
-        navigate(isPatient ? '/patient' : '/account', { replace: true })
+        
+        // Redirect based on role
+        if (role === "Admin") {
+          navigate('/admin/dashboard', { replace: true })
+        } else {
+          navigate('/patient', { replace: true })
+        }
       } else {
         setError("Login failed: No token returned.")
       }

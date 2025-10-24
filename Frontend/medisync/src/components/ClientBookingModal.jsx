@@ -86,7 +86,7 @@ export default function ClientBookingModal({ doctor, slot, onClose, onPay, isPro
 
         <div className="modal-body modal-grid">
           <div>
-            <h4>Patient details</h4>
+            <h4>Patient Details</h4>
             <div className="form-group">
               <label>Full Name *</label>
               <input 

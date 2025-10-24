@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { apiRequest } from '../api';
 import DashboardWrapper from '../components/DashboardWrapper';
 import WelcomeCard from '../components/WelcomeCard';
 import QuickStats from '../components/QuickStats';
@@ -30,11 +31,10 @@ export default function PatientDashboard() {
 
       try {
         if (hasName && hasSpec) {
-          const [nameRes, specRes] = await Promise.all([
-            fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`),
-            fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
+          const [nameData, specData] = await Promise.all([
+            apiRequest(`/api/doctors?name=${encodeURIComponent(searchTerm)}`),
+            apiRequest(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
           ]);
-          const [nameData, specData] = await Promise.all([nameRes.json(), specRes.json()]);
           setDoctorsByName(nameData);
           setDoctorsBySpec(specData);
 
@@ -61,11 +61,9 @@ export default function PatientDashboard() {
             }
           }
         } else if (hasName) {
-          const res = await fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`);
-          let data = await res.json();
+          let data = await apiRequest(`/api/doctors?name=${encodeURIComponent(searchTerm)}`);
           if (!data || data.length === 0) {
-            const allRes = await fetch('/api/doctors');
-            const all = await allRes.json();
+            const all = await apiRequest('/api/doctors');
             const q = searchTerm.toLowerCase();
             data = (all || []).filter(d => (d.fullName || d.name || '').toLowerCase().includes(q));
           }
@@ -73,15 +71,13 @@ export default function PatientDashboard() {
           setDoctors(data || []);
           setDisplayMode('nameOnly');
         } else if (hasSpec) {
-          const res = await fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
-          const data = await res.json();
+          const data = await apiRequest(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
           // Rule 2: just specialization
           setDoctorsBySpec(data || []);
           setDoctors(data || []);
           setDisplayMode('specOnly');
         } else {
-          const res = await fetch('/api/doctors');
-          const data = await res.json();
+          const data = await apiRequest('/api/doctors');
           setDoctors(data || []);
           setDisplayMode('default');
         }

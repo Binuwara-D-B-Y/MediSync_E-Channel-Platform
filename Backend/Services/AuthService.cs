@@ -17,12 +17,14 @@ namespace Backend.Services
     {
         private readonly AppDbContext _db;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly EmailService _emailService;
         private readonly string? _jwksUrl;
 
-        public AuthService(AppDbContext db, IHttpClientFactory httpFactory)
+        public AuthService(AppDbContext db, IHttpClientFactory httpFactory, EmailService emailService)
         {
             _db = db;
             _httpFactory = httpFactory;
+            _emailService = emailService;
             _jwksUrl = Environment.GetEnvironmentVariable("CLERK_JWKS_URL");
         }
 
@@ -183,6 +185,44 @@ namespace Backend.Services
 
             await _db.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<bool> ForgotPasswordAsync(string email)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return false; // Don't reveal if email exists
+
+            var token = GenerateResetToken();
+            user.PasswordResetToken = token;
+            user.PasswordResetTokenExpiresUtc = DateTime.UtcNow.AddHours(1);
+
+            await _db.SaveChangesAsync();
+            await _emailService.SendPasswordResetEmailAsync(email, token);
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => 
+                u.PasswordResetToken == token && 
+                u.PasswordResetTokenExpiresUtc > DateTime.UtcNow);
+
+            if (user == null) return false;
+
+            user.PasswordHash = HashPassword(newPassword);
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiresUtc = null;
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        private string GenerateResetToken()
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var bytes = new byte[32];
+            rng.GetBytes(bytes);
+            return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
         }
     }
 }

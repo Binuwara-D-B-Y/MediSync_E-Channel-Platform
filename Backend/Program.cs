@@ -7,9 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
 using System.Text;
-using Backend.Models;
-using Microsoft.AspNetCore.Identity;
-
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -34,10 +31,6 @@ Console.WriteLine($"ConnectionString: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
-
-//..............
-builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
-
 
 // Add HttpClient
 builder.Services.AddHttpClient();
@@ -68,26 +61,23 @@ builder.Services.AddScoped<DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
-
 
 // Register services
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-builder.Services.AddScoped<IUserService, UserService>();
-
 
 // Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:3000")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -95,9 +85,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Bind to Azure's PORT environment variable or default to 5000 for local development
+// Bind to Azure's PORT environment variable or default to 5001 for local development
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-builder.WebHost.UseUrls($"http://*:{port}");
+if (args.Length == 0) {
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 var app = builder.Build();
 
@@ -107,7 +99,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection(); // Disabled for development
+app.UseHttpsRedirection();
 
 // Use CORS
 app.UseCors("AllowReactApp");

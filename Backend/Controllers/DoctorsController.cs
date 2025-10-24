@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Models;
-using Backend.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace Backend.Controllers
 {
@@ -12,18 +10,9 @@ namespace Backend.Controllers
     public class DoctorsController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IFavoriteRepository _favoriteRepository;
-        
-        public DoctorsController(AppDbContext context, IFavoriteRepository favoriteRepository)
+        public DoctorsController(AppDbContext context)
         {
             _context = context;
-            _favoriteRepository = favoriteRepository;
-        }
-
-        private int? GetUserIdIfAuthenticated()
-        {
-            var userIdClaim = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return int.TryParse(userIdClaim, out int userId) ? userId : null;
         }
 
         // GET: api/doctors
@@ -40,33 +29,6 @@ namespace Backend.Controllers
             // if (date.HasValue) { ... }
 
             var doctors = await query.ToListAsync();
-            
-            // Add favorite status if user is authenticated
-            var userId = GetUserIdIfAuthenticated();
-            if (userId.HasValue)
-            {
-                var doctorsWithFavorites = new List<object>();
-                foreach (var doctor in doctors)
-                {
-                    var isFavorite = await _favoriteRepository.IsFavoriteAsync(userId.Value, doctor.DoctorId);
-                    doctorsWithFavorites.Add(new
-                    {
-                        doctor.DoctorId,
-                        doctor.FullName,
-                        doctor.Specialization,
-                        doctor.NIC,
-                        doctor.Qualification,
-                        doctor.Email,
-                        doctor.ContactNo,
-                        doctor.Details,
-                        doctor.CreatedAt,
-                        doctor.UpdatedAt,
-                        IsFavorite = isFavorite
-                    });
-                }
-                return Ok(doctorsWithFavorites);
-            }
-            
             return Ok(doctors);
         }
     }

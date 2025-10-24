@@ -93,7 +93,7 @@ namespace Backend.Controllers
 
                 var user = await _authService.EnsureLocalUserAsync(sub, email, name ?? string.Empty);
 
-                return Ok(new { data = new { token }, token, message = "Logged in via Clerk" });
+                return Ok(new { data = new { token, role = user.Role.ToString() }, token, message = "Logged in via Clerk" });
             }
 
             // Local login fallback using JSON email/password
@@ -105,7 +105,44 @@ namespace Backend.Controllers
                 return Unauthorized(new { message = "Invalid email or password." });
 
             var jwt = _authService.GenerateJwt(userLocal);
-            return Ok(new { data = new { token = jwt }, token = jwt, message = "Logged in (local)" });
+            return Ok(new { data = new { token = jwt, role = userLocal.Role.ToString() }, token = jwt, message = "Logged in (local)" });
+        }
+
+        [HttpPost("forgot")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Invalid email address" });
+
+            try
+            {
+                await _authService.ForgotPasswordAsync(dto.Email);
+                return Ok(new { message = "If the email exists, a reset link has been sent to your inbox." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Failed to send reset email", detail = ex.Message });
+            }
+        }
+
+        [HttpPost("reset")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Invalid input" });
+
+            try
+            {
+                var success = await _authService.ResetPasswordAsync(dto.Token, dto.NewPassword);
+                if (!success)
+                    return BadRequest(new { message = "Invalid or expired reset token" });
+
+                return Ok(new { message = "Password reset successful! You can now sign in with your new password." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Password reset failed", detail = ex.Message });
+            }
         }
     }
 }
