@@ -7,7 +7,6 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    // Handles all favorite doctor operations for logged-in patients
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
@@ -22,7 +21,6 @@ namespace Backend.Controllers
             _context = context;
         }
 
-        // Extract user ID from JWT token - this is how we know which patient is making the request
         private int GetUserId()
         {
             var userIdClaim = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -38,7 +36,6 @@ namespace Backend.Controllers
             throw new UnauthorizedAccessException($"Invalid user token. Claim value: {userIdClaim}");
         }
 
-        // Get all favorite doctors for the current user
         [HttpGet]
         public async Task<IActionResult> GetFavorites()
         {
@@ -47,8 +44,7 @@ namespace Backend.Controllers
                 var userId = GetUserId();
                 Console.WriteLine($"Getting favorites for user ID: {userId}");
                 
-                // Query database directly to get favorites with doctor info
-                // Using Select() to avoid circular reference issues when returning JSON
+                // Direct database check
                 var favorites = await _context.Favorites
                     .Include(f => f.Doctor)
                     .Where(f => f.PatientId == userId)
@@ -79,7 +75,6 @@ namespace Backend.Controllers
             }
         }
 
-        // Add a doctor to user's favorites list
         [HttpPost("{doctorId}")]
         public async Task<IActionResult> AddFavorite(int doctorId)
         {
@@ -98,7 +93,6 @@ namespace Backend.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                // This happens when doctor is already in favorites
                 Console.WriteLine($"Invalid operation: {ex.Message}");
                 return BadRequest(new { message = ex.Message });
             }
@@ -109,7 +103,6 @@ namespace Backend.Controllers
             }
         }
 
-        // Remove a doctor from favorites - works even if not in favorites
         [HttpDelete("{doctorId}")]
         public async Task<IActionResult> RemoveFavorite(int doctorId)
         {
@@ -125,7 +118,6 @@ namespace Backend.Controllers
             }
         }
 
-        // Check if a specific doctor is in user's favorites (for heart icon state)
         [HttpGet("check/{doctorId}")]
         public async Task<IActionResult> CheckFavorite(int doctorId)
         {

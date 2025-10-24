@@ -5,13 +5,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Services
 {
-    // Business logic for user account operations
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly AuthService _authService;
-        
         public UserService(
             IUserRepository userRepository,
             ITransactionRepository transactionRepository,
@@ -22,7 +20,6 @@ namespace Backend.Services
             _authService = authService;
         }
 
-        // Get user profile and convert image to base64 for frontend display
         public async Task<UserProfileDto> GetProfileAsync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -39,7 +36,6 @@ namespace Backend.Services
             };
         }
 
-        // Update profile with validation and image processing
         public async Task<UserProfileDto> UpdateProfileAsync(int userId, UpdateProfileDto request)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -53,12 +49,10 @@ namespace Backend.Services
             user.Email = request.Email;
             user.ContactNumber = request.Phone;
 
-            // Handle profile image upload
             if (!string.IsNullOrEmpty(request.ImageBase64))
             {
                 try
                 {
-                    // Remove data URL prefix if present (data:image/jpeg;base64,)
                     var base64Data = request.ImageBase64.Contains(",") ? request.ImageBase64.Split(',')[1] : request.ImageBase64;
                     user.ProfileImage = Convert.FromBase64String(base64Data);
                     if (user.ProfileImage.Length > 1024 * 1024)
@@ -71,7 +65,6 @@ namespace Backend.Services
             }
             else if (request.ImageBase64 == null)
             {
-                // Explicitly remove image if null is sent
                 user.ProfileImage = null;
             }
 
@@ -87,12 +80,10 @@ namespace Backend.Services
             };
         }
 
-        // Change password with current password verification
         public async Task ChangePasswordAsync(int userId, ChangePasswordDto request)
         {
             Console.WriteLine($"ChangePassword called for userId: {userId}");
             
-            // Validate new password requirements
             if (request.NewPassword != request.ConfirmNewPassword)
                 throw new ArgumentException("New passwords do not match.");
 
@@ -105,7 +96,6 @@ namespace Backend.Services
 
             Console.WriteLine($"Found user: {user.Email}");
 
-            // Verify current password before allowing change
             if (!_authService.VerifyPassword(request.CurrentPassword, user.PasswordHash))
                 throw new ArgumentException("Current password is incorrect.");
 
@@ -121,7 +111,6 @@ namespace Backend.Services
             Console.WriteLine("Password update completed successfully");
         }
 
-        // Permanently delete user account and all related data
         public async Task DeleteAccountAsync(int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -131,7 +120,6 @@ namespace Backend.Services
             await _userRepository.DeleteAsync(userId);
         }
 
-        // Get payment history with doctor names for better user experience
         public async Task<List<TransactionDto>> GetTransactionsAsync(int userId)
         {
             var transactions = await _transactionRepository.GetByPatientIdAsync(userId);

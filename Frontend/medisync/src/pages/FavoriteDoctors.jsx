@@ -5,13 +5,11 @@ import { favoritesAPI } from '../api';
 import FavoriteButton from '../components/FavoriteButton';
 import '../styles/FavoriteDoctors.css';
 
-// Page showing all doctors the user has favorited
 export default function FavoriteDoctors() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Load user's favorite doctors when page opens
   useEffect(() => {
     fetchFavorites();
   }, []);
@@ -23,7 +21,6 @@ export default function FavoriteDoctors() {
       setFavorites(Array.isArray(favorites) ? favorites : []);
     } catch (error) {
       console.error('Error fetching favorites:', error);
-      // Redirect to login if user session expired
       if (error.message.includes('401') || error.message.includes('Unauthorized')) {
         navigate('/login');
       }
@@ -32,7 +29,6 @@ export default function FavoriteDoctors() {
     }
   };
 
-  // When user removes a favorite, update the list immediately
   const handleFavoriteToggle = (doctorId, isFavorite, message) => {
     if (!isFavorite) {
       setFavorites(prev => prev.filter(fav => fav.doctor?.doctorId !== doctorId));
@@ -77,7 +73,6 @@ export default function FavoriteDoctors() {
             return (
               <div className="favorite-doctor-card" key={favorite.favoriteId}>
                 <div className="favorite-header">
-                  {/* Heart button to remove from favorites */}
                   <FavoriteButton
                     doctorId={doctor.doctorId}
                     initialIsFavorite={true}

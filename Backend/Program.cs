@@ -125,3 +125,6 @@ using (var scope = app.Services.CreateScope())
 
 Console.WriteLine($"App running on port {port}");
 app.Run();
+
+// Make Program class accessible for testing
+public partial class Program { }
