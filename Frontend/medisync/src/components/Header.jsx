@@ -5,6 +5,15 @@ import '../styles/Header.css';
 export default function Header({ title, actions = [] }) {
   const navigate = useNavigate();
 
+  const handleActionClick = (action) => {
+    if (action.label === 'Logout') {
+      localStorage.clear();
+      navigate('/login');
+    } else {
+      navigate(action.path);
+    }
+  };
+
   return (
     <header className="dashboard-header">
       <div className="header-title" onClick={() => navigate('/patient')}>
@@ -15,7 +24,7 @@ export default function Header({ title, actions = [] }) {
           <button
             key={index}
             className={action.className || "header-button"}
-            onClick={() => navigate(action.path)}
+            onClick={() => handleActionClick(action)}
           >
             {action.label}
           </button>

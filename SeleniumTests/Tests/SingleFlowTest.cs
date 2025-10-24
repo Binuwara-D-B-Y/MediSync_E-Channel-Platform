@@ -18,21 +18,52 @@ namespace SeleniumTests.Tests
                 // STEP 1: LOGIN
                 LogStep("STEP 1: LOGIN");
                 driver.Navigate().GoToUrl($"{BASE_URL}/login");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 
+                // Check if login form is loaded
                 var emailInput = wait.Until(d => d.FindElement(By.XPath("//input[@type='email']")));
+                var passwordInput = driver.FindElement(By.XPath("//input[@type='password']"));
+                var loginButton = driver.FindElement(By.XPath("//button[contains(text(), 'Sign In')]"));
+                
+                LogStep("Login form elements found");
+                
                 emailInput.Clear();
                 emailInput.SendKeys("niki123@gmail.com");
+                LogStep("Email entered: niki123@gmail.com");
                 
-                var passwordInput = driver.FindElement(By.XPath("//input[@type='password']"));
                 passwordInput.Clear();
                 passwordInput.SendKeys("niki123");
+                LogStep("Password entered");
                 
-                var loginButton = driver.FindElement(By.XPath("//button[contains(text(), 'Sign In')]"));
                 loginButton.Click();
+                LogStep("Login button clicked");
                 
-                Thread.Sleep(3000);
-                LogStep($"After login URL: {driver.Url}");
+                // Wait for redirect with better detection
+                Thread.Sleep(5000);
+                
+                string currentUrl = driver.Url;
+                LogStep($"After login URL: {currentUrl}");
+                
+                if (currentUrl.Contains("/patient"))
+                {
+                    LogStep("✅ LOGIN SUCCESSFUL - Redirected to patient page");
+                }
+                else if (currentUrl.Contains("/login"))
+                {
+                    LogStep("❌ LOGIN FAILED - Still on login page");
+                    // Check for error messages
+                    var errors = driver.FindElements(By.XPath("//*[contains(text(), 'error') or contains(text(), 'invalid')]"));
+                    foreach (var error in errors)
+                    {
+                        if (!string.IsNullOrWhiteSpace(error.Text))
+                            LogStep($"Error: {error.Text}");
+                    }
+                }
+                else
+                {
+                    LogStep($"ℹ LOGIN RESULT UNCLEAR - Redirected to: {currentUrl}");
+                }
+                
                 TakeScreenshot("01_AfterLogin");
 
                 // STEP 2: CHECK PATIENT PAGE (should already be here after login)

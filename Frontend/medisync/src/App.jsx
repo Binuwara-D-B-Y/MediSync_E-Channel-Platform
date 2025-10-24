@@ -46,7 +46,11 @@ function App() {
 
   // Header actions depending on route + auth
   let headerActions = []
-  if (isAuthed) {
+  
+  // No buttons on login/register pages
+  if (location.pathname === "/login" || location.pathname === "/register") {
+    headerActions = []
+  } else if (isAuthed) {
     if (location.pathname.startsWith("/account")) {
       headerActions = [
         { label: "Home", path: "/patient", className: "settings-button" },
@@ -55,7 +59,6 @@ function App() {
       ]
     } else if (location.pathname === "/patient") {
       headerActions = [
-        { label: "Favorites", path: "/favorites", className: "settings-button" },
         { label: "Profile", path: "/account", className: "settings-button" },
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
@@ -72,11 +75,6 @@ function App() {
         { label: "Logout", action: handleLogout, className: "logout-button" },
       ]
     }
-  } else {
-    headerActions = [
-      { label: "Login", path: "/login", className: "btn outline" },
-      { label: "Register", path: "/register", className: "btn secondary" },
-    ]
   }
 
   return (
