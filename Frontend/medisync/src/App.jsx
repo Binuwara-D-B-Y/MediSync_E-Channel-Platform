@@ -23,6 +23,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminDoctors from "./pages/admin/AdminDoctors"
 import AdminSchedules from "./pages/admin/AdminSchedules"
 import AdminTransactions from "./pages/admin/AdminTransactions"
+import FavoriteDoctors from "./pages/FavoriteDoctors"
 
 // Shared components
 import Header from "./components/Header"
@@ -62,11 +63,27 @@ function App() {
   // Header actions depending on route + auth
   let headerActions = []
   if (isAuthed) {
-    if (location.pathname.startsWith("/account")) {
-      headerActions = [
-        { label: "Home", path: "/patient", className: "settings-button" },
-        { label: "Logout", action: handleLogout, className: "logout-button" },
-      ]
+    const userRole = localStorage.getItem("userRole")
+    if (userRole === "Patient") {
+      if (location.pathname.startsWith("/account")) {
+        headerActions = [
+          { label: "Home", path: "/patient", className: "settings-button" },
+          { label: "Favorites", path: "/favorites", className: "settings-button" },
+          { label: "Logout", action: handleLogout, className: "logout-button" },
+        ]
+      } else if (location.pathname === "/favorites") {
+        headerActions = [
+          { label: "Home", path: "/patient", className: "settings-button" },
+          { label: "Profile", path: "/account", className: "settings-button" },
+          { label: "Logout", action: handleLogout, className: "logout-button" },
+        ]
+      } else {
+        headerActions = [
+          { label: "Profile", path: "/account", className: "settings-button" },
+          { label: "Favorites", path: "/favorites", className: "settings-button" },
+          { label: "Logout", action: handleLogout, className: "logout-button" },
+        ]
+      }
     } else {
       headerActions = [
         { label: "Profile", path: "/account", className: "settings-button" },
@@ -91,6 +108,7 @@ function App() {
         <Route path="/account" element={<UserAccount />} />
         <Route path="/book/:doctorId" element={<PrivateRoute requiredRole="Patient"><BookAppointment /></PrivateRoute>} />
         <Route path="/appointments" element={<PrivateRoute requiredRole="Patient"><AppointmentsDone /></PrivateRoute>} />
+        <Route path="/favorites" element={<FavoriteDoctors />} />
         
         {/* Admin routes */}
         <Route path="/admin" element={<AdminLayout />}>

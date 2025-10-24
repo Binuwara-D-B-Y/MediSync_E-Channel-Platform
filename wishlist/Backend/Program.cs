@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
 using System.Text;
-using System.Net;
-using System.Net.Sockets;
+using Backend.Models;
+using Microsoft.AspNetCore.Identity;
+
 
 // Explicitly load .env from current directory
 DotNetEnv.Env.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
@@ -33,6 +34,10 @@ Console.WriteLine($"ConnectionString: {connectionString}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+//..............
+builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
 // Add HttpClient
 builder.Services.AddHttpClient();
@@ -63,23 +68,26 @@ builder.Services.AddScoped<DoctorRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+
 
 // Register services
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:3000")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyMethod();
     });
 });
 
@@ -87,62 +95,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Bind to Azure's PORT environment variable or default to 5000 for local development.
-// If the preferred port is unavailable (in use), automatically try fallback port 5001.
-var envPort = Environment.GetEnvironmentVariable("PORT");
-int preferredPort = int.TryParse(envPort, out var parsed) ? parsed : 5000;
-int fallbackPort = 5001;
-int selectedPort = preferredPort;
-
-static bool IsPortAvailable(int portToCheck)
-{
-    // Try binding to IPv4 Any and IPv6 Any to mimic Kestrel's AnyIP binding.
-    // If either bind succeeds then the port is available for binding by Kestrel.
-    TcpListener? v4 = null;
-    TcpListener? v6 = null;
-    try
-    {
-        v4 = new TcpListener(IPAddress.Any, portToCheck);
-        v4.Start();
-        v4.Stop();
-
-        // Try IPv6 as well
-        v6 = new TcpListener(IPAddress.IPv6Any, portToCheck);
-        v6.Server.DualMode = true; // allow dual-mode if supported
-        v6.Start();
-        v6.Stop();
-
-        return true;
-    }
-    catch
-    {
-        return false;
-    }
-    finally
-    {
-        try { v4?.Stop(); } catch { }
-        try { v6?.Stop(); } catch { }
-    }
-}
-
-if (args.Length == 0)
-{
-    if (!IsPortAvailable(preferredPort))
-    {
-        Console.WriteLine($"Port {preferredPort} is unavailable. Trying fallback port {fallbackPort}...");
-        if (IsPortAvailable(fallbackPort))
-        {
-            selectedPort = fallbackPort;
-        }
-        else
-        {
-            Console.WriteLine($"Neither port {preferredPort} nor {fallbackPort} are available. Kestrel will attempt to bind to {preferredPort} which may fail.");
-            selectedPort = preferredPort;
-        }
-    }
-
-    builder.WebHost.UseUrls($"http://*:{selectedPort}");
-}
+// Bind to Azure's PORT environment variable or default to 5000 for local development
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
@@ -152,7 +107,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Disabled for development
 
 // Use CORS
 app.UseCors("AllowReactApp");
@@ -168,5 +123,5 @@ using (var scope = app.Services.CreateScope())
     // db.Database.Migrate(); // Creates database if missing, applies pending migrations
 }
 
-Console.WriteLine($"App running on port {selectedPort}");
+Console.WriteLine($"App running on port {port}");
 app.Run();

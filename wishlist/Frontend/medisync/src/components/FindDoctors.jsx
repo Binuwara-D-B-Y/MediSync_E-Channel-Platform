@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { apiRequest } from '../api';
 import FavoriteButton from './FavoriteButton';
 import '../styles/FindDoctors.css';
 
@@ -28,7 +27,8 @@ export default function FindDoctors({
   useEffect(() => {
     async function fetchSpecs() {
       try {
-        const data = await apiRequest('/api/specializations');
+        const res = await fetch('/api/specializations');
+        const data = await res.json();
         setSpecializations(['All Specializations', ...data]);
       } catch {
         setSpecializations(['All Specializations']);
@@ -128,9 +128,17 @@ export default function FindDoctors({
             return (
               <div className="doctor-card" key={doctor.doctorId || doctor.id}>
                 <div className="doctor-card-header">
-                  <FavoriteButton 
+                  <FavoriteButton
                     doctorId={doctor.doctorId || doctor.id}
-                    onToggle={(isFav, msg) => console.log(msg)}
+                    initialIsFavorite={doctor.isFavorite || false}
+                    onToggle={(isFav, msg) => {
+                      // Show toast message
+                      const toast = document.createElement('div');
+                      toast.textContent = msg;
+                      toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#10b981;color:white;padding:12px 16px;border-radius:6px;z-index:1000;font-size:14px';
+                      document.body.appendChild(toast);
+                      setTimeout(() => document.body.removeChild(toast), 3000);
+                    }}
                   />
                 </div>
                 <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
