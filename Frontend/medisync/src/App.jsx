@@ -17,7 +17,10 @@ import UserAccount from "./pages/UserAccount"
 import BookAppointment from "./pages/BookAppointment"
 import AppointmentsDone from "./pages/AppointmentsDone"
 import FavoriteDoctors from "./pages/FavoriteDoctors"
-// import AdminDashboard from "./pages/AdminDashboard";
+
+// Admin pages
+import AdminLayout from "./pages/admin/AdminLayout"
+import AdminDashboard from "./pages/admin/AdminDashboard"
 
 // Shared components
 import Header from "./components/Header"
@@ -88,6 +91,12 @@ function App() {
         <Route path="/book/:doctorId" element={<BookAppointment />} />
         <Route path="/appointments" element={<AppointmentsDone />} />
         <Route path="/favorites" element={<FavoriteDoctors />} />
+
+        {/* Admin routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route index element={<Navigate to="dashboard" replace />} />
+        </Route>
 
         {/* Public routes */}
         <Route path="/" element={isAuthed ? <Navigate to="/patient" replace /> : <Navigate to="/login" replace />} />
