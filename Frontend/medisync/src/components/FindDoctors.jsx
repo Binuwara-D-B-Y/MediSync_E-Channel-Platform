@@ -29,6 +29,7 @@ export default function FindDoctors({
     async function fetchSpecs() {
       try {
         const res = await fetch(`${API_BASE}/api/specializations`);
+        const res = await fetch('/api/specializations');
         const data = await res.json();
         setSpecializations(['All Specializations', ...data]);
       } catch {

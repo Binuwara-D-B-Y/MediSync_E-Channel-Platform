@@ -98,6 +98,8 @@ builder.Services.AddSwaggerGen();
 // Bind to Azure's PORT environment variable or default to 5001 for local development
 // You can override by setting the PORT environment variable (e.g., PORT=5001)
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5001";
+// Bind to Azure's PORT environment variable or default to 5000 for local development
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
@@ -130,6 +132,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Database migration failed: {ex.Message}");
         // Continue without migration for now
     }
+    // db.Database.Migrate(); // Creates database if missing, applies pending migrations
 }
 
 Console.WriteLine($"App running on port {port}");

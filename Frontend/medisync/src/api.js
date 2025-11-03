@@ -1,4 +1,3 @@
-// Default API base: use port 5001 to match backend default
 export const API_BASE = import.meta.env.VITE_API_BASE || window.__API_BASE || 'http://localhost:5001';
 
 export async function apiRequest(path, options = {}) {

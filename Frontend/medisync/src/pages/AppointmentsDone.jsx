@@ -23,6 +23,7 @@ export default function AppointmentsDone() {
       }
 
       const response = await fetch(`${API_BASE}/api/booking/user`, {
+      const response = await fetch('http://localhost:5000/api/booking/user', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
