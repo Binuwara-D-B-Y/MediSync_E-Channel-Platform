@@ -21,6 +21,7 @@ import FavoriteDoctors from "./pages/FavoriteDoctors"
 // Admin pages
 import AdminLayout from "./pages/admin/AdminLayout"
 import AdminDashboard from "./pages/admin/AdminDashboard"
+import AdminDoctors from "./pages/admin/AdminDoctors"
 
 // Shared components
 import Header from "./components/Header"
@@ -95,6 +96,7 @@ function App() {
         {/* Admin routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="doctors" element={<AdminDoctors />} />
           <Route index element={<Navigate to="dashboard" replace />} />
         </Route>
 
