@@ -34,8 +34,6 @@ export default function PatientDashboard() {
           const [nameRes, specRes] = await Promise.all([
             fetch(`${API_BASE}/api/doctors?name=${encodeURIComponent(searchTerm)}`),
             fetch(`${API_BASE}/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
-            fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`),
-            fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`)
           ]);
           const [nameData, specData] = await Promise.all([nameRes.json(), specRes.json()]);
           setDoctorsByName(nameData);
@@ -68,10 +66,6 @@ export default function PatientDashboard() {
           let data = await res.json();
           if (!data || data.length === 0) {
             const allRes = await fetch(`${API_BASE}/api/doctors`);
-          const res = await fetch(`/api/doctors?name=${encodeURIComponent(searchTerm)}`);
-          let data = await res.json();
-          if (!data || data.length === 0) {
-            const allRes = await fetch('/api/doctors');
             const all = await allRes.json();
             const q = searchTerm.toLowerCase();
             data = (all || []).filter(d => (d.fullName || d.name || '').toLowerCase().includes(q));
@@ -81,7 +75,6 @@ export default function PatientDashboard() {
           setDisplayMode('nameOnly');
         } else if (hasSpec) {
           const res = await fetch(`${API_BASE}/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
-          const res = await fetch(`/api/doctors?specialization=${encodeURIComponent(selectedSpecialization)}`);
           const data = await res.json();
           // Rule 2: just specialization
           setDoctorsBySpec(data || []);
@@ -89,7 +82,6 @@ export default function PatientDashboard() {
           setDisplayMode('specOnly');
         } else {
           const res = await fetch(`${API_BASE}/api/doctors`);
-          const res = await fetch('/api/doctors');
           const data = await res.json();
           setDoctors(data || []);
           setDisplayMode('default');

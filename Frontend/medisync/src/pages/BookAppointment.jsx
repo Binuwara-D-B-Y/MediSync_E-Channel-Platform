@@ -33,11 +33,8 @@ export default function BookAppointment() {
     const loadData = async () => {
       setLoading(true);
       try {
-  // Fetch doctor from API
-  const response = await fetch(`${API_BASE}/api/doctors`);
-  const doctors = await response.json();
         // Fetch doctor from API
-        const response = await fetch('http://localhost:5000/api/doctors');
+        const response = await fetch(`${API_BASE}/api/doctors`);
         const doctors = await response.json();
         const foundDoctor = doctors.find(d => d.doctorId == doctorId);
         if (foundDoctor) {
@@ -135,7 +132,6 @@ export default function BookAppointment() {
 
       // Call backend API
       const response = await fetch(`${API_BASE}/api/booking`, {
-      const response = await fetch('http://localhost:5000/api/booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -96,10 +96,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Bind to Azure's PORT environment variable or default to 5001 for local development
-// You can override by setting the PORT environment variable (e.g., PORT=5001)
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5001";
-// Bind to Azure's PORT environment variable or default to 5000 for local development
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
@@ -119,20 +116,43 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Auto-create/update database
+// Auto-create/update database and seed data
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
-        db.Database.Migrate(); // Creates database if missing, applies pending migrations
+        db.Database.Migrate();
+        
+        // Seed data if empty
+        if (!db.Doctors.Any())
+        {
+            var doctors = new[]
+            {
+                new Doctor { FullName = "Dr. John Smith", Specialization = "Cardiology", NIC = "123456789V", Qualification = "MBBS, MD", Email = "john@hospital.com", ContactNo = "0771234567", Details = "Experienced cardiologist" },
+                new Doctor { FullName = "Dr. Sarah Johnson", Specialization = "Dermatology", NIC = "987654321V", Qualification = "MBBS, MD", Email = "sarah@hospital.com", ContactNo = "0779876543", Details = "Skin specialist" },
+                new Doctor { FullName = "Dr. Mike Wilson", Specialization = "Orthopedics", NIC = "456789123V", Qualification = "MBBS, MS", Email = "mike@hospital.com", ContactNo = "0775555555", Details = "Bone and joint specialist" }
+            };
+            db.Doctors.AddRange(doctors);
+            db.SaveChanges();
+            
+            // Add schedules for each doctor
+            var schedules = new[]
+            {
+                new DoctorSchedule { DoctorId = 1, ScheduleDate = DateTime.Today.AddDays(1), StartTime = TimeSpan.FromHours(9), EndTime = TimeSpan.FromHours(12), TotalSlots = 10, AvailableSlots = 10 },
+                new DoctorSchedule { DoctorId = 1, ScheduleDate = DateTime.Today.AddDays(2), StartTime = TimeSpan.FromHours(14), EndTime = TimeSpan.FromHours(17), TotalSlots = 8, AvailableSlots = 8 },
+                new DoctorSchedule { DoctorId = 2, ScheduleDate = DateTime.Today.AddDays(1), StartTime = TimeSpan.FromHours(10), EndTime = TimeSpan.FromHours(13), TotalSlots = 12, AvailableSlots = 12 },
+                new DoctorSchedule { DoctorId = 3, ScheduleDate = DateTime.Today.AddDays(3), StartTime = TimeSpan.FromHours(8), EndTime = TimeSpan.FromHours(11), TotalSlots = 6, AvailableSlots = 6 }
+            };
+            db.DoctorSchedules.AddRange(schedules);
+            db.SaveChanges();
+            Console.WriteLine("Sample data seeded successfully");
+        }
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Database migration failed: {ex.Message}");
-        // Continue without migration for now
+        Console.WriteLine($"Database setup failed: {ex.Message}");
     }
-    // db.Database.Migrate(); // Creates database if missing, applies pending migrations
 }
 
 Console.WriteLine($"App running on port {port}");
