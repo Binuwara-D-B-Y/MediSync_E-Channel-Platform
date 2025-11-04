@@ -84,9 +84,11 @@ function App() {
     }
   }
 
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/forgot' && location.pathname !== '/reset';
+
   return (
     <div className="App">
-      <Header title="MEDISYNC" actions={headerActions} />
+      {showHeader && <Header title="MEDISYNC" actions={headerActions} />}
 
       <Routes>
         {/* Auth protected routes */}

@@ -66,16 +66,58 @@ const AdminTransactions = () => {
                 {/* Search Section */}
                 <div className="card mb-6">
                     <div className="card-body">
-                        <form onSubmit={handleSearch} className="flex gap-4 items-center">
+                        <form onSubmit={handleSearch} style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', width: '100%' }}>
                             <input
                                 type="text"
                                 placeholder="Search by Patient Name, NIC, or Payment ID..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="form-input flex-1"
+                                style={{ 
+                                    flex: 1, 
+                                    padding: '0 16px', 
+                                    fontSize: '16px',
+                                    border: '1px solid #ddd', 
+                                    borderRadius: '8px',
+                                    outline: 'none',
+                                    height: '48px',
+                                    boxSizing: 'border-box'
+                                }}
                             />
-                            <button type="submit" className="btn btn-primary">Search</button>
-                            <button type="button" onClick={() => { setSearch(''); fetchTransactions(); }} className="btn btn-secondary">
+                            <button 
+                                type="submit" 
+                                style={{
+                                    padding: '0 32px',
+                                    fontSize: '16px',
+                                    backgroundColor: '#1976D2',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    fontWeight: '500',
+                                    minWidth: '120px',
+                                    height: '48px',
+                                    boxSizing: 'border-box'
+                                }}
+                            >
+                                Search
+                            </button>
+                            <button 
+                                type="button" 
+                                onClick={() => { setSearch(''); fetchTransactions(); }}
+                                style={{
+                                    padding: '0 32px',
+                                    fontSize: '16px',
+                                    backgroundColor: '#78909C',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    fontWeight: '500',
+                                    minWidth: '120px',
+                                    height: '48px',
+                                    boxSizing: 'border-box'
+                                }}
+                            >
                                 Clear
                             </button>
                         </form>

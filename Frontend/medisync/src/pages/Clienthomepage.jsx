@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import FindDoctors from '../components/FindDoctors';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE } from '../api';
+import { API_BASE, userAPI, authHeaders } from '../api';
 
 export default function PatientDashboard() {
   const navigate = useNavigate();
@@ -13,7 +13,37 @@ export default function PatientDashboard() {
   const [doctorsBySpec, setDoctorsBySpec] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [searchMessage, setSearchMessage] = useState('');
-  const [displayMode, setDisplayMode] = useState('default'); // kept for clarity, but we render one grid
+  const [displayMode, setDisplayMode] = useState('default');
+  const [userName, setUserName] = useState('User');
+  const [appointmentStats, setAppointmentStats] = useState({ upcoming: 3, total: 0, next: null });
+
+  // Fetch user profile and appointments
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const profile = await userAPI.getProfile();
+        setUserName(profile.fullName || profile.name || 'User');
+        
+        const res = await fetch(`${API_BASE}/api/Booking/user`, {
+          headers: authHeaders()
+        });
+        const appointments = await res.json();
+        
+        const now = new Date();
+        const upcoming = (appointments || []).filter(apt => new Date(apt.appointmentDate) >= now);
+        const next = upcoming.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0];
+        
+        setAppointmentStats({
+          upcoming: upcoming.length,
+          total: (appointments || []).length,
+          next: next
+        });
+      } catch (err) {
+        console.error('Error fetching user data:', err);
+      }
+    }
+    fetchUserData();
+  }, []);
 
   // Fetch doctors with custom rules
   React.useEffect(() => {
@@ -97,11 +127,12 @@ export default function PatientDashboard() {
 
   return (
     <div className="page-wrapper">
-      <div className="content-wrapper">
+      <div className="container">
+        <div className="content-wrapper">
         {/* Welcome Section */}
         <div className="card mb-6" style={{ background: 'linear-gradient(135deg, var(--primary-500), var(--primary-600))' }}>
           <div className="card-body">
-            <h1 className="text-3xl font-bold" style={{ color: 'white', margin: 0 }}>Welcome back, User!</h1>
+            <h1 className="text-3xl font-bold" style={{ color: 'white', margin: 0 }}>Welcome back, {userName}!</h1>
             <p className="text-lg" style={{ color: 'rgba(255,255,255,0.9)', margin: '0.5rem 0 0 0' }}>
               Find and book appointments with our qualified doctors
             </p>
@@ -117,7 +148,7 @@ export default function PatientDashboard() {
               </div>
               <div>
                 <div className="text-sm text-gray-500">My Appointments</div>
-                <div className="text-xl font-bold">0</div>
+                <div className="text-xl font-bold">{appointmentStats.upcoming}</div>
               </div>
             </div>
           </div>
@@ -129,7 +160,7 @@ export default function PatientDashboard() {
               </div>
               <div>
                 <div className="text-sm text-gray-500">Total Appointments</div>
-                <div className="text-xl font-bold">0</div>
+                <div className="text-xl font-bold">{appointmentStats.total}</div>
               </div>
             </div>
           </div>
@@ -155,7 +186,12 @@ export default function PatientDashboard() {
             </div>
             <div>
               <div className="text-sm text-gray-500">Next Appointment</div>
-              <div className="text-lg font-medium">No upcoming appointments</div>
+              <div className="text-lg font-medium">
+                {appointmentStats.next 
+                  ? `${appointmentStats.next.doctorName || 'Doctor'} - ${new Date(appointmentStats.next.appointmentDate).toLocaleDateString()}`
+                  : 'No upcoming appointments'
+                }
+              </div>
             </div>
           </div>
         </div>
@@ -173,6 +209,7 @@ export default function PatientDashboard() {
           doctorsBySpec={doctorsBySpec}
           searchMessage={searchMessage}
         />
+        </div>
       </div>
     </div>
   );

@@ -60,10 +60,10 @@ export default function FindDoctors({
       
       <div className="card-body">
         {/* Search Filters */}
-        <div className="flex gap-4 mb-4">
-          <div className="flex-1" style={{ position: 'relative' }}>
-            <div className="flex items-center form-input" style={{ padding: 'var(--space-2) var(--space-3)' }}>
-              <Search size={18} style={{ color: 'var(--gray-400)', marginRight: 'var(--space-2)' }} />
+        <div className="flex gap-4 mb-6">
+          <div style={{ position: 'relative', flex: '2' }}>
+            <div className="flex items-center" style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', height: '44px' }}>
+              <Search size={18} style={{ color: '#999', marginRight: '8px' }} />
               <input
                 type="text"
                 placeholder="Search doctors..."
@@ -86,9 +86,9 @@ export default function FindDoctors({
                 right: 0,
                 zIndex: 10,
                 background: 'white',
-                border: '1px solid var(--gray-200)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: 'var(--shadow-lg)',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
                 maxHeight: '200px',
                 overflowY: 'auto',
                 marginTop: '2px'
@@ -101,9 +101,9 @@ export default function FindDoctors({
                       setShowDropdown(false);
                     }}
                     style={{
-                      padding: 'var(--space-3)',
+                      padding: '12px',
                       cursor: 'pointer',
-                      borderBottom: '1px solid var(--gray-100)'
+                      borderBottom: '1px solid #f0f0f0'
                     }}
                   >
                     {doctor.fullName || doctor.name}
@@ -113,8 +113,8 @@ export default function FindDoctors({
             )}
           </div>
           
-          <div className="flex items-center form-select" style={{ padding: 'var(--space-2) var(--space-3)', minWidth: '200px' }}>
-            <Filter size={18} style={{ color: 'var(--gray-400)', marginRight: 'var(--space-2)' }} />
+          <div className="flex items-center" style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', minWidth: '200px', height: '44px' }}>
+            <Filter size={18} style={{ color: '#999', marginRight: '8px' }} />
             <select
               value={localSpecialization}
               onChange={(e) => setLocalSpecialization(e.target.value)}
@@ -125,16 +125,14 @@ export default function FindDoctors({
               ))}
             </select>
           </div>
-        </div>
-        
-        {/* Date and Search */}
-        <div className="flex gap-4 mb-6">
+          
           <input
             type="date"
             value={appointmentDate}
             onChange={(e) => setAppointmentDate(e.target.value)}
-            className="form-input flex-1"
+            style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', minWidth: '180px', height: '44px' }}
           />
+          
           <button className="btn btn-primary" onClick={handleSearch}>Search</button>
         </div>
         
@@ -155,52 +153,47 @@ export default function FindDoctors({
         
         {/* Doctors Grid */}
         {!loading && (
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-3">
             {doctors.map((doctor) => {
               const name = doctor.fullName || doctor.name || 'Unknown Doctor';
               const specialization = doctor.specialization || 'General Practitioner';
-              const image = doctor.profileImage || '/assets/unnamed.png';
+              const image = doctor.profileImage || '/src/assets/Elogo.png';
               return (
-                <div className="card" key={doctor.doctorId || doctor.id} style={{ position: 'relative' }}>
-                  <div style={{ position: 'absolute', top: 'var(--space-3)', right: 'var(--space-3)', zIndex: 1 }}>
+                <div key={doctor.doctorId || doctor.id} className="card" style={{ height: '350px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1 }}>
                     <FavoriteButton
                       doctorId={doctor.doctorId || doctor.id}
                       initialIsFavorite={doctor.isFavorite || false}
                       onToggle={(isFav, msg) => {
-                        const toast = document.createElement('div');
-                        toast.textContent = msg;
-                        toast.style.cssText = 'position:fixed;top:20px;right:20px;background:var(--success-500);color:white;padding:12px 16px;border-radius:6px;z-index:1000;font-size:14px';
-                        document.body.appendChild(toast);
-                        setTimeout(() => document.body.removeChild(toast), 3000);
+                        console.log(msg);
                       }}
                     />
                   </div>
                   
-                  <div className="card-body text-center">
+                  <div className="card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
                     <div style={{
-                      width: '80px',
-                      height: '80px',
-                      borderRadius: 'var(--radius-lg)',
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
                       overflow: 'hidden',
-                      background: 'var(--gray-100)',
-                      border: '1px solid var(--gray-200)',
-                      margin: '0 auto var(--space-4) auto'
+                      margin: '0 auto 15px',
+                      backgroundColor: '#f5f5f5'
                     }}>
                       <img 
                         src={image} 
                         alt={name} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                        onError={(e) => { e.currentTarget.src = 'src/assets/Elogo.png' }} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.currentTarget.src = '/src/assets/Elogo.png' }} 
                       />
                     </div>
                     
-                    <h3 className="font-semibold text-gray-800 mb-1">{name}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{specialization}</p>
+                    <h3 style={{ fontSize: '1.2rem', lineHeight: '1.3', marginBottom: '8px', color: '#1976D2', fontWeight: '600' }}>{name}</h3>
+                    <p style={{ color: '#666', marginBottom: '20px' }}>{specialization}</p>
                     
                     <button 
-                      className="btn btn-primary" 
-                      style={{ width: '100%' }}
+                      className="btn btn-primary"
                       onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}
+                      style={{ width: '100%', marginTop: 'auto' }}
                     >
                       Book Now
                     </button>

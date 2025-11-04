@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import { Heart, ArrowLeft } from 'lucide-react';
 import { favoritesAPI } from '../api';
 import FavoriteButton from '../components/FavoriteButton';
 import '../styles/FavoriteDoctors.css';
@@ -46,6 +46,20 @@ export default function FavoriteDoctors() {
   return (
     <div className="favorite-doctors">
       <div className="favorite-doctors-header">
+        <button 
+          onClick={() => navigate('/patient')} 
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            cursor: 'pointer', 
+            padding: '8px', 
+            display: 'flex', 
+            alignItems: 'center',
+            color: '#1976D2'
+          }}
+        >
+          <ArrowLeft size={24} />
+        </button>
         <Heart size={24} fill="#ef4444" color="#ef4444" />
         <h2>My Favorite Doctors</h2>
       </div>

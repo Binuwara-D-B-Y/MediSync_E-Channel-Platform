@@ -14,12 +14,12 @@ export default function Header({ title, actions = [] }) {
   };
 
   return (
-    <header className="card" style={{ borderRadius: 0, borderLeft: 0, borderRight: 0, borderTop: 0 }}>
+    <header className="card" style={{ borderRadius: 0, borderLeft: 0, borderRight: 0, borderTop: 0, backgroundColor: '#1976D2' }}>
       <div className="flex items-center justify-between p-4">
         <h1 
           className="text-2xl font-bold cursor-pointer"
           onClick={() => navigate('/patient')}
-          style={{ color: 'var(--primary-600)', cursor: 'pointer' }}
+          style={{ color: 'white', cursor: 'pointer' }}
         >
           {title}
         </h1>
@@ -29,6 +29,7 @@ export default function Header({ title, actions = [] }) {
               key={index}
               className="btn btn-secondary"
               onClick={() => handleActionClick(action)}
+              style={{ backgroundColor: 'white', color: '#1976D2' }}
             >
               {action.label}
             </button>
