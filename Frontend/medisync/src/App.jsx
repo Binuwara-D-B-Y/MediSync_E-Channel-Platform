@@ -2,6 +2,7 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
+import "./styles/globals.css"
 import "./index.css"
 import "./App.css"
 
@@ -83,9 +84,11 @@ function App() {
     }
   }
 
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/forgot' && location.pathname !== '/reset';
+
   return (
     <div className="App">
-      <Header title="MEDISYNC" actions={headerActions} />
+      {showHeader && <Header title="MEDISYNC" actions={headerActions} />}
 
       <Routes>
         {/* Auth protected routes */}

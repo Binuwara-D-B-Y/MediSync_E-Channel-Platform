@@ -238,29 +238,6 @@ import { userAPI } from "../api.js"
 import "../styles/UserAccount.css"
 
 export default function UserAccount() {
-  // Dynamically load/unload Materialize CSS only for this page
-  function loadMaterializeCSS() {
-    const id = "materialize-css-dynamic"
-    if (!document.getElementById(id)) {
-      const link = document.createElement("link")
-      link.id = id
-      link.rel = "stylesheet"
-      link.href = "/node_modules/materialize-css/dist/css/materialize.min.css"
-      document.head.appendChild(link)
-    }
-  }
-
-  function unloadMaterializeCSS() {
-    const link = document.getElementById("materialize-css-dynamic")
-    if (link) {
-      document.head.removeChild(link)
-    }
-  }
-
-  useEffect(() => {
-    loadMaterializeCSS()
-    return () => unloadMaterializeCSS()
-  }, [])
 
   // State management
   const [profile, setProfile] = useState(null)

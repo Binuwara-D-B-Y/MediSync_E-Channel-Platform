@@ -36,18 +36,20 @@
 }
 
 .browse-doctors-btn {
-  background: #3b82f6;
+  background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .browse-doctors-btn:hover {
-  background: #2563eb;
+  background: linear-gradient(135deg, #1565C0 0%, #0A3A8C 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
 .favorites-grid {

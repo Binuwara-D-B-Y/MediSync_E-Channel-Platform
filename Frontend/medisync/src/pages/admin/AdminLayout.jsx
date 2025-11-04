@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { userAPI } from '../../api';
 import '../../styles/AdminLayout.css';
 
 const AdminLayout = () => {
     const navigate = useNavigate();
+    const [userName, setUserName] = useState('Admin');
+
+    useEffect(() => {
+        async function fetchUserName() {
+            try {
+                const profile = await userAPI.getProfile();
+                setUserName(profile.fullName || profile.name || 'Admin');
+            } catch (err) {
+                console.error('Error fetching user:', err);
+            }
+        }
+        fetchUserName();
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -15,7 +29,7 @@ const AdminLayout = () => {
         <div className="admin-layout">
             <nav className="admin-sidebar">
                 <div className="admin-logo">
-                    <h2>MediSync Admin</h2>
+                    <h2>Welcome {userName}</h2>
                 </div>
                 <ul className="admin-nav">
                     <li>
