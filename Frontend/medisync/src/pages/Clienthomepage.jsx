@@ -130,7 +130,7 @@ export default function PatientDashboard() {
       <div className="container">
         <div className="content-wrapper">
         {/* Welcome Section */}
-        <div className="card mb-6" style={{ background: 'linear-gradient(135deg, var(--primary-500), var(--primary-600))' }}>
+        <div className="card mb-6" style={{ background: 'linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)' }}>
           <div className="card-body">
             <h1 className="text-3xl font-bold" style={{ color: 'white', margin: 0 }}>Welcome back, {userName}!</h1>
             <p className="text-lg" style={{ color: 'rgba(255,255,255,0.9)', margin: '0.5rem 0 0 0' }}>

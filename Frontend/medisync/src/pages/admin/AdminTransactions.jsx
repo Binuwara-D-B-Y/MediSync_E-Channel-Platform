@@ -88,7 +88,7 @@ const AdminTransactions = () => {
                                 style={{
                                     padding: '0 32px',
                                     fontSize: '16px',
-                                    backgroundColor: '#1976D2',
+                                    background: 'linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)',
                                     color: 'white',
                                     border: 'none',
                                     borderRadius: '8px',

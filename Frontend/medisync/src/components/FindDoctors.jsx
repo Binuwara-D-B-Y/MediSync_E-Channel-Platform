@@ -193,7 +193,7 @@ export default function FindDoctors({
                     <button 
                       className="btn btn-primary"
                       onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}
-                      style={{ width: '100%', marginTop: 'auto' }}
+                      style={{ width: '100%', marginTop: 'auto', background: 'linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)', border: 'none' }}
                     >
                       Book Now
                     </button>

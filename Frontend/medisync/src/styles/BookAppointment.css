@@ -386,7 +386,7 @@
 .btn-confirm {
   width: 100%;
   padding: 1rem;
-  background: #3b82f6;
+  background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -401,9 +401,9 @@
 }
 
 .btn-confirm:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: linear-gradient(135deg, #1565C0 0%, #0A3A8C 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
 .btn-confirm:disabled {
@@ -414,7 +414,7 @@
 }
 
 .btn-confirm.loading {
-  background: #1d4ed8;
+  background: linear-gradient(135deg, #1565C0 0%, #0A3A8C 100%);
 }
 
 .spinner {
@@ -490,7 +490,7 @@
 
 .btn-primary {
   padding: 0.625rem 1.5rem;
-  background: #1976D2;
+  background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -502,8 +502,9 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1565C0;
+  background: linear-gradient(135deg, #1565C0 0%, #0A3A8C 100%);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
 .btn-primary:disabled {

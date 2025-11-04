@@ -14,7 +14,7 @@ export default function Header({ title, actions = [] }) {
   };
 
   return (
-    <header className="card" style={{ borderRadius: 0, borderLeft: 0, borderRight: 0, borderTop: 0, backgroundColor: '#1976D2' }}>
+    <header className="card" style={{ borderRadius: 0, borderLeft: 0, borderRight: 0, borderTop: 0, background: 'linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)' }}>
       <div className="flex items-center justify-between p-4">
         <h1 
           className="text-2xl font-bold cursor-pointer"
@@ -29,7 +29,7 @@ export default function Header({ title, actions = [] }) {
               key={index}
               className="btn btn-secondary"
               onClick={() => handleActionClick(action)}
-              style={{ backgroundColor: 'white', color: '#1976D2' }}
+              style={{ background: 'white', color: '#1976D2' }}
             >
               {action.label}
             </button>
