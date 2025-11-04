@@ -30,8 +30,8 @@ const AdminTransactions = () => {
     };
 
     const getStatusBadge = (status, statusValue) => {
-        const badgeClass = statusValue === 1 ? 'status-paid' : statusValue === 0 ? 'status-pending' : 'status-failed';
-        return <span className={`status-badge ${badgeClass}`}>{status}</span>;
+        const badgeClass = statusValue === 1 ? 'badge-success' : statusValue === 0 ? 'badge-warning' : 'badge-error';
+        return <span className={`badge ${badgeClass}`}>{status}</span>;
     };
 
     const formatCurrency = (amount) => {
@@ -44,78 +44,87 @@ const AdminTransactions = () => {
     if (loading) return <div className="loading">Loading transactions...</div>;
 
     return (
-        <div className="admin-transactions">
-            <div className="header">
-                <h1>Manage Transactions</h1>
-                <div className="transaction-stats">
-                    <div className="stat-item">
-                        <span className="stat-label">Total Transactions:</span>
-                        <span className="stat-value">{transactions.length}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Total Revenue:</span>
-                        <span className="stat-value">
-                            {formatCurrency(transactions.reduce((sum, t) => sum + (t.amount || 0), 0))}
-                        </span>
+        <div className="page-wrapper">
+            <div className="content-wrapper">
+                {/* Header Section */}
+                <div className="flex items-center justify-between mb-6">
+                    <h1 className="text-3xl font-bold text-gray-800">Manage Transactions</h1>
+                    <div className="flex gap-4">
+                        <div className="card p-4 text-center">
+                            <div className="text-sm text-gray-500 font-medium">Total Transactions</div>
+                            <div className="text-2xl font-bold" style={{ color: 'var(--primary-600)' }}>{transactions.length}</div>
+                        </div>
+                        <div className="card p-4 text-center">
+                            <div className="text-sm text-gray-500 font-medium">Total Revenue</div>
+                            <div className="text-2xl font-bold" style={{ color: 'var(--success-600)' }}>
+                                {formatCurrency(transactions.reduce((sum, t) => sum + (t.amount || 0), 0))}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="search-section">
-                <form onSubmit={handleSearch} className="search-form">
-                    <input
-                        type="text"
-                        placeholder="Search by Patient Name, NIC, or Payment ID..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="search-input"
-                    />
-                    <button type="submit" className="search-btn">Search</button>
-                    <button type="button" onClick={() => { setSearch(''); fetchTransactions(); }} className="clear-btn">
-                        Clear
-                    </button>
-                </form>
-            </div>
+                {/* Search Section */}
+                <div className="card mb-6">
+                    <div className="card-body">
+                        <form onSubmit={handleSearch} className="flex gap-4 items-center">
+                            <input
+                                type="text"
+                                placeholder="Search by Patient Name, NIC, or Payment ID..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="form-input flex-1"
+                            />
+                            <button type="submit" className="btn btn-primary">Search</button>
+                            <button type="button" onClick={() => { setSearch(''); fetchTransactions(); }} className="btn btn-secondary">
+                                Clear
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
-            <div className="transactions-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Patient Name</th>
-                            <th>Appointment</th>
-                            <th>Amount</th>
-                            <th>Payment Method</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Bank</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.length === 0 ? (
-                            <tr>
-                                <td colSpan="9" style={{textAlign: 'center', padding: '2rem', color: '#666'}}>
-                                    No transactions found
-                                </td>
-                            </tr>
-                        ) : (
-                            transactions.map(transaction => (
-                                <tr key={transaction.transactionId}>
-                                    <td>{transaction.transactionId}</td>
-                                    <td>{transaction.patientName}</td>
-                                    <td>#{transaction.appointmentId}</td>
-                                    <td>{formatCurrency(transaction.amount || 0)}</td>
-                                    <td>{transaction.paymentMethod || 'Bank Transfer'}</td>
-                                    <td>{new Date(transaction.paymentDate).toLocaleDateString()}</td>
-                                    <td>{getStatusBadge(transaction.status, transaction.statusValue)}</td>
-                                    <td>{transaction.bankName || 'N/A'}</td>
-                                    <td>{transaction.email}</td>
+                {/* Transactions Table */}
+                <div className="card">
+                    <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                            <thead>
+                                <tr style={{ backgroundColor: 'var(--gray-50)', borderBottom: '1px solid var(--gray-200)' }}>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>ID</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Patient Name</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Appointment</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Amount</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Payment Method</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Date</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Status</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Bank</th>
+                                    <th style={{ padding: 'var(--space-3)', textAlign: 'left', fontWeight: 600, color: 'var(--gray-700)' }}>Email</th>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                {transactions.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="9" style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--gray-500)' }}>
+                                            No transactions found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    transactions.map(transaction => (
+                                        <tr key={transaction.transactionId} style={{ borderBottom: '1px solid var(--gray-200)' }}>
+                                            <td style={{ padding: 'var(--space-3)' }}>{transaction.transactionId}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{transaction.patientName}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>#{transaction.appointmentId}</td>
+                                            <td style={{ padding: 'var(--space-3)', fontWeight: 600 }}>{formatCurrency(transaction.amount || 0)}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{transaction.paymentMethod || 'Bank Transfer'}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{new Date(transaction.paymentDate).toLocaleDateString()}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{getStatusBadge(transaction.status, transaction.statusValue)}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{transaction.bankName || 'N/A'}</td>
+                                            <td style={{ padding: 'var(--space-3)' }}>{transaction.email}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );

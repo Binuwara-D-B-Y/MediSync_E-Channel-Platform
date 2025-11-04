@@ -1,12 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import DashboardWrapper from '../components/DashboardWrapper';
-import WelcomeCard from '../components/WelcomeCard';
-import QuickStats from '../components/QuickStats';
 import FindDoctors from '../components/FindDoctors';
-import Header from '../components/Header';
+import { useNavigate } from 'react-router-dom';
 import { API_BASE } from '../api';
 
 export default function PatientDashboard() {
+  const navigate = useNavigate();
   // 🔹 State
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialization, setSelectedSpecialization] = useState('All Specializations');
@@ -98,37 +96,84 @@ export default function PatientDashboard() {
 
 
   return (
-    <DashboardWrapper>
-      {/* Welcome */}
-      <WelcomeCard name={'User'} />
-
-  {/* Quick Stats Section */}
-  <QuickStats />
-
-      {/* Upcoming Appointments Section */}
-      <div className="quick-stats-grid" style={{margin:'2rem 0'}}>
-        <div className="quick-stat-card">
-          <div className="quick-stat-icon blue"><span role="img" aria-label="calendar">📅</span></div>
-          <div>
-            <p className="quick-stat-label">Next Appointment</p>
-            <p className="quick-stat-value">No upcoming appointments</p>
+    <div className="page-wrapper">
+      <div className="content-wrapper">
+        {/* Welcome Section */}
+        <div className="card mb-6" style={{ background: 'linear-gradient(135deg, var(--primary-500), var(--primary-600))' }}>
+          <div className="card-body">
+            <h1 className="text-3xl font-bold" style={{ color: 'white', margin: 0 }}>Welcome back, User!</h1>
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.9)', margin: '0.5rem 0 0 0' }}>
+              Find and book appointments with our qualified doctors
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Find Doctors */}
-      <FindDoctors
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        selectedSpecialization={selectedSpecialization}
-        setSelectedSpecialization={setSelectedSpecialization}
-        doctors={doctors}
-        loading={loadingDoctors}
-        displayMode={displayMode}
-        doctorsByName={doctorsByName}
-        doctorsBySpec={doctorsBySpec}
-        searchMessage={searchMessage}
-      />
-    </DashboardWrapper>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 mb-6">
+          <div className="card cursor-pointer" onClick={() => navigate('/appointments')} style={{ transition: 'transform 0.2s' }}>
+            <div className="card-body flex items-center gap-4">
+              <div className="p-3" style={{ backgroundColor: 'var(--primary-100)', borderRadius: 'var(--radius-lg)', color: 'var(--primary-600)' }}>
+                📅
+              </div>
+              <div>
+                <div className="text-sm text-gray-500">My Appointments</div>
+                <div className="text-xl font-bold">0</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="card">
+            <div className="card-body flex items-center gap-4">
+              <div className="p-3" style={{ backgroundColor: 'var(--success-50)', borderRadius: 'var(--radius-lg)', color: 'var(--success-600)' }}>
+                ⏰
+              </div>
+              <div>
+                <div className="text-sm text-gray-500">Total Appointments</div>
+                <div className="text-xl font-bold">0</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="card cursor-pointer" onClick={() => navigate('/favorites')} style={{ transition: 'transform 0.2s' }}>
+            <div className="card-body flex items-center gap-4">
+              <div className="p-3" style={{ backgroundColor: 'rgba(147, 51, 234, 0.1)', borderRadius: 'var(--radius-lg)', color: '#9333ea' }}>
+                ⭐
+              </div>
+              <div>
+                <div className="text-sm text-gray-500">Favorite Doctors</div>
+                <div className="text-xl font-bold">View</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Next Appointment */}
+        <div className="card mb-6">
+          <div className="card-body flex items-center gap-4">
+            <div className="p-3" style={{ backgroundColor: 'var(--primary-100)', borderRadius: 'var(--radius-lg)', color: 'var(--primary-600)' }}>
+              📅
+            </div>
+            <div>
+              <div className="text-sm text-gray-500">Next Appointment</div>
+              <div className="text-lg font-medium">No upcoming appointments</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Find Doctors */}
+        <FindDoctors
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedSpecialization={selectedSpecialization}
+          setSelectedSpecialization={setSelectedSpecialization}
+          doctors={doctors}
+          loading={loadingDoctors}
+          displayMode={displayMode}
+          doctorsByName={doctorsByName}
+          doctorsBySpec={doctorsBySpec}
+          searchMessage={searchMessage}
+        />
+      </div>
+    </div>
   );
 }

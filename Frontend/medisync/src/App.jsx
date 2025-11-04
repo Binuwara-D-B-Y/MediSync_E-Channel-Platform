@@ -2,6 +2,7 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
+import "./styles/globals.css"
 import "./index.css"
 import "./App.css"
 
