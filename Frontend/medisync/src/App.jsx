@@ -99,7 +99,11 @@ function App() {
         <Route path="/favorites" element={<FavoriteDoctors />} />
 
         {/* Admin routes */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={
+          localStorage.getItem("userRole") === "admin" ? 
+          <AdminLayout /> : 
+          <Navigate to="/login" replace />
+        }>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="doctors" element={<AdminDoctors />} />
           <Route path="schedules" element={<AdminSchedules />} />

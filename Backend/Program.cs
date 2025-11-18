@@ -1,4 +1,3 @@
-
 using Backend.Data;
 using Backend.Repositories;
 using Backend.Services;
@@ -75,6 +74,7 @@ builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 // Register services
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IEmailService, EmailServiceFixed>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IUserService, UserService>();

@@ -17,6 +17,15 @@ export default function Login({ onAuthed }) {
     setLoading(true)
 
     try {
+      // Hardcoded admin login
+      if (email === "admin@medisync.com" && password === "admin123") {
+        localStorage.setItem("token", "admin-token")
+        localStorage.setItem("userRole", "admin")
+        onAuthed?.()
+        navigate('/admin/dashboard', { replace: true })
+        return
+      }
+
       const res = await apiRequest("/api/Auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -112,6 +121,16 @@ export default function Login({ onAuthed }) {
         .auth-header p {
           color: #6b7280;
           font-size: 1rem;
+        }
+
+        .admin-hint {
+          background: #f3f4f6;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          font-size: 0.875rem;
+          color: #374151;
         }
 
         .form {
@@ -282,6 +301,7 @@ export default function Login({ onAuthed }) {
               <h2>Welcome Back</h2>
               <p>Sign in to access your healthcare dashboard</p>
             </div>
+
 
             <form onSubmit={handleSubmit} className="form">
               <div className="form-group">
