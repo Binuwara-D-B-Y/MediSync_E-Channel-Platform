@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE } from '../api';
 import { ArrowLeft, Calendar, Clock, MapPin, User, DollarSign } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AppointmentsDone.css';
@@ -21,7 +22,7 @@ export default function AppointmentsDone() {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/booking/user', {
+      const response = await fetch(`${API_BASE}/api/booking/user`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

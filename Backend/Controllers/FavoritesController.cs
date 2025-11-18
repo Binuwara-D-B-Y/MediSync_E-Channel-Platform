@@ -7,10 +7,11 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    // Handles all favorite doctor operations for logged-in patients
+    // This controller handles all the favorite doctor stuff
+    // Users can save doctors they like and view them later
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize] // gotta be logged in to use this
     public class FavoritesController : ControllerBase
     {
         private readonly IFavoriteRepository _favoriteRepository;
@@ -22,23 +23,26 @@ namespace Backend.Controllers
             _context = context;
         }
 
-        // Extract user ID from JWT token - this is how we know which patient is making the request
+        // Helper method to get the current user's ID from the JWT token
+        // This was a pain to get working properly...
         private int GetUserId()
         {
-            var userIdClaim = User.FindFirst("sub")?.Value ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // Try different claim types because JWT tokens can be inconsistent
+            var userIdClaim = User?.FindFirst("sub")?.Value ?? User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Console.WriteLine($"Raw user claim: {userIdClaim}");
-            
-            if (int.TryParse(userIdClaim, out int userId))
+
+            if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out int userId))
             {
                 Console.WriteLine($"Parsed user ID: {userId}");
                 return userId;
             }
-            
+
+            // If we can't get a valid user ID, something's wrong with the token
             Console.WriteLine($"Failed to parse user ID from claim: {userIdClaim}");
-            throw new UnauthorizedAccessException($"Invalid user token. Claim value: {userIdClaim}");
+            throw new UnauthorizedAccessException($"Invalid user token. Claim value: {userIdClaim ?? "null"}");
         }
 
-        // Get all favorite doctors for the current user
+        // GET endpoint to fetch all favorite doctors for the current user
         [HttpGet]
         public async Task<IActionResult> GetFavorites()
         {
@@ -47,10 +51,10 @@ namespace Backend.Controllers
                 var userId = GetUserId();
                 Console.WriteLine($"Getting favorites for user ID: {userId}");
                 
-                // Query database directly to get favorites with doctor info
-                // Using Select() to avoid circular reference issues when returning JSON
+                // Query the database directly instead of using repository
+                // (probably should refactor this to use the repo but it works for now)
                 var favorites = await _context.Favorites
-                    .Include(f => f.Doctor)
+                    .Include(f => f.Doctor) // join with doctor table to get doctor info
                     .Where(f => f.PatientId == userId)
                     .Select(f => new {
                         favoriteId = f.FavoriteId,
@@ -80,6 +84,7 @@ namespace Backend.Controllers
         }
 
         // Add a doctor to user's favorites list
+        // POST /api/favorites/123 (where 123 is the doctor ID)
         [HttpPost("{doctorId}")]
         public async Task<IActionResult> AddFavorite(int doctorId)
         {
@@ -98,7 +103,6 @@ namespace Backend.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                // This happens when doctor is already in favorites
                 Console.WriteLine($"Invalid operation: {ex.Message}");
                 return BadRequest(new { message = ex.Message });
             }
@@ -109,14 +113,14 @@ namespace Backend.Controllers
             }
         }
 
-        // Remove a doctor from favorites - works even if not in favorites
+        // Remove doctor from favorites - simple DELETE request
         [HttpDelete("{doctorId}")]
         public async Task<IActionResult> RemoveFavorite(int doctorId)
         {
             try
             {
                 var userId = GetUserId();
-                await _favoriteRepository.RemoveFavoriteAsync(userId, doctorId);
+                await _favoriteRepository.RemoveFavoriteAsync(userId, doctorId); // let the repo handle the logic
                 return Ok(new { message = "Removed from favorites" });
             }
             catch (UnauthorizedAccessException ex)
@@ -125,7 +129,8 @@ namespace Backend.Controllers
             }
         }
 
-        // Check if a specific doctor is in user's favorites (for heart icon state)
+        // Check if a specific doctor is already in user's favorites
+        // Useful for showing the heart icon as filled or empty on the frontend
         [HttpGet("check/{doctorId}")]
         public async Task<IActionResult> CheckFavorite(int doctorId)
         {
@@ -133,7 +138,7 @@ namespace Backend.Controllers
             {
                 var userId = GetUserId();
                 var isFavorite = await _favoriteRepository.IsFavoriteAsync(userId, doctorId);
-                return Ok(new { isFavorite });
+                return Ok(new { isFavorite }); // returns true/false
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -141,13 +146,15 @@ namespace Backend.Controllers
             }
         }
 
+        // Debug endpoint - shows all favorites in the system
+        // TODO: remove this before going to production!
         [HttpGet("debug")]
-        [AllowAnonymous]
+        [AllowAnonymous] // no auth needed for debugging
         public async Task<IActionResult> DebugFavorites()
         {
             try
             {
-                // Test without auth first
+                // Get everything from the database for debugging
                 var allFavs = await _context.Favorites.Include(f => f.Doctor).ToListAsync();
                 var userClaims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
                 

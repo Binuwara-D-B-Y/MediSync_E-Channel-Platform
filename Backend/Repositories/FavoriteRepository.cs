@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories
 {
-    // Repository for managing patient's favorite doctors
+    // Repository pattern for favorites - keeps database logic separate from controllers
+    // Makes testing easier and code more organized
     public class FavoriteRepository : IFavoriteRepository
     {
         private readonly AppDbContext _context;
@@ -14,26 +15,30 @@ namespace Backend.Repositories
             _context = context;
         }
 
-        // Get all favorites for a user, newest first
+        // Get all favorites for a specific user
+        // Orders by newest first because that's probably what users want to see
         public async Task<IEnumerable<Favorite>> GetUserFavoritesAsync(int userId)
         {
             return await _context.Favorites
-                .Include(f => f.Doctor)
+                .Include(f => f.Doctor) // eager loading to avoid N+1 queries
                 .Where(f => f.PatientId == userId)
-                .OrderByDescending(f => f.CreatedAt)
+                .OrderByDescending(f => f.CreatedAt) // newest favorites first
                 .ToListAsync();
         }
 
-        // Find a specific favorite record by user and doctor
+        // Find a specific favorite record by user and doctor IDs
+        // Returns null if not found (hence the ? in Favorite?)
         public async Task<Favorite?> GetFavoriteAsync(int userId, int doctorId)
         {
             return await _context.Favorites
                 .FirstOrDefaultAsync(f => f.PatientId == userId && f.DoctorId == doctorId);
         }
 
-        // Add doctor to favorites - prevents duplicates
+        // Add a new favorite - but first check if it already exists
+        // We don't want duplicate favorites for the same doctor
         public async Task<Favorite> AddFavoriteAsync(int userId, int doctorId)
         {
+            // Check if this combo already exists
             var existing = await GetFavoriteAsync(userId, doctorId);
             if (existing != null)
                 throw new InvalidOperationException("Doctor is already in favorites");
@@ -42,25 +47,29 @@ namespace Backend.Repositories
             {
                 PatientId = userId,
                 DoctorId = doctorId
+                // CreatedAt will be set automatically in the model
             };
 
             _context.Favorites.Add(favorite);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // commit to database
             return favorite;
         }
 
-        // Remove from favorites - safe to call even if not favorited
+        // Remove a favorite - silently does nothing if it doesn't exist
+        // This is probably the right behavior (idempotent operations are good)
         public async Task RemoveFavoriteAsync(int userId, int doctorId)
         {
             var favorite = await GetFavoriteAsync(userId, doctorId);
-            if (favorite != null)
+            if (favorite != null) // only remove if it exists
             {
                 _context.Favorites.Remove(favorite);
                 await _context.SaveChangesAsync();
             }
+            // If it doesn't exist, we just do nothing - no error thrown
         }
 
-        // Quick check if doctor is in user's favorites (for UI state)
+        // Quick check to see if a doctor is favorited by a user
+        // More efficient than GetFavoriteAsync when you just need true/false
         public async Task<bool> IsFavoriteAsync(int userId, int doctorId)
         {
             return await _context.Favorites

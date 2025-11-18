@@ -1,15 +1,23 @@
 "use client"
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useSearchParams } from "react-router-dom"
 import { apiRequest } from "../../api"
 
 export default function Reset() {
+  const [searchParams] = useSearchParams()
   const [token, setToken] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const urlToken = searchParams.get('token')
+    if (urlToken) {
+      setToken(urlToken)
+    }
+  }, [searchParams])
 
   async function submit(e) {
     e.preventDefault()
@@ -18,7 +26,7 @@ export default function Reset() {
     setLoading(true)
 
     try {
-      const res = await apiRequest("/api/auth/reset", {
+      const res = await apiRequest("/api/Auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword: password }),

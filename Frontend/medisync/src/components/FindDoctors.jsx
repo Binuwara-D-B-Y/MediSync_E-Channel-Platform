@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
-import '../styles/FindDoctors.css';
+import { API_BASE } from '../api';
+
 
 export default function FindDoctors({
   searchTerm,
@@ -28,20 +28,11 @@ export default function FindDoctors({
   useEffect(() => {
     async function fetchSpecs() {
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-        const res = await fetch(`${API_BASE_URL}/api/specializations`);
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        }
-        const contentType = res.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Server returned non-JSON response');
-        }
+        const res = await fetch(`${API_BASE}/api/specializations`);
         const data = await res.json();
         setSpecializations(['All Specializations', ...data]);
-      } catch (err) {
-        console.error('Failed to fetch specializations', err);
-        setSpecializations(['All Specializations', 'Cardiology', 'Dermatology', 'Neurology', 'Pediatrics']);
+      } catch {
+        setSpecializations(['All Specializations']);
       }
     }
     fetchSpecs();
@@ -51,9 +42,10 @@ export default function FindDoctors({
   const handleSearch = () => {
     setSearchTerm(localSearchTerm);
     setSelectedSpecialization(localSpecialization);
+    // Optionally: pass appointmentDate to parent and use in backend fetch
   };
 
-  // Filter doctors for dropdown
+  // Filter doctors for dropdown (from backend data)
   const filteredDropdown = localSearchTerm
     ? doctors.filter((doctor) =>
         (doctor.fullName || doctor.name)?.toLowerCase().includes(localSearchTerm.toLowerCase())
@@ -61,104 +53,164 @@ export default function FindDoctors({
     : [];
 
   return (
-    <div className="find-doctors">
-      <h2 className="find-doctors-title">Find Doctors</h2>
-      <div className="find-doctors-filters">
-        <div className="search-box" style={{ position: 'relative' }}>
-          <Search size={18} />
-          <input
-            type="text"
-            placeholder="Search doctors..."
-            value={localSearchTerm}
-            onChange={(e) => {
-              setLocalSearchTerm(e.target.value);
-              setShowDropdown(!!e.target.value);
-            }}
-            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-            onFocus={() => setShowDropdown(!!localSearchTerm)}
-            autoComplete="off"
-          />
-          {showDropdown && filteredDropdown.length > 0 && (
-            <ul className="doctor-dropdown">
-              {filteredDropdown.map((doctor) => (
-                <li
-                  key={doctor.userId || doctor.id}
-                  onMouseDown={() => {
-                    setLocalSearchTerm(doctor.fullName || doctor.name);
-                    setShowDropdown(false);
-                  }}
-                >
-                  {doctor.fullName || doctor.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="filter-box">
-          <Filter size={18} />
-          <select
-            value={localSpecialization}
-            onChange={(e) => setLocalSpecialization(e.target.value)}
-          >
-            {specializations.map((spec) => (
-              <option key={spec} value={spec}>{spec}</option>
-            ))}
-          </select>
-        </div>
+    <div className="card">
+      <div className="card-header">
+        <h2 className="text-xl font-semibold text-gray-800">Find Doctors</h2>
       </div>
-      <div className="find-doctors-extra">
-        <input
-          type="date"
-          value={appointmentDate}
-          onChange={(e) => setAppointmentDate(e.target.value)}
-          className="appointment-date-input"
-        />
-        <button className="doctor-search-btn" onClick={handleSearch}>Search</button>
-      </div>
-      {loading && <div style={{padding:'1rem 1.5rem', color:'#888'}}>Loading doctors...</div>}
-      {!loading && (
-        <div className="doctors-grid">
-          {searchMessage && (
-            <div className="no-results-content" style={{gridColumn:'1/-1', marginBottom:'0.5rem'}}>
-              <p style={{color:'#b91c1c', fontWeight:600, textAlign:'center'}}>{searchMessage}</p>
+      
+      <div className="card-body">
+        {/* Search Filters */}
+        <div className="flex gap-4 mb-6">
+          <div style={{ position: 'relative', flex: '2' }}>
+            <div className="flex items-center" style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', height: '44px' }}>
+              <Search size={18} style={{ color: '#999', marginRight: '8px' }} />
+              <input
+                type="text"
+                placeholder="Search doctors..."
+                value={localSearchTerm}
+                onChange={(e) => {
+                  setLocalSearchTerm(e.target.value);
+                  setShowDropdown(!!e.target.value);
+                }}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                onFocus={() => setShowDropdown(!!localSearchTerm)}
+                autoComplete="off"
+                style={{ border: 'none', outline: 'none', flex: 1, background: 'transparent' }}
+              />
             </div>
-          )}
-          {doctors.map((doctor) => {
-            const name = doctor.fullName || doctor.name || 'Unknown Doctor';
-            const specialization = doctor.specialization || 'General Practitioner';
-            const image = doctor.profileImage || '/Elogo.png';
-            return (
-              <div className="doctor-card" key={doctor.doctorId || doctor.id}>
-                <div className="doctor-card-header">
-                  <FavoriteButton
-                    doctorId={doctor.doctorId || doctor.id}
-                    initialIsFavorite={doctor.isFavorite || false}
-                    onToggle={(isFav, msg) => {
-                      // Show toast message
-                      const toast = document.createElement('div');
-                      toast.textContent = msg;
-                      toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#10b981;color:white;padding:12px 16px;border-radius:6px;z-index:1000;font-size:14px';
-                      document.body.appendChild(toast);
-                      setTimeout(() => document.body.removeChild(toast), 3000);
+            {showDropdown && filteredDropdown.length > 0 && (
+              <ul style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 10,
+                background: 'white',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                maxHeight: '200px',
+                overflowY: 'auto',
+                marginTop: '2px'
+              }}>
+                {filteredDropdown.map((doctor) => (
+                  <li
+                    key={doctor.userId || doctor.id}
+                    onMouseDown={() => {
+                      setLocalSearchTerm(doctor.fullName || doctor.name);
+                      setShowDropdown(false);
                     }}
-                  />
-                </div>
-                <div style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem'}}>
-                  <div style={{width:120, height:120, borderRadius:12, overflow:'hidden', background:'#f3f4f6', border:'1px solid #e5e7eb'}}>
-                    <img src={image} alt={name} style={{width:'100%', height:'100%', objectFit:'cover'}} onError={(e) => {e.currentTarget.src='/Elogo.png'; e.currentTarget.onerror=null;}} />
-                  </div>
-                  <div className="doctor-name" style={{margin:0, textAlign:'center'}}>{name}</div>
-                  <div className="doctor-spec" style={{textAlign:'center'}}>{specialization}</div>
-                </div>
-                <button className="doctor-book-btn" style={{marginTop:'0.75rem'}} onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}>Book Now</button>
-              </div>
-            );
-          })}
+                    style={{
+                      padding: '12px',
+                      cursor: 'pointer',
+                      borderBottom: '1px solid #f0f0f0'
+                    }}
+                  >
+                    {doctor.fullName || doctor.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          
+          <div className="flex items-center" style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', minWidth: '200px', height: '44px' }}>
+            <Filter size={18} style={{ color: '#999', marginRight: '8px' }} />
+            <select
+              value={localSpecialization}
+              onChange={(e) => setLocalSpecialization(e.target.value)}
+              style={{ border: 'none', outline: 'none', flex: 1, background: 'transparent' }}
+            >
+              {specializations.map((spec) => (
+                <option key={spec} value={spec}>{spec}</option>
+              ))}
+            </select>
+          </div>
+          
+          <input
+            type="date"
+            value={appointmentDate}
+            onChange={(e) => setAppointmentDate(e.target.value)}
+            style={{ padding: '10px 12px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white', minWidth: '180px', height: '44px' }}
+          />
+          
+          <button className="btn btn-primary" onClick={handleSearch}>Search</button>
         </div>
-      )}
-      {!loading && doctors.length === 0 && (
-        <div style={{padding:'1rem 1.5rem', color:'#6b7280'}}>No doctors found.</div>
-      )}
+        
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center py-8">
+            <div className="loading-spinner"></div>
+            <span className="ml-2 text-gray-600">Loading doctors...</span>
+          </div>
+        )}
+        
+        {/* Search Message */}
+        {searchMessage && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 font-medium text-center">{searchMessage}</p>
+          </div>
+        )}
+        
+        {/* Doctors Grid */}
+        {!loading && (
+          <div className="grid grid-cols-3">
+            {doctors.map((doctor) => {
+              const name = doctor.fullName || doctor.name || 'Unknown Doctor';
+              const specialization = doctor.specialization || 'General Practitioner';
+              const image = doctor.profileImage || '/src/assets/Elogo.png';
+              return (
+                <div key={doctor.doctorId || doctor.id} className="card" style={{ height: '350px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1 }}>
+                    <FavoriteButton
+                      doctorId={doctor.doctorId || doctor.id}
+                      initialIsFavorite={doctor.isFavorite || false}
+                      onToggle={(isFav, msg) => {
+                        console.log(msg);
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                    <div style={{
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      margin: '0 auto 15px',
+                      backgroundColor: '#f5f5f5'
+                    }}>
+                      <img 
+                        src={image} 
+                        alt={name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={(e) => { e.currentTarget.src = '/src/assets/Elogo.png' }} 
+                      />
+                    </div>
+                    
+                    <h3 style={{ fontSize: '1.2rem', lineHeight: '1.3', marginBottom: '8px', color: '#1976D2', fontWeight: '600' }}>{name}</h3>
+                    <p style={{ color: '#666', marginBottom: '20px' }}>{specialization}</p>
+                    
+                    <button 
+                      className="btn btn-primary"
+                      onClick={() => navigate(`/book/${doctor.doctorId || doctor.id}`)}
+                      style={{ width: '100%', marginTop: 'auto', background: 'linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)', border: 'none' }}
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        
+        {/* No Results */}
+        {!loading && doctors.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            No doctors found.
+          </div>
+        )}
+      </div>
     </div>
   );
 }

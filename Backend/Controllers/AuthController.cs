@@ -107,5 +107,36 @@ namespace Backend.Controllers
             var jwt = _authService.GenerateJwt(userLocal);
             return Ok(new { data = new { token = jwt }, token = jwt, message = "Logged in (local)" });
         }
+
+        // POST: /api/Auth/forgot-password
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] Backend.Models.DTOs.ForgotPasswordRequestDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "Invalid email format" });
+
+            await _authService.SendPasswordResetEmailAsync(dto.Email);
+            
+            // Always return success to prevent email enumeration
+            return Ok(new { message = "If the email exists, a password reset link has been sent" });
+        }
+
+        // POST: /api/Auth/reset-password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { message = "Validation failed", errors });
+            }
+
+            var success = await _authService.ResetPasswordAsync(dto.token, dto.newPassword);
+            
+            if (!success)
+                return BadRequest(new { message = "Invalid or expired reset token" });
+            
+            return Ok(new { message = "Password reset successfully" });
+        }
     }
 }

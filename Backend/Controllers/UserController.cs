@@ -6,10 +6,11 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    // User account management - profile, password, transactions, account deletion
+    // User account management controller
+    // Handles profile updates, password changes, account deletion etc.
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize] // all endpoints require authentication
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,16 +20,18 @@ namespace Backend.Controllers
             _userService = userService;
         }
 
-        // Helper to get current user ID from JWT token
+        // Extract user ID from JWT token claims
+        // Returns null if token is invalid or missing user ID
         private int? GetUserIdFromToken()
         {
+            // Try both standard claim types because different auth systems use different names
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
             if (int.TryParse(userIdClaim, out int userId))
                 return userId;
-            return null;
+            return null; // couldn't parse or claim doesn't exist
         }
 
-        // Get user profile info including name, email, phone, and profile image
+        // GET /api/user/profile - fetch current user's profile info
         [HttpGet("profile")]
         public async Task<ActionResult<UserProfileDto>> GetProfile()
         {
@@ -38,7 +41,7 @@ namespace Backend.Controllers
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
                 var profile = await _userService.GetProfileAsync(userId.Value);
-                return Ok(profile);
+                return Ok(profile); // return user's profile data
             }
             catch (ArgumentException ex)
             {
@@ -50,12 +53,14 @@ namespace Backend.Controllers
             }
         }
 
-        // Update profile details - handles image upload as base64 string
+        // Update user profile - name, email, phone etc.
+        // PUT because we're updating the entire profile resource
         [HttpPut("profile")]
         public async Task<ActionResult<UserProfileDto>> UpdateProfile([FromBody] UpdateProfileDto request)
         {
             try
             {
+                // Validate the incoming data first
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
@@ -63,7 +68,7 @@ namespace Backend.Controllers
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
                 var updatedProfile = await _userService.UpdateProfileAsync(userId.Value, request);
-                return Ok(updatedProfile);
+                return Ok(updatedProfile); // return the updated profile
             }
             catch (ArgumentException ex)
             {
@@ -75,11 +80,11 @@ namespace Backend.Controllers
             }
         }
 
-        // Change password - requires current password verification
+        // Change user password - requires current password for security
         [HttpPost("change-password")]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto request)
         {
-            Console.WriteLine("ChangePassword controller method called");
+            Console.WriteLine("ChangePassword controller method called"); // debug logging
             try
             {
                 if (!ModelState.IsValid)
@@ -92,6 +97,7 @@ namespace Backend.Controllers
                 Console.WriteLine($"Extracted userId: {userId}");
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
+                // Let the service handle password validation and hashing
                 await _userService.ChangePasswordAsync(userId.Value, request);
                 return Ok(new { message = "Password changed successfully" });
             }
@@ -108,7 +114,8 @@ namespace Backend.Controllers
             }
         }
 
-        // Permanently delete user account - this action cannot be undone
+        // Delete user account permanently - this is irreversible!
+        // Maybe we should add some confirmation mechanism here...
         [HttpDelete]
         public async Task<ActionResult> DeleteAccount()
         {
@@ -117,6 +124,7 @@ namespace Backend.Controllers
                 var userId = GetUserIdFromToken();
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
+                // This will cascade delete all related data (favorites, appointments, etc.)
                 await _userService.DeleteAccountAsync(userId.Value);
                 return Ok(new { message = "Account deleted successfully" });
             }
@@ -130,7 +138,8 @@ namespace Backend.Controllers
             }
         }
 
-        // Get user's payment history for appointments
+        // Get user's payment/transaction history
+        // Useful for showing past appointments and payments
         [HttpGet("transactions")]
         public async Task<ActionResult<List<TransactionDto>>> GetTransactions()
         {
@@ -140,7 +149,7 @@ namespace Backend.Controllers
                 if (userId == null) return Unauthorized(new { message = "Invalid token" });
 
                 var transactions = await _userService.GetTransactionsAsync(userId.Value);
-                return Ok(transactions);
+                return Ok(transactions); // list of user's transactions
             }
             catch (ArgumentException ex)
             {

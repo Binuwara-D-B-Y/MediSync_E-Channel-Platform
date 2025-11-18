@@ -10,6 +10,7 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using System.Web;
 
 namespace Backend.Services
 {
@@ -17,12 +18,14 @@ namespace Backend.Services
     {
         private readonly AppDbContext _db;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IEmailService _emailService;
         private readonly string? _jwksUrl;
 
-        public AuthService(AppDbContext db, IHttpClientFactory httpFactory)
+        public AuthService(AppDbContext db, IHttpClientFactory httpFactory, IEmailService emailService)
         {
             _db = db;
             _httpFactory = httpFactory;
+            _emailService = emailService;
             _jwksUrl = Environment.GetEnvironmentVariable("CLERK_JWKS_URL");
         }
 
@@ -183,6 +186,52 @@ namespace Backend.Services
 
             await _db.SaveChangesAsync();
             return user;
+        }
+
+        // Generate password reset token and send email
+        public async Task<bool> SendPasswordResetEmailAsync(string email)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return false;
+
+            var token = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
+            user.PasswordResetToken = token;
+            user.PasswordResetTokenExpiresUtc = DateTime.UtcNow.AddHours(1);
+            
+            await _db.SaveChangesAsync();
+            await _emailService.SendPasswordResetEmailAsync(email, token);
+            return true;
+        }
+
+        // Reset password using token
+        public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+        {
+            // Try URL decoding the token in case it was encoded
+            var decodedToken = HttpUtility.UrlDecode(token);
+            
+            Console.WriteLine($"Original token: {token}");
+            Console.WriteLine($"Decoded token: {decodedToken}");
+            Console.WriteLine($"Current UTC time: {DateTime.UtcNow}");
+            
+            // Try both original and decoded token
+            var user = await _db.Users.FirstOrDefaultAsync(u => 
+                (u.PasswordResetToken == token || u.PasswordResetToken == decodedToken) && 
+                u.PasswordResetTokenExpiresUtc > DateTime.UtcNow);
+            
+            if (user == null) 
+            {
+                Console.WriteLine("No user found with valid token");
+                return false;
+            }
+
+            Console.WriteLine($"Found user: {user.Email}, Token expires: {user.PasswordResetTokenExpiresUtc}");
+
+            user.PasswordHash = HashPassword(newPassword);
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiresUtc = null;
+            
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }
