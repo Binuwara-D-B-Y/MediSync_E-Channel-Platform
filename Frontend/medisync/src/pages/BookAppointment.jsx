@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API_BASE } from '../api';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, MapPin, Star, Check } from 'lucide-react';
-import { mockTimeSlots } from '../data/mockData';
+
 import '../styles/BookAppointment.css';
 import ClientBookingModal from '../components/ClientBookingModal';
 
@@ -46,11 +46,31 @@ export default function BookAppointment() {
           foundDoctor.reviews = foundDoctor.reviews || 25;
           setDoctor(foundDoctor);
         }
+        
+        // Fetch schedules from API
+        const scheduleResponse = await fetch(`${API_BASE}/api/admin/AdminSchedules`);
+        const allSchedules = await scheduleResponse.json();
+        const twoWeeksAgo = new Date();
+        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+        
+        const doctorSchedules = allSchedules
+          .filter(s => s.doctorId === parseInt(doctorId))
+          .filter(s => new Date(s.scheduleDate) >= twoWeeksAgo)
+          .map(s => ({
+            id: s.scheduleId,
+            doctorId: s.doctorId,
+            date: s.scheduleDate.split('T')[0],
+            time: s.startTime + ' - ' + s.endTime,
+            totalSlots: s.totalSlots,
+            availableSlots: s.availableSlots,
+            wardNo: 'A-101',
+            price: 2500
+          }));
+        setAvailableSlots(doctorSchedules);
       } catch (error) {
-        console.error('Failed to fetch doctor:', error);
+        console.error('Failed to fetch data:', error);
+        setAvailableSlots([]);
       }
-      // Use mock data for now - TODO: Replace with real schedule API
-      setAvailableSlots(mockTimeSlots);
       setLoading(false);
     };
     loadData();
