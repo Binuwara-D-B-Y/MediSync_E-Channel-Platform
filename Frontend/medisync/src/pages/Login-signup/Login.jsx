@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { apiRequest } from "../../api"
+import oopImage from "../../assets/oop.jpg"
 
 export default function Login({ onAuthed }) {
   const navigate = useNavigate()
@@ -347,7 +348,7 @@ export default function Login({ onAuthed }) {
         <div className="auth-right">
           <div className="auth-right-content">
             <img
-              src="\src\assets\oop.jpg"
+              src={oopImage}
               alt="Healthcare Medical Icon"
               className="medical-icon"
             />

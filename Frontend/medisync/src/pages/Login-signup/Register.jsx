@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { apiRequest } from "../../api"
+import oopImage from "../../assets/oop.jpg"
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -355,7 +356,7 @@ export default function Register() {
 
         <div className="auth-right">
           <div className="auth-right-content">
-            <img src="\src\assets\oop.jpg" alt="Healthcare Medical Icon" className="medical-icon" />
+            <img src={oopImage} alt="Healthcare Medical Icon" className="medical-icon" />
             <h3>Join Our Community</h3>
             <p>Get access to quality healthcare services and manage your health journey with us.</p>
           </div>
