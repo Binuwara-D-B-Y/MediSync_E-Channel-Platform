@@ -61,5 +61,6 @@ jobs:
         with:
           app-name: 'medisyncWeb'
           slot-name: 'Production'
-          package: .
+          package: ./
+
           
