@@ -96,9 +96,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Bind to Azure's PORT environment variable or default to 5001 for local development
-// var port = Environment.GetEnvironmentVariable("PORT") ?? "5001";
-// builder.WebHost.UseUrls($"http://*:{port}");
-builder.WebHost.UseUrls("http://localhost:5001");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5001";
+builder.WebHost.UseUrls($"http://*:{port}");
+// builder.WebHost.UseUrls("http://localhost:5001");
 
 var app = builder.Build();
 
