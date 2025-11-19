@@ -121,6 +121,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Add a default route
+app.MapGet("/", () => "Backend API is running.");
+
 // Auto-create/update database and seed data
 using (var scope = app.Services.CreateScope())
 {
