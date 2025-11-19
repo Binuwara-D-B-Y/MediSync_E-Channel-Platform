@@ -85,7 +85,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.AllowAnyOrigin()
+        var allowedOrigins = new[] 
+        { 
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "https://delightful-dune-078dd8700.1.azurestaticapps.net"
+        };
+        
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -98,7 +105,6 @@ builder.Services.AddSwaggerGen();
 // Bind to Azure's PORT environment variable or default to 5001 for local development
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5001";
 builder.WebHost.UseUrls($"http://*:{port}");
-// builder.WebHost.UseUrls("http://localhost:5001");
 
 var app = builder.Build();
 
@@ -161,5 +167,3 @@ app.Run();
 
 // Make Program class accessible for testing
 public partial class Program { }
-
-//test comment
