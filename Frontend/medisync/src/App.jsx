@@ -112,11 +112,14 @@ function App() {
         </Route>
 
         {/* Public routes */}
-        {/* <Route path="/" element={isAuthed ? <Navigate to="/login" replace /> : <Navigate to="/login" replace />} /> */}
+        <Route path="/" element={isAuthed ? <Navigate to="/login" replace /> : <Navigate to="/login" replace />} />
         <Route path="/login" element={<Login onAuthed={() => setIsAuthed(true)} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/reset" element={<Reset />} />
+
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>
   )
