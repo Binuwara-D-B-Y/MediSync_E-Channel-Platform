@@ -85,10 +85,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        var allowedOrigins = new[] 
-        { 
-            "http://localhost:5173",
-            "http://localhost:3000",
+        var allowedOrigins = new[] {
+            "https://localhost:3000",
             "https://delightful-dune-078dd8700.1.azurestaticapps.net"
         };
         
