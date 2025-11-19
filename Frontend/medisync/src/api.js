@@ -1,4 +1,5 @@
 // Use environment variable for API base URL, with fallback to localhost for development
+// Note: API_BASE should NOT include /api - paths already include it
 export const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 export async function apiRequest(path, options = {}) {
