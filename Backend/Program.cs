@@ -85,7 +85,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("https://delightful-dune-078dd8700.1.azurestaticapps.net") // React app URL
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
