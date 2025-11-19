@@ -1,4 +1,5 @@
-export const API_BASE = import.meta.env.VITE_API_BASE || window.__API_BASE || 'http://localhost:5001';
+// export const API_BASE = import.meta.env.VITE_API_BASE || window.__API_BASE || 'http://localhost:5001';
+const API_BASE = https://backendmedisync-cua0dmdgh3aacrb0.eastasia-01.azurewebsites.net/;
 
 export async function apiRequest(path, options = {}) {
 	const url = `${API_BASE}${path}`;
