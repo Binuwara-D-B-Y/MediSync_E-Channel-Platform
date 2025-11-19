@@ -3,6 +3,7 @@ import { Search, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
 import { API_BASE } from '../api';
+import Elogo from '../assets/Elogo.png';
 
 
 export default function FindDoctors({
@@ -157,7 +158,7 @@ export default function FindDoctors({
             {doctors.map((doctor) => {
               const name = doctor.fullName || doctor.name || 'Unknown Doctor';
               const specialization = doctor.specialization || 'General Practitioner';
-              const image = doctor.profileImage || '/src/assets/Elogo.png';
+              const image = doctor.profileImage || Elogo;
               return (
                 <div key={doctor.doctorId || doctor.id} className="card" style={{ height: '350px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
                   <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1 }}>
@@ -183,7 +184,7 @@ export default function FindDoctors({
                         src={image} 
                         alt={name} 
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        onError={(e) => { e.currentTarget.src = '/src/assets/Elogo.png' }} 
+                        onError={(e) => { e.currentTarget.src = Elogo; }} 
                       />
                     </div>
                     

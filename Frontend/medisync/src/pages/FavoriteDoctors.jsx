@@ -4,6 +4,7 @@ import { Heart, ArrowLeft } from 'lucide-react';
 import { favoritesAPI } from '../api';
 import FavoriteButton from '../components/FavoriteButton';
 import '../styles/FavoriteDoctors.css';
+import Elogo from "../assets/Elogo.png";
 
 export default function FavoriteDoctors() {
   const [favorites, setFavorites] = useState([]);
@@ -98,7 +99,7 @@ export default function FavoriteDoctors() {
                     <img 
                       src="/assets/unnamed.png" 
                       alt={doctor.fullName}
-                      onError={(e) => { e.currentTarget.src = 'src/assets/Elogo.png' }}
+                      onError={(e) => { e.currentTarget.src = Elogo; }}
                     />
                   </div>
                   <div className="doctor-details">

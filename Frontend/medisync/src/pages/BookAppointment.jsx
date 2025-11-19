@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { API_BASE } from '../api';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, MapPin, Star, Check } from 'lucide-react';
+import Elogo from "../assets/Elogo.png";
 
 import '../styles/BookAppointment.css';
 import ClientBookingModal from '../components/ClientBookingModal';
@@ -259,7 +260,7 @@ export default function BookAppointment() {
           {/* Left: Doctor profile panel (moved left) */}
           <aside className="doctor-profile">
             <div className="doctor-image">
-              <img src={doctor.profileImage} alt={doctor.fullName} onError={(e) => { e.currentTarget.src = '/src/assets/Elogo.png'; }} />
+              <img src={doctor.profileImage} alt={doctor.fullName} onError={(e) => { e.currentTarget.src = Elogo; }} />
             </div>
             <div className="doctor-info">
               <h2>{doctor.fullName}</h2>
